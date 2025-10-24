@@ -3,8 +3,8 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-// Динамически импортируем Phaser компонент для избежания SSR проблем
-const PhaserGame = dynamic(() => import("../components/PhaserGame"), {
+// Динамически импортируем компонент фермы для избежания SSR проблем
+const FarmGame = dynamic(() => import("../components/FarmGame"), {
   ssr: false,
 });
 
@@ -22,8 +22,13 @@ export default function Home() {
     }, 500);
   };
 
+  const handleExitGame = () => {
+    setIsGameStarted(false);
+    setIsTransitioning(false);
+  };
+
   if (isGameStarted) {
-    return <PhaserGame />;
+    return <FarmGame onExit={handleExitGame} />;
   }
 
   return (
