@@ -2,7 +2,7 @@
 export interface Item {
   id: string;
   name: string;
-  type: 'seed' | 'crop';
+  type: "seed" | "crop";
   description: string;
   price: number;
   sellPrice?: number;
@@ -30,104 +30,101 @@ export interface ShopItem {
   available: boolean;
 }
 
-// Моковые данные для семян и плодов
+// Mock data for seeds and crops
 export const SEED_ITEMS: Item[] = [
   {
-    id: 'tomato_seed',
-    name: 'Семена помидора',
-    type: 'seed',
-    description: 'Красные сочные помидоры. Растут 15 секунд.',
-    price: 10,
-    growthTime: 15,
-    icon: '🍅'
-  },
-  {
-    id: 'carrot_seed',
-    name: 'Семена моркови',
-    type: 'seed',
-    description: 'Оранжевая хрустящая морковь. Растет 20 секунд.',
-    price: 8,
-    growthTime: 20,
-    icon: '🥕'
-  },
-  {
-    id: 'wheat_seed',
-    name: 'Семена пшеницы',
-    type: 'seed',
-    description: 'Золотистая пшеница. Растет 10 секунд.',
+    id: "wheat_seed",
+    name: "Wheat Seeds",
+    type: "seed",
+    description: "Golden wheat. Grows in 15 seconds.",
     price: 5,
-    growthTime: 10,
-    icon: '🌾'
-  }
+    growthTime: 15,
+    icon: "/Plants/wheat/seed.png",
+  },
+  {
+    id: "grape_seed",
+    name: "Grape Seeds",
+    type: "seed",
+    description: "Juicy grapes. Grows in 25 seconds.",
+    price: 12,
+    growthTime: 25,
+    icon: "/Plants/grape/seed.png",
+  },
+  {
+    id: "pumpkin_seed",
+    name: "Pumpkin Seeds",
+    type: "seed",
+    description: "Big orange pumpkin. Grows in 30 seconds.",
+    price: 15,
+    growthTime: 30,
+    icon: "/Plants/pumpkin/seed.png",
+  },
 ];
 
 export const CROP_ITEMS: Item[] = [
   {
-    id: 'tomato',
-    name: 'Помидор',
-    type: 'crop',
-    description: 'Спелый красный помидор.',
-    price: 0,
-    sellPrice: 25,
-    growthTime: 0,
-    icon: '🍅'
-  },
-  {
-    id: 'carrot',
-    name: 'Морковь',
-    type: 'crop',
-    description: 'Свежая морковь.',
-    price: 0,
-    sellPrice: 20,
-    growthTime: 0,
-    icon: '🥕'
-  },
-  {
-    id: 'wheat',
-    name: 'Пшеница',
-    type: 'crop',
-    description: 'Золотистая пшеница.',
+    id: "wheat",
+    name: "Wheat",
+    type: "crop",
+    description: "Golden wheat.",
     price: 0,
     sellPrice: 15,
     growthTime: 0,
-    icon: '🌾'
-  }
+    icon: "/Plants/wheat/fetus.png",
+  },
+  {
+    id: "grape",
+    name: "Grapes",
+    type: "crop",
+    description: "Ripe grapes.",
+    price: 0,
+    sellPrice: 30,
+    growthTime: 0,
+    icon: "/Plants/grape/fetus.png",
+  },
+  {
+    id: "pumpkin",
+    name: "Pumpkin",
+    type: "crop",
+    description: "Big pumpkin.",
+    price: 0,
+    sellPrice: 40,
+    growthTime: 0,
+    icon: "/Plants/pumpkin/fetus.png",
+  },
 ];
 
-// Моковые данные магазина (не всегда все семена в наличии)
 export const MOCK_SHOP_DATA: ShopItem[] = [
   {
     item: SEED_ITEMS[0], // помидор
     stock: 5,
-    available: true
+    available: true,
   },
   {
     item: SEED_ITEMS[1], // морковь
     stock: 0,
-    available: false
+    available: false,
   },
   {
     item: SEED_ITEMS[2], // пшеница
     stock: 10,
-    available: true
-  }
+    available: true,
+  },
 ];
 
-// Начальный инвентарь игрока
 export const INITIAL_INVENTORY: InventoryItem[] = [
   {
     item: SEED_ITEMS[0],
-    quantity: 2
+    quantity: 2,
   },
   {
     item: SEED_ITEMS[2],
-    quantity: 3
-  }
+    quantity: 3,
+  },
 ];
 
-// Размер поля
 export const FARM_GRID = {
   width: 8,
   height: 6,
-  cellSize: 80
+  cellSize: 80,
 };
