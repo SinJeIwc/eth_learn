@@ -10,6 +10,7 @@ import {
   FARM_GRID,
 } from "../types/farm";
 import { useGameState } from "../hooks/useGameState";
+import { UserData } from "../lib/auth";
 
 // Компоненты UI
 const InventoryModal = ({
@@ -255,7 +256,7 @@ const ShopModal = ({
   );
 };
 
-export default function FarmGame({ onExit }: { onExit?: () => void }) {
+export default function FarmGame({ onExit, userData }: { onExit?: () => void; userData?: UserData }) {
   const {
     coins,
     inventory,
@@ -269,6 +270,43 @@ export default function FarmGame({ onExit }: { onExit?: () => void }) {
 
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
+
+  // User-specific game features
+  const getUserSpecificCoins = () => {
+    if (userData) {
+      // Give authenticated users a bonus
+      return Math.max(coins, 150); // Minimum 150 coins for authenticated users
+    }
+    return coins;
+  };
+
+  const getUserSpecificInventory = () => {
+    if (userData) {
+      // Add a special item for authenticated users
+      const hasSpecialItem = inventory.some(item => item.item.name === "Special Seed");
+      if (!hasSpecialItem) {
+        const specialItem: Item = {
+          id: 'special_seed',
+          name: 'Special Seed',
+          type: 'seed',
+          description: 'A magical seed that grows faster!',
+          price: 0,
+          sellPrice: 50,
+          growthTime: 30,
+          icon: '✨'
+        };
+        
+        return [
+          ...inventory,
+          {
+            item: specialItem,
+            quantity: 1
+          }
+        ];
+      }
+    }
+    return inventory;
+  };
   const [selectedSeed, setSelectedSeed] = useState<Item | null>(null);
 
   // Обновление роста растений
@@ -456,9 +494,26 @@ export default function FarmGame({ onExit }: { onExit?: () => void }) {
     <div className="min-h-screen bg-green-900 text-white p-4">
       {/* Верхняя панель */}
       <div className="flex justify-between items-center mb-4 bg-gray-800 p-4 rounded-lg">
-        <h1 className="text-2xl font-bold font-pixelify-sans">ФЕРМА</h1>
+        <div>
+          <h1 className="text-2xl font-bold font-pixelify-sans">ФЕРМА</h1>
+          {userData && (
+            <div className="text-sm text-green-400 font-pixelify-sans">
+              <p>Добро пожаловать, {userData.username}!</p>
+              {userData.authType === 'fallback' && (
+                <p className="text-xs text-yellow-400">
+                  (Простой вход)
+                </p>
+              )}
+              {userData.authType === 'userid' && (
+                <p className="text-xs text-purple-400">
+                  (Вход по User ID)
+                </p>
+              )}
+            </div>
+          )}
+        </div>
         <div className="flex items-center gap-4">
-          <div className="text-yellow-400 font-pixelify-sans">💰 {coins}</div>
+          <div className="text-yellow-400 font-pixelify-sans">💰 {getUserSpecificCoins()}</div>
           <button
             onClick={() => setIsInventoryOpen(true)}
             className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded font-pixelify-sans"
@@ -507,7 +562,7 @@ export default function FarmGame({ onExit }: { onExit?: () => void }) {
       <InventoryModal
         isOpen={isInventoryOpen}
         onClose={() => setIsInventoryOpen(false)}
-        inventory={inventory}
+        inventory={getUserSpecificInventory()}
         onPlantSeed={handlePlantSeed}
         onSellCrop={handleSellCrop}
         coins={coins}
