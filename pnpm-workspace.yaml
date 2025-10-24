@@ -1,0 +1,9 @@
+packages:
+  - client
+  - contracts
+  - packages/*
+
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver
