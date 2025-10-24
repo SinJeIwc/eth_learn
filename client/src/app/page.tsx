@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import XsollaLogin from "../components/XsollaLogin";
 
 // Динамически импортируем компонент фермы для избежания SSR проблем
 const FarmGame = dynamic(() => import("../components/FarmGame"), {
@@ -11,8 +12,14 @@ const FarmGame = dynamic(() => import("../components/FarmGame"), {
 export default function Home() {
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [userToken, setUserToken] = useState<string | null>(null);
 
   const handleStartGame = () => {
+    if (!userToken) {
+      alert("Please log in with Xsolla first.");
+      return;
+    }
+
     // Сначала делаем экран полностью чёрным
     setIsTransitioning(true);
 
@@ -43,12 +50,18 @@ export default function Home() {
           добраться до города
         </h1>
 
-        <button
-          onClick={handleStartGame}
-          className="px-16 py-6 text-3xl font-bold text-white bg-transparent border-2 border-white hover:bg-white hover:text-black transition-all duration-300 font-pixelify-sans"
-        >
-          СТАРТ
-        </button>
+        {!userToken && (
+          <XsollaLogin onLogin={(token) => setUserToken(token)} />
+        )}
+
+        {userToken && (
+          <button
+            onClick={handleStartGame}
+            className="px-16 py-6 text-3xl font-bold text-white bg-transparent border-2 border-white hover:bg-white hover:text-black transition-all duration-300 font-pixelify-sans"
+          >
+            СТАРТ
+          </button>
+        )}
       </div>
     </main>
   );

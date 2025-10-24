@@ -12,6 +12,9 @@ class GameScene extends Phaser.Scene {
   private plantStage: number = 0; // 0 - seed, 1 - grown, 2 - harvested
   private onGameReady?: () => void;
 
+  // Добавляем дополнительные места для посадки растений
+  private plantSpots: Phaser.GameObjects.Container[] = [];
+
   constructor(config: { onGameReady?: () => void }) {
     super({ key: "GameScene" });
     this.onGameReady = config.onGameReady;
@@ -28,31 +31,62 @@ class GameScene extends Phaser.Scene {
     const background = this.add.image(0, 0, "background").setOrigin(0, 0);
     background.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
 
-  // Растение (будем рисовать как графику в контейнере)
-  this.plantStage = 0;
-  const plantContainer = this.add.container(this.cameras.main.centerX, this.cameras.main.centerY + 100);
-  const plantGraphics = this.add.graphics();
-  plantGraphics.fillStyle(0x2f855a, 1);
-  // начальный «семечко»
-  plantGraphics.fillEllipse(0, 20, 8, 8);
-  plantContainer.add(plantGraphics);
-  // Сохраняем контейнер в this.plant (как any)
-  // @ts-ignore
-  this.plant = plantContainer;
-  plantContainer.setVisible(false);
+    // Растение (будем рисовать как графику в контейнере)
+    this.plantStage = 0;
+    const plantContainer = this.add.container(this.cameras.main.centerX, this.cameras.main.centerY + 100);
+    const plantGraphics = this.add.graphics();
+    plantGraphics.fillStyle(0x2f855a, 1);
+    // начальный «семечко»
+    plantGraphics.fillEllipse(0, 20, 8, 8);
+    plantContainer.add(plantGraphics);
+    // Сохраняем контейнер в this.plant (как any)
+    // @ts-ignore
+    this.plant = plantContainer;
+    plantContainer.setVisible(false);
+
+    // Создаем несколько мест для посадки
+    const spotPositions = [
+      { x: this.cameras.main.centerX - 150, y: this.cameras.main.centerY + 100 },
+      { x: this.cameras.main.centerX, y: this.cameras.main.centerY + 100 },
+      { x: this.cameras.main.centerX + 150, y: this.cameras.main.centerY + 100 },
+    ];
+
+    spotPositions.forEach((pos, index) => {
+      const spot = this.add.container(pos.x, pos.y);
+      const graphics = this.add.graphics();
+      graphics.fillStyle(0x2f855a, 1);
+      graphics.fillEllipse(0, 20, 8, 8);
+      spot.add(graphics);
+      spot.setVisible(false);
+      this.plantSpots.push(spot);
+    });
 
     // Кнопка "Вырастить"
-  this.growButton = this.add.dom(this.cameras.main.centerX, this.cameras.main.centerY + 200, 'button', 'font-size: 1.25rem; padding: 0.5rem 1rem; border-radius: 8px; background: #4ade80; color: #222; border: none; cursor: pointer;', 'Вырастить');
+    this.growButton = this.add.dom(this.cameras.main.centerX, this.cameras.main.centerY + 200, 'button', 'font-size: 1.25rem; padding: 0.5rem 1rem; border-radius: 8px; background: #4ade80; color: #222; border: none; cursor: pointer;', 'Вырастить');
     this.growButton.addListener('click');
     this.growButton.on('click', () => {
       this.startGrowing();
     });
 
     // Кнопка "Собрать продукт" (скрыта до роста)
-  this.harvestButton = this.add.dom(this.cameras.main.centerX, this.cameras.main.centerY + 260, 'button', 'font-size: 1.25rem; padding: 0.5rem 1rem; border-radius: 8px; background: #facc15; color: #222; border: none; cursor: pointer; display: none;', 'Собрать продукт');
+    this.harvestButton = this.add.dom(this.cameras.main.centerX, this.cameras.main.centerY + 260, 'button', 'font-size: 1.25rem; padding: 0.5rem 1rem; border-radius: 8px; background: #facc15; color: #222; border: none; cursor: pointer; display: none;', 'Собрать продукт');
     this.harvestButton.addListener('click');
     this.harvestButton.on('click', () => {
       this.harvestPlant();
+    });
+
+    // Кнопка "Посадить семечко"
+    const plantButton = this.add.dom(
+      this.cameras.main.centerX,
+      this.cameras.main.centerY + 300,
+      'button',
+      'font-size: 1.25rem; padding: 0.5rem 1rem; border-radius: 8px; background: #4ade80; color: #222; border: none; cursor: pointer;',
+      'Посадить семечко'
+    );
+    plantButton.addListener('click');
+    plantButton.on('click', () => {
+      this.plantSpots.forEach((spot) => spot.setVisible(true));
+      (plantButton.node as HTMLElement).style.display = 'none';
     });
 
     this.onGameReady?.();
