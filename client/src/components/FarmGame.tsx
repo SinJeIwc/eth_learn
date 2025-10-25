@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import SafeImage from "./SafeImage";
 import InventoryModal from "./InventoryModal";
 import ShopModal from "./ShopModal";
 import FarmGrid from "./FarmGrid";
@@ -28,13 +27,11 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
     harvestCrop,
     sellCrop,
     buyItem,
-    clearSelectedSeed,
   } = useFarmLogic();
 
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
 
-  // Show loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
@@ -49,13 +46,18 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
   return (
     <div className="min-h-screen text-white p-4 bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       <header className="flex justify-between items-center mb-4 bg-black/60 bg-opacity-70 p-4 rounded-lg">
-        <h1 className="text-2xl font-bold font-pixelify-sans">FARM</h1>
+        <div className="text-yellow-400 font-pixelify-sans text-xl flex items-center gap-1">
+          <Image
+            src="/money.png"
+            alt="Money"
+            width={24}
+            height={24}
+            className="inline"
+          />{" "}
+          {coins}
+        </div>
 
         <div className="flex items-center gap-4">
-          <div className="text-yellow-400 font-pixelify-sans text-xl">
-            💰 {coins}
-          </div>
-
           <button
             onClick={() => setIsInventoryOpen(true)}
             className="scale-90 hover:scale-100 transition-transform duration-200"
@@ -76,7 +78,7 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
             aria-label="Open shop"
           >
             <Image
-              src={UI_PATHS.MARKET}
+              src="/UI/market.png"
               alt="Shop"
               width={64}
               height={64}
@@ -102,29 +104,6 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
         </div>
       </header>
 
-      {selectedSeed && (
-        <div className="mb-4 p-3 bg-yellow-600 bg-opacity-90 rounded text-black font-pixelify-sans flex items-center gap-2">
-          <SafeImage
-            src={selectedSeed.icon}
-            alt={selectedSeed.name}
-            width={24}
-            height={24}
-            className="object-contain"
-            fallbackText="🌱"
-          />
-          <span>
-            Selected seeds: {selectedSeed.name}. Click on an empty cell to
-            plant.
-          </span>
-          <button
-            onClick={clearSelectedSeed}
-            className="ml-auto px-2 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors"
-          >
-            CANCEL
-          </button>
-        </div>
-      )}
-
       {/* Farm Grid */}
       <FarmGrid
         plantedCrops={plantedCrops}
@@ -140,7 +119,6 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
         inventory={inventory}
         onPlantSeed={plantSeed}
         onSellCrop={sellCrop}
-        coins={coins}
       />
 
       <ShopModal

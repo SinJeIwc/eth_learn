@@ -13,9 +13,6 @@ interface AnimatedPlantProps {
   onClick?: (e?: React.MouseEvent) => void;
 }
 
-/**
- * AnimatedPlant - Simple loading bar animation followed by crop display
- */
 export default function AnimatedPlant({
   plantType,
   stage,
@@ -29,7 +26,6 @@ export default function AnimatedPlant({
     onClick?.(e);
   };
 
-  // Ready plants show final crop image with harvest indicator
   if (stage === "ready") {
     return (
       <div className="cursor-pointer relative" onClick={handleClick}>
@@ -47,14 +43,12 @@ export default function AnimatedPlant({
     );
   }
 
-  // Growing plants show seed image with loading overlay
   return (
     <div
       className="cursor-pointer relative"
       onClick={handleClick}
       style={{ width, height }}
     >
-      {/* Seed image - always visible as background */}
       <div className="absolute inset-0 flex items-center justify-center">
         <SafeImage
           src={getPlantAssetPath(plantType, "seed")}
@@ -66,25 +60,21 @@ export default function AnimatedPlant({
         />
       </div>
 
-      {/* White transparent loading bar that fills from bottom to top */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-60 transition-all duration-1000"
           style={{ height: `${progress * 100}%` }}
         >
-          {/* Inner green tint for visual feedback */}
           <div className="absolute inset-0 bg-green-400 bg-opacity-20" />
         </div>
       </div>
 
-      {/* Progress percentage text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span className="text-xs font-bold text-white bg-black bg-opacity-50 px-2 py-1 rounded">
           {Math.floor(progress * 100)}%
         </span>
       </div>
 
-      {/* Progress bar at bottom */}
       <div className="absolute -bottom-1 left-0 w-full h-1 bg-gray-600 rounded overflow-hidden">
         <div
           className="h-full bg-green-400 rounded transition-all duration-1000"

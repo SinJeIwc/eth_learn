@@ -138,6 +138,29 @@ export default function AuthModal({ onLogin, onLogout, isAuthenticated, userData
     };
   }, [onLogin]);
 
+  // Helper function to process Xsolla token
+  const processToken = (token: string) => {
+    try {
+      // Decode JWT to get user info
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('👤 User info from token:', payload);
+      
+      const userData = createUserData(
+        payload.username || payload.email,
+        payload.email,
+        'xsolla'
+      );
+      userData.xsollaToken = token;
+      
+      onLogin(userData);
+      setError(null);
+      console.log('✅ User logged in successfully!');
+    } catch (err) {
+      console.error('❌ Failed to process token:', err);
+      setError('Ошибка обработки токена');
+    }
+  };
+
   // Xsolla Auth handler - Using Login Widget
   const handleXsollaAuth = () => {
     if (XSOLLA_CONFIG.DEMO_MODE) {
@@ -185,20 +208,69 @@ export default function AuthModal({ onLogin, onLogout, isAuthenticated, userData
         return;
       }
 
-      // Check if popup was closed
-      const checkClosed = setInterval(() => {
-        if (popup.closed) {
-          clearInterval(checkClosed);
-          setIsLoading(false);
-          console.log('Popup closed');
-        }
-      }, 1000);
-
-      // Clear loading after 30 seconds
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 30000);
+      // Poll popup URL for token (more aggressive approach)
+      let pollCount = 0;
+      const maxPolls = 600; // 5 minutes
       
+      const pollTimer = setInterval(() => {
+        pollCount++;
+        
+        try {
+          if (!popup || popup.closed) {
+            console.log('🚪 Popup closed by user');
+            clearInterval(pollTimer);
+            setIsLoading(false);
+            
+            // Check localStorage for fallback token
+            const fallbackToken = localStorage.getItem('xsolla_temp_token');
+            if (fallbackToken) {
+              console.log('✅ Found fallback token in localStorage');
+              localStorage.removeItem('xsolla_temp_token');
+              processToken(fallbackToken);
+            }
+            return;
+          }
+
+          // Try to access popup URL
+          const popupUrl = popup.location.href;
+          console.log(`🔍 Checking popup URL (attempt ${pollCount}):`, popupUrl.substring(0, 50) + '...');
+          
+          // Check if token is in URL (both /api/blank and /xsolla-callback.html)
+          if (popupUrl.includes('token=')) {
+            const url = new URL(popupUrl);
+            const token = url.searchParams.get('token');
+            
+            if (token) {
+              console.log('🎉 Token found in popup URL!');
+              processToken(token);
+              
+              // Close popup
+              try {
+                popup.close();
+              } catch (e) {
+                console.log('Could not close popup:', e);
+              }
+              
+              clearInterval(pollTimer);
+              setIsLoading(false);
+            }
+          }
+        } catch (e) {
+          // Cross-origin error - popup is still on xsolla.com domain
+          // This is normal and expected
+          if (pollCount % 10 === 0) {
+            console.log(`⏳ Waiting for user login... (${pollCount/2}s)`);
+          }
+        }
+        
+        // Timeout after 5 minutes
+        if (pollCount >= maxPolls) {
+          console.log('⏱️ Timeout reached');
+          clearInterval(pollTimer);
+          setIsLoading(false);
+        }
+      }, 500); // Check every 500ms
+
     } catch (err) {
       console.error("Failed to start Xsolla OAuth:", err);
       setError("Не удалось начать вход через Xsolla");

@@ -22,8 +22,6 @@ export const UI_PATHS = {
   MARKET: "/market.png",
   LOGOUT: "/logout.png",
   CLOSE: "/UI/x.png",
-  INVENTORY_BG: "/UI/inventory.png",
-  SHOP_BG: "/UI/shop.png",
 } as const;
 
 export type PlantType = "wheat" | "grape" | "pumpkin";

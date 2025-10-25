@@ -32,7 +32,7 @@ export default function Home() {
   };
 
   if (isGameStarted) {
-    return <FarmGame onExit={handleExitGame} userData={userData} />;
+    return <FarmGame onExit={handleExitGame} />;
   }
 
   if (isLoading) {
@@ -52,13 +52,8 @@ export default function Home() {
         <div className="fixed inset-0 bg-black z-50 animate-fadeIn"></div>
       )}
 
-      {/* Game User Profile - показывается только после входа */}
-      {isAuthenticated && userData && (
-        <GameUserProfile userData={userData} />
-      )}
-
-      <div className="flex flex-col items-center justify-center text-center space-y-12 px-4">
-        <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-4xl font-pixelify-sans">
+      <div className="flex flex-col items-center justify-center text-center space-y-16">
+        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight max-w-4xl font-pixelify-sans">
           Я переродилась в другом мире и теперь мне нужно выйти из леса и
           добраться до города
         </h1>
@@ -75,7 +70,7 @@ export default function Home() {
             onClick={handleStartGame}
             className="px-16 py-6 text-3xl font-bold text-white bg-transparent border-2 border-white hover:bg-white hover:text-black transition-all duration-300 font-pixelify-sans"
           >
-            СТАРТ
+            START
           </button>
         )}
       </div>
