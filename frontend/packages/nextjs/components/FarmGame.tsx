@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import FarmGrid from "./FarmGrid";
 import InventoryModal from "./InventoryModal";
+import MapModal from "./MapModal";
 import ShopModal from "./ShopModal";
 import { UI_PATHS } from "@/lib/constants";
 import { useFarmLogic } from "~~/hooks/useFarmLogic";
@@ -29,6 +30,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
 
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -55,6 +57,14 @@ export default function FarmGame({ onExit }: FarmGameProps) {
             aria-label="Open backpack"
           >
             <Image src={UI_PATHS.BACKPACK} alt="Backpack" width={64} height={64} className="object-contain" />
+          </button>
+
+          <button
+            onClick={() => setIsMapOpen(true)}
+            className="scale-90 hover:scale-105 transition-transform duration-200"
+            aria-label="Open map"
+          >
+            <Image src="/UI/mapicon.png" alt="Map" width={64} height={64} className="object-contain" />
           </button>
 
           <button
@@ -101,6 +111,8 @@ export default function FarmGame({ onExit }: FarmGameProps) {
         onBuyItem={buyItem}
         coins={coins}
       />
+
+      <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
     </div>
   );
 }
