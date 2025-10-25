@@ -8,8 +8,8 @@ import UserIDLogin from "./UserIDLogin";
 declare global {
   interface Window {
     XL: {
-      init: (options: { 
-        projectId: string; 
+      init: (options: {
+        projectId: string;
         callbackUrl: string;
         preferredLocale?: string;
         clientId?: string;
@@ -19,7 +19,10 @@ declare global {
         scope?: string;
       }) => void;
       loginPopup: (options: {
-        callback: (data: { token: string; user: { username: string; email: string } }) => void;
+        callback: (data: {
+          token: string;
+          user: { username: string; email: string };
+        }) => void;
         errorCallback: (error: unknown) => void;
       }) => void;
     };
@@ -30,7 +33,7 @@ interface UserData {
   token: string;
   username: string;
   email: string;
-  authType?: 'xsolla' | 'fallback' | 'userid';
+  authType?: "xsolla" | "fallback" | "userid";
 }
 
 interface XsollaLoginProps {
@@ -40,7 +43,12 @@ interface XsollaLoginProps {
   userData?: UserData;
 }
 
-export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userData }: XsollaLoginProps) {
+export default function XsollaLogin({
+  onLogin,
+  onLogout,
+  isAuthenticated,
+  userData,
+}: XsollaLoginProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -54,20 +62,20 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
     if (hasCheckedSession.current || isAuthenticated) return;
     hasCheckedSession.current = true;
 
-    const existingToken = localStorage.getItem('xsolla_token');
-    const existingUserData = localStorage.getItem('xsolla_user_data');
-    
+    const existingToken = localStorage.getItem("xsolla_token");
+    const existingUserData = localStorage.getItem("xsolla_user_data");
+
     if (existingToken && existingUserData) {
       try {
         const userData = JSON.parse(existingUserData);
         onLogin(userData);
       } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn('Session data parsing failed:', err);
+        if (process.env.NODE_ENV === "development") {
+          console.warn("Session data parsing failed:", err);
         }
         // Clear invalid data without setting error state in effect
-        localStorage.removeItem('xsolla_token');
-        localStorage.removeItem('xsolla_user_data');
+        localStorage.removeItem("xsolla_token");
+        localStorage.removeItem("xsolla_user_data");
       }
     }
   }, [isAuthenticated, onLogin]);
@@ -93,34 +101,37 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
             responseType: XSOLLA_CONFIG.RESPONSE_TYPE,
             state: XSOLLA_CONFIG.STATE,
             redirectUri: XSOLLA_CONFIG.REDIRECT_URI,
-            scope: XSOLLA_CONFIG.SCOPE
+            scope: XSOLLA_CONFIG.SCOPE,
           });
         } catch (err) {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn('Xsolla initialization failed:', err);
+          if (process.env.NODE_ENV === "development") {
+            console.warn("Xsolla initialization failed:", err);
           }
           setXsollaFailed(true);
-          setError("Xsolla инициализация не удалась. Используйте простой вход.");
+          setError(
+            "Xsolla инициализация не удалась. Используйте простой вход."
+          );
         }
       }
     };
     script.onerror = () => {
       // Only log detailed errors in development
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         console.warn("Xsolla script loading failed. Retrying...", {
           attempt: retryCount + 1,
           projectId: XSOLLA_CONFIG.PROJECT_ID,
-          url: script.src
+          url: script.src,
         });
       }
-      
+
       if (retryCount < 2) {
-        setRetryCount(prev => prev + 1);
+        setRetryCount((prev) => prev + 1);
         setError(`Загрузка Xsolla виджета... (попытка ${retryCount + 1}/3)`);
         // Retry after a short delay
         setTimeout(() => {
           const retryScript = document.createElement("script");
-          retryScript.src = "https://cdn.xsolla.net/login-widget/sdk/1.0.0/xl.min.js";
+          retryScript.src =
+            "https://cdn.xsolla.net/login-widget/sdk/1.0.0/xl.min.js";
           retryScript.async = true;
           retryScript.onload = () => {
             if (window.XL) {
@@ -133,22 +144,28 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
                   responseType: XSOLLA_CONFIG.RESPONSE_TYPE,
                   state: XSOLLA_CONFIG.STATE,
                   redirectUri: XSOLLA_CONFIG.REDIRECT_URI,
-                  scope: XSOLLA_CONFIG.SCOPE
+                  scope: XSOLLA_CONFIG.SCOPE,
                 });
                 setError(null);
               } catch {
                 setXsollaFailed(true);
-                setError("Xsolla инициализация не удалась. Используйте простой вход.");
+                setError(
+                  "Xsolla инициализация не удалась. Используйте простой вход."
+                );
               }
             }
           };
           retryScript.onerror = () => {
-            setError("Не удалось загрузить Xsolla виджет. Проверьте подключение к интернету.");
+            setError(
+              "Не удалось загрузить Xsolla виджет. Проверьте подключение к интернету."
+            );
           };
           document.body.appendChild(retryScript);
         }, 1000);
       } else {
-        setError("Не удалось загрузить Xsolla виджет. Проверьте подключение к интернету.");
+        setError(
+          "Не удалось загрузить Xsolla виджет. Проверьте подключение к интернету."
+        );
         setXsollaFailed(true);
       }
     };
@@ -163,7 +180,9 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
 
   const handleLogin = () => {
     if (!window.XL) {
-      setError("Xsolla виджет не инициализирован. Обновите страницу и попробуйте снова.");
+      setError(
+        "Xsolla виджет не инициализирован. Обновите страницу и попробуйте снова."
+      );
       return;
     }
 
@@ -172,39 +191,46 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
 
     try {
       window.XL.loginPopup({
-        callback: (data: { token: string; user: { username: string; email: string } }) => {
+        callback: (data: {
+          token: string;
+          user: { username: string; email: string };
+        }) => {
           try {
             const userData: UserData = {
               token: data.token,
               username: data.user.username,
               email: data.user.email,
-              authType: 'xsolla'
+              authType: "xsolla",
             };
-            
+
             // Store in localStorage for session persistence
-            localStorage.setItem('xsolla_token', data.token);
-            localStorage.setItem('xsolla_user_data', JSON.stringify(userData));
-            
+            localStorage.setItem("xsolla_token", data.token);
+            localStorage.setItem("xsolla_user_data", JSON.stringify(userData));
+
             onLogin(userData);
             setIsLoading(false);
           } catch (storageError) {
-            if (process.env.NODE_ENV === 'development') {
+            if (process.env.NODE_ENV === "development") {
               console.warn("Session storage failed:", storageError);
             }
-            setError("Вход успешен, но не удалось сохранить сессию. Попробуйте снова.");
+            setError(
+              "Вход успешен, но не удалось сохранить сессию. Попробуйте снова."
+            );
             setIsLoading(false);
           }
         },
         errorCallback: (error: unknown) => {
-          if (process.env.NODE_ENV === 'development') {
+          if (process.env.NODE_ENV === "development") {
             console.warn("Xsolla Login Error:", error);
           }
-          setError("Вход не удался. Проверьте учетные данные и попробуйте снова.");
+          setError(
+            "Вход не удался. Проверьте учетные данные и попробуйте снова."
+          );
           setIsLoading(false);
         },
       });
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         console.warn("Login popup initialization failed:", error);
       }
       setError("Не удалось открыть окно входа. Попробуйте снова.");
@@ -214,8 +240,8 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
 
   const handleLogout = () => {
     // Clear stored data
-    localStorage.removeItem('xsolla_token');
-    localStorage.removeItem('xsolla_user_data');
+    localStorage.removeItem("xsolla_token");
+    localStorage.removeItem("xsolla_user_data");
     onLogout();
   };
 
@@ -264,26 +290,30 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
 
   const handleSimpleLogin = (userData: UserData) => {
     // Store fallback user data
-    localStorage.setItem('xsolla_token', userData.token);
-    localStorage.setItem('xsolla_user_data', JSON.stringify(userData));
+    localStorage.setItem("xsolla_token", userData.token);
+    localStorage.setItem("xsolla_user_data", JSON.stringify(userData));
     onLogin(userData);
   };
 
   const handleUserIDAuth = (userData: UserData) => {
     // Store User ID user data
-    localStorage.setItem('xsolla_token', userData.token);
-    localStorage.setItem('xsolla_user_data', JSON.stringify(userData));
+    localStorage.setItem("xsolla_token", userData.token);
+    localStorage.setItem("xsolla_user_data", JSON.stringify(userData));
     onLogin(userData);
   };
 
   // Show fallback login form
   if (showFallback) {
-    return <SimpleLogin onLogin={handleSimpleLogin} onBack={handleBackToXsolla} />;
+    return (
+      <SimpleLogin onLogin={handleSimpleLogin} onBack={handleBackToXsolla} />
+    );
   }
 
   // Show User ID login form
   if (showUserID) {
-    return <UserIDLogin onLogin={handleUserIDAuth} onBack={handleBackToXsolla} />;
+    return (
+      <UserIDLogin onLogin={handleUserIDAuth} onBack={handleBackToXsolla} />
+    );
   }
 
   return (
@@ -309,7 +339,7 @@ export default function XsollaLogin({ onLogin, onLogout, isAuthenticated, userDa
           )}
         </div>
       )}
-      
+
       {xsollaFailed && !error && (
         <div className="text-center max-w-md">
           {XSOLLA_CONFIG.DEMO_MODE && (

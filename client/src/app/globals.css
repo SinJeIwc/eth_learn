@@ -16,3 +16,20 @@
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-in-out forwards;
 }
+
+button {
+  @apply cursor-pointer;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}

@@ -2,17 +2,14 @@ import { useState, useEffect } from "react";
 import { Item, PlantedCrop } from "@/types/api";
 import { useGameState } from "./useGameState";
 import { isCropReady } from "@/lib/utils";
+import { FARM_CONFIG } from "@/lib/constants";
 
-// Crop items mapping (seeds to crops)
 const CROP_MAPPING: Record<string, string> = {
   seed_wheat: "fetus_wheat",
   seed_grape: "fetus_grape",
   seed_pumpkin: "fetus_pumpkin",
 };
 
-/**
- * Custom hook for farm game logic
- */
 export function useFarmLogic() {
   const {
     coins,
@@ -43,8 +40,6 @@ export function useFarmLogic() {
   }, [plantedCrops, updatePlantedCrops]);
 
   const plantSeed = (seed: Item, quantity: number) => {
-    setSelectedSeed(seed);
-
     // Remove seeds from inventory
     const updatedInventory = inventory
       .map((invItem) =>
@@ -55,6 +50,38 @@ export function useFarmLogic() {
       .filter((invItem) => invItem.quantity > 0);
 
     updateInventory(updatedInventory);
+
+    // Find all empty cells
+    const emptyCells: { x: number; y: number }[] = [];
+    for (let y = 0; y < FARM_CONFIG.GRID_HEIGHT; y++) {
+      for (let x = 0; x < FARM_CONFIG.GRID_WIDTH; x++) {
+        const isOccupied = plantedCrops.some(
+          (crop) => crop.x === x && crop.y === y
+        );
+        if (!isOccupied) {
+          emptyCells.push({ x, y });
+        }
+      }
+    }
+
+    // Plant seeds on empty cells
+    const newCrops: PlantedCrop[] = [];
+    const seedsToPlant = Math.min(quantity, emptyCells.length);
+    
+    for (let i = 0; i < seedsToPlant; i++) {
+      const { x, y } = emptyCells[i];
+      const newCrop: PlantedCrop = {
+        id: `${x}-${y}-${Date.now()}-${i}`,
+        item: seed,
+        x,
+        y,
+        plantedAt: Date.now(),
+        isReady: false,
+      };
+      newCrops.push(newCrop);
+    }
+
+    updatePlantedCrops([...plantedCrops, ...newCrops]);
   };
 
   const plantOnCell = (x: number, y: number) => {
