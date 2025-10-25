@@ -56,7 +56,6 @@ export default function FarmGrid({ plantedCrops, selectedSeed, onCellClick, onHa
             onClick={handleHarvest}
           />
         )}
-        {/* Декоративные элементы почвы */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-1 left-1 w-1 h-1 bg-green-600 rounded-full" />
           <div className="absolute bottom-2 right-2 w-1 h-1 bg-green-600 rounded-full" />
@@ -73,8 +72,8 @@ export default function FarmGrid({ plantedCrops, selectedSeed, onCellClick, onHa
   }
 
   return (
-    <div className="flex items-center justify-center w-full h-full p-4 md:p-8">
-      <div className="w-">
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="w-full max-w-7xl">
         <div
           className="
             grid gap-1 sm:gap-2 md:gap-3
