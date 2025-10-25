@@ -138,3 +138,102 @@ export function saveShopToStorage(shopItems: ShopItem[]): void {
   };
   localStorage.setItem("shop", JSON.stringify(apiFormat));
 }
+
+/**
+ * Xsolla User API Types
+ */
+export interface XsollaUserProfileResponse {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  registered?: string;
+  last_login?: string;
+  external_id?: string;
+}
+
+/**
+ * Fetches Xsolla user by ID (simulated API call)
+ * In production, this would call Xsolla's User Account API
+ */
+export async function fetchXsollaUserById(userId: string, token: string): Promise<XsollaUserProfileResponse | null> {
+  try {
+    // Simulated API call - in production, this would be:
+    // GET https://login.xsolla.com/api/users/{user_id}
+    // Headers: Authorization: Bearer {token}
+    
+    // For demo purposes, return mock data based on stored user data
+    const storedData = localStorage.getItem('xsolla_user_data');
+    if (storedData) {
+      const userData = JSON.parse(storedData);
+      return {
+        id: userId,
+        username: userData.username,
+        email: userData.email,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.username)}&background=random`,
+        registered: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+        external_id: userId,
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to fetch Xsolla user:', error);
+    return null;
+  }
+}
+
+/**
+ * Fetches current user profile from Xsolla (simulated)
+ * In production: GET https://login.xsolla.com/api/users/me
+ */
+export async function fetchCurrentXsollaUser(token: string): Promise<XsollaUserProfileResponse | null> {
+  try {
+    const storedData = localStorage.getItem('xsolla_user_data');
+    if (storedData) {
+      const userData = JSON.parse(storedData);
+      const userId = `xsolla_${userData.username}_${Date.now()}`;
+      
+      return {
+        id: userId,
+        username: userData.username,
+        email: userData.email,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.username)}&background=random`,
+        registered: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+        external_id: userId,
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to fetch current Xsolla user:', error);
+    return null;
+  }
+}
+
+/**
+ * Updates Xsolla user attributes (simulated)
+ * In production: PATCH https://login.xsolla.com/api/users/me/update
+ */
+export async function updateXsollaUserAttributes(
+  token: string,
+  attributes: Record<string, string>
+): Promise<boolean> {
+  try {
+    // Simulated update - store in localStorage
+    const storedData = localStorage.getItem('xsolla_user_data');
+    if (storedData) {
+      const userData = JSON.parse(storedData);
+      const updatedData = { ...userData, ...attributes };
+      localStorage.setItem('xsolla_user_data', JSON.stringify(updatedData));
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Failed to update Xsolla user attributes:', error);
+    return false;
+  }
+}
+

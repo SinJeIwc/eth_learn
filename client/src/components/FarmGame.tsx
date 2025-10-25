@@ -8,12 +8,14 @@ import ShopModal from "./ShopModal";
 import FarmGrid from "./FarmGrid";
 import { useFarmLogic } from "@/hooks/useFarmLogic";
 import { UI_PATHS } from "@/lib/constants";
+import { UserData } from "@/lib/auth";
 
 interface FarmGameProps {
   onExit?: () => void;
+  userData?: UserData;
 }
 
-export default function FarmGame({ onExit }: FarmGameProps) {
+export default function FarmGame({ onExit, userData }: FarmGameProps) {
   const {
     coins,
     inventory,
