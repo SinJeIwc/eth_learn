@@ -1,4 +1,5 @@
 import { PlantType } from "./constants";
+import { PLANT_TYPES } from "@/types/api";
 
 /**
  * Validates if a string is a valid URL or path
@@ -32,8 +33,9 @@ export function getPlantAssetPath(
  * Converts seed ID to plant type
  */
 export function seedIdToPlantType(seedId: string): PlantType {
-  const type = seedId.replace("_seed", "") as PlantType;
-  return type;
+  // seed_wheat -> wheat, fetus_wheat -> wheat
+  const mapped = PLANT_TYPES[seedId as keyof typeof PLANT_TYPES];
+  return (mapped || "wheat") as PlantType;
 }
 
 /**

@@ -1,5 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
-import { UserData, AuthState, getStoredAuthData, storeAuthData, clearAuthData, validateToken } from '../lib/auth';
+import { useState, useEffect, useCallback } from "react";
+import {
+  UserData,
+  AuthState,
+  getStoredAuthData,
+  storeAuthData,
+  clearAuthData,
+  validateToken,
+} from "../lib/auth";
 
 export function useAuth() {
   const [authState, setAuthState] = useState<AuthState>({
@@ -11,7 +18,7 @@ export function useAuth() {
   useEffect(() => {
     const initializeAuth = () => {
       const storedData = getStoredAuthData();
-      
+
       if (storedData && validateToken(storedData.token)) {
         setAuthState({
           isAuthenticated: true,
@@ -48,7 +55,7 @@ export function useAuth() {
 
   const refreshAuth = useCallback(() => {
     const storedData = getStoredAuthData();
-    
+
     if (storedData && validateToken(storedData.token)) {
       setAuthState({
         isAuthenticated: true,

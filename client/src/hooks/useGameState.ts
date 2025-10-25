@@ -1,62 +1,149 @@
 import { useState, useEffect } from "react";
-import { InventoryItem, PlantedCrop, ShopItem, INITIAL_INVENTORY, MOCK_SHOP_DATA } from "../types/farm";
+import { InventoryItem, PlantedCrop, ShopItem } from "@/types/api";
+import {
+  fetchInventory,
+  fetchShop,
+  convertInventoryResponse,
+  convertShopResponse,
+  saveInventoryToStorage,
+  saveShopToStorage,
+} from "@/services/api";
 
 interface GameState {
   coins: number;
   inventory: InventoryItem[];
   plantedCrops: PlantedCrop[];
   shopItems: ShopItem[];
+  isLoading: boolean;
 }
 
 const DEFAULT_GAME_STATE: GameState = {
   coins: 100,
-  inventory: INITIAL_INVENTORY,
+  inventory: [],
   plantedCrops: [],
-  shopItems: MOCK_SHOP_DATA
+  shopItems: [],
+  isLoading: true,
 };
 
 export const useGameState = () => {
-  const [gameState, setGameState] = useState<GameState>(() => {
-    // Инициализация с загрузкой из localStorage
-    if (typeof window !== 'undefined') {
-      const savedState = localStorage.getItem('farm_game_state');
-      if (savedState) {
-        try {
-          return JSON.parse(savedState);
-        } catch (error) {
-          console.error('Ошибка загрузки сохранения:', error);
-        }
-      }
-    }
-    return DEFAULT_GAME_STATE;
-  });
+  const [gameState, setGameState] = useState<GameState>(DEFAULT_GAME_STATE);
 
-  // Сохранение состояния в localStorage при изменении
+  // Load initial data from API (JSON files)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('farm_game_state', JSON.stringify(gameState));
+    const loadData = async () => {
+      try {
+        // Try to load from localStorage first
+        const savedState = localStorage.getItem("farm_game_state");
+        const savedInventory = localStorage.getItem("inventory");
+        const savedShop = localStorage.getItem("shop");
+
+        if (savedState && savedInventory && savedShop) {
+          // Load from localStorage
+          const parsedState = JSON.parse(savedState);
+          const inventoryData = convertInventoryResponse(
+            JSON.parse(savedInventory)
+          );
+          const shopData = convertShopResponse(JSON.parse(savedShop));
+
+          setGameState({
+            ...parsedState,
+            inventory: inventoryData,
+            shopItems: shopData,
+            isLoading: false,
+          });
+        } else {
+          // Load from API (JSON files)
+          const [inventoryResponse, shopResponse] = await Promise.all([
+            fetchInventory(),
+            fetchShop(),
+          ]);
+
+          const inventory = convertInventoryResponse(inventoryResponse);
+          const shopItems = convertShopResponse(shopResponse);
+
+          // Save to localStorage
+          saveInventoryToStorage(inventory);
+          saveShopToStorage(shopItems);
+          localStorage.setItem(
+            "farm_game_state",
+            JSON.stringify({
+              coins: 100,
+              plantedCrops: [],
+            })
+          );
+
+          setGameState({
+            coins: 100,
+            inventory,
+            plantedCrops: [],
+            shopItems,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load game data:", error);
+        setGameState((prev) => ({ ...prev, isLoading: false }));
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Save state to localStorage when it changes
+  useEffect(() => {
+    if (!gameState.isLoading && typeof window !== "undefined") {
+      localStorage.setItem(
+        "farm_game_state",
+        JSON.stringify({
+          coins: gameState.coins,
+          plantedCrops: gameState.plantedCrops,
+        })
+      );
+      saveInventoryToStorage(gameState.inventory);
+      saveShopToStorage(gameState.shopItems);
     }
   }, [gameState]);
 
   const updateCoins = (newCoins: number) => {
-    setGameState(prev => ({ ...prev, coins: newCoins }));
+    setGameState((prev) => ({ ...prev, coins: newCoins }));
   };
 
   const updateInventory = (newInventory: InventoryItem[]) => {
-    setGameState(prev => ({ ...prev, inventory: newInventory }));
+    setGameState((prev) => ({ ...prev, inventory: newInventory }));
   };
 
   const updatePlantedCrops = (newCrops: PlantedCrop[]) => {
-    setGameState(prev => ({ ...prev, plantedCrops: newCrops }));
+    setGameState((prev) => ({ ...prev, plantedCrops: newCrops }));
   };
 
   const updateShopItems = (newShopItems: ShopItem[]) => {
-    setGameState(prev => ({ ...prev, shopItems: newShopItems }));
+    setGameState((prev) => ({ ...prev, shopItems: newShopItems }));
   };
 
-  const resetGame = () => {
-    setGameState(DEFAULT_GAME_STATE);
-    localStorage.removeItem('farm_game_state');
+  const resetGame = async () => {
+    try {
+      const [inventoryResponse, shopResponse] = await Promise.all([
+        fetchInventory(),
+        fetchShop(),
+      ]);
+
+      const inventory = convertInventoryResponse(inventoryResponse);
+      const shopItems = convertShopResponse(shopResponse);
+
+      setGameState({
+        coins: 100,
+        inventory,
+        plantedCrops: [],
+        shopItems,
+        isLoading: false,
+      });
+
+      localStorage.removeItem("farm_game_state");
+      localStorage.removeItem("inventory");
+      localStorage.removeItem("shop");
+    } catch (error) {
+      console.error("Failed to reset game:", error);
+    }
   };
 
   return {
@@ -65,6 +152,6 @@ export const useGameState = () => {
     updateInventory,
     updatePlantedCrops,
     updateShopItems,
-    resetGame
+    resetGame,
   };
 };

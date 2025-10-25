@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
-import { Item, PlantedCrop, CROP_ITEMS } from "@/types/farm";
+import { Item, PlantedCrop } from "@/types/api";
 import { useGameState } from "./useGameState";
 import { isCropReady } from "@/lib/utils";
+
+// Crop items mapping (seeds to crops)
+const CROP_MAPPING: Record<string, string> = {
+  seed_wheat: "fetus_wheat",
+  seed_grape: "fetus_grape",
+  seed_pumpkin: "fetus_pumpkin",
+};
 
 /**
  * Custom hook for farm game logic
@@ -12,6 +19,7 @@ export function useFarmLogic() {
     inventory,
     plantedCrops,
     shopItems,
+    isLoading,
     updateCoins,
     updateInventory,
     updatePlantedCrops,
@@ -77,26 +85,46 @@ export function useFarmLogic() {
     const updatedCrops = plantedCrops.filter((c) => c.id !== crop.id);
     updatePlantedCrops(updatedCrops);
 
-    // Add harvested crop to inventory
-    const cropItem = CROP_ITEMS.find(
-      (item) => item.id === crop.item.id.replace("_seed", "")
-    );
+    // Get the crop item ID from the seed
+    const cropItemId = CROP_MAPPING[crop.item.id];
+    if (!cropItemId) return;
 
-    if (!cropItem) return;
-
+    // Check if we already have this crop type in inventory
     const existingItem = inventory.find(
-      (invItem) => invItem.item.id === cropItem.id
+      (invItem) => invItem.item.id === cropItemId
     );
 
-    const updatedInventory = existingItem
-      ? inventory.map((invItem) =>
-          invItem.item.id === cropItem.id
-            ? { ...invItem, quantity: invItem.quantity + 1 }
-            : invItem
-        )
-      : [...inventory, { item: cropItem, quantity: 1 }];
+    if (existingItem) {
+      // Increase quantity of existing crop
+      const updatedInventory = inventory.map((invItem) =>
+        invItem.item.id === cropItemId
+          ? { ...invItem, quantity: invItem.quantity + 1 }
+          : invItem
+      );
+      updateInventory(updatedInventory);
+    } else {
+      // Create new crop item (we need to construct it from seed data)
+      const plantType = cropItemId.replace("fetus_", "");
+      const sellPrice =
+        {
+          fetus_wheat: 15,
+          fetus_grape: 30,
+          fetus_pumpkin: 40,
+        }[cropItemId as string] || 10;
 
-    updateInventory(updatedInventory);
+      const newCropItem: Item = {
+        id: cropItemId,
+        name: crop.item.name.replace(" Seeds", ""),
+        type: "crop",
+        description: `Freshly harvested ${plantType}.`,
+        price: 0,
+        sellPrice,
+        growthTime: 0,
+        icon: crop.item.icon.replace("/seed.png", "/fetus.png"),
+      };
+
+      updateInventory([...inventory, { item: newCropItem, quantity: 1 }]);
+    }
   };
 
   const sellCrop = (crop: Item, quantity: number) => {
@@ -160,6 +188,7 @@ export function useFarmLogic() {
     plantedCrops,
     shopItems,
     selectedSeed,
+    isLoading,
 
     // Actions
     plantSeed,

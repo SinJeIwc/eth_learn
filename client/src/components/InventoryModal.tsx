@@ -48,16 +48,9 @@ export default function InventoryModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-      <div
-        className="relative max-w-md w-full mx-4 p-6 rounded-lg"
-        style={{
-          backgroundImage: `url('${UI_PATHS.INVENTORY_BG}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60 rounded-lg" />
+    <div className="fixed inset-0 bg-opacity-75 bg-[url('/UI/inventory_bg.png')] flex items-center justify-center z-50">
+      <div className="relative max-w-md w-full mx-4 p-6 rounded-lg  bg-cover bg-center">
+        <div className="absolute inset-0 bg-opacity-60 rounded-lg" />
 
         <div className="relative z-10">
           {/* Header */}
