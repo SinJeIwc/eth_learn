@@ -1,0 +1,474 @@
+{
+  "address": "0x4c5859f0F772848b2D91F1D83E2Fe57935348029",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "eventId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum GameEvents.EventType",
+          "name": "eventType",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "severity",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "EventTriggered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "effectsContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "eventHistory",
+      "outputs": [
+        {
+          "internalType": "enum GameEvents.EventType",
+          "name": "eventType",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint16",
+          "name": "severity",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "blockNumber",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "eventId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getEvent",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum GameEvents.EventType",
+              "name": "eventType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "severity",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "blockNumber",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GameEvents.GameEvent",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getEventsCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRecentEvents",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum GameEvents.EventType",
+              "name": "eventType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "severity",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "blockNumber",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GameEvents.GameEvent[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_effectsContract",
+          "type": "address"
+        }
+      ],
+      "name": "setEffectsContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "triggerEvent",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "eventId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x9df75c0870a58dddb4db1dcc9d03238e87d640e81972615f4e98983c2255101d",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0x4c5859f0F772848b2D91F1D83E2Fe57935348029",
+    "transactionIndex": 0,
+    "gasUsed": "597723",
+    "logsBloom": "0x04000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000100000800000000000000000000000000000000400000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000002000000000000000000020200000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xb016dd10dd76f0d114a35fe658d689e6cfeb7ccb77f882c4d6aa6ea0b9fe1670",
+    "transactionHash": "0x9df75c0870a58dddb4db1dcc9d03238e87d640e81972615f4e98983c2255101d",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 11761301,
+        "transactionHash": "0x9df75c0870a58dddb4db1dcc9d03238e87d640e81972615f4e98983c2255101d",
+        "address": "0x4c5859f0F772848b2D91F1D83E2Fe57935348029",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0xb016dd10dd76f0d114a35fe658d689e6cfeb7ccb77f882c4d6aa6ea0b9fe1670"
+      }
+    ],
+    "blockNumber": 11761301,
+    "cumulativeGasUsed": "597723",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "5a7c913e832cbcb2622e48effc3e7d82",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialOwner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"eventId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"enum GameEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"EventTriggered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"effectsContract\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"eventHistory\",\"outputs\":[{\"internalType\":\"enum GameEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"eventId\",\"type\":\"uint256\"}],\"name\":\"getEvent\",\"outputs\":[{\"components\":[{\"internalType\":\"enum GameEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"internalType\":\"struct GameEvents.GameEvent\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getEventsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"count\",\"type\":\"uint256\"}],\"name\":\"getRecentEvents\",\"outputs\":[{\"components\":[{\"internalType\":\"enum GameEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"internalType\":\"struct GameEvents.GameEvent[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_effectsContract\",\"type\":\"address\"}],\"name\":\"setEffectsContract\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"triggerEvent\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"eventId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"First contract in the chain reaction\",\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"title\":\"GameEvents\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getEvent(uint256)\":{\"notice\":\"Get event by ID\"},\"getEventsCount()\":{\"notice\":\"Get total events count\"},\"getRecentEvents(uint256)\":{\"notice\":\"Get recent events\"},\"setEffectsContract(address)\":{\"notice\":\"Set the effects contract address\"},\"triggerEvent()\":{\"notice\":\"Generate a random event (called by keeper or player action)\"}},\"notice\":\"Generates random farm events (locusts, wind, rain, etc.)\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/GameEvents.sol\":\"GameEvents\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/GameEvents.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.20;\\r\\n\\r\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title GameEvents\\r\\n * @notice Generates random farm events (locusts, wind, rain, etc.)\\r\\n * @dev First contract in the chain reaction\\r\\n */\\r\\ncontract GameEvents is Ownable {\\r\\n    enum EventType {\\r\\n        NONE,       // 30% - Nothing happens\\r\\n        LOCUSTS,    // 15% - Damage crops\\r\\n        WIND,       // 10% - Minor damage\\r\\n        RAIN,       // 20% - Good for growth\\r\\n        DROUGHT,    // 10% - Reduces health\\r\\n        FROST,      // 5%  - Heavy damage\\r\\n        SUNSTORM,   // 5%  - Boosts growth\\r\\n        PESTS       // 5%  - Moderate damage\\r\\n    }\\r\\n    \\r\\n    struct GameEvent {\\r\\n        EventType eventType;\\r\\n        uint16 severity;      // 0-1000\\r\\n        uint256 timestamp;\\r\\n        uint256 blockNumber;\\r\\n    }\\r\\n    \\r\\n    // Store event history\\r\\n    GameEvent[] public eventHistory;\\r\\n    \\r\\n    // Next contract in chain (FarmEffects)\\r\\n    address public effectsContract;\\r\\n    \\r\\n    event EventTriggered(\\r\\n        uint256 indexed eventId,\\r\\n        EventType eventType,\\r\\n        uint16 severity,\\r\\n        uint256 timestamp\\r\\n    );\\r\\n    \\r\\n    constructor(address initialOwner) Ownable(initialOwner) {}\\r\\n    \\r\\n    /**\\r\\n     * @notice Set the effects contract address\\r\\n     */\\r\\n    function setEffectsContract(address _effectsContract) external onlyOwner {\\r\\n        effectsContract = _effectsContract;\\r\\n    }\\r\\n    \\r\\n    /**\\r\\n     * @notice Generate a random event (called by keeper or player action)\\r\\n     */\\r\\n    function triggerEvent() external returns (uint256 eventId) {\\r\\n        // Generate pseudo-random number\\r\\n        uint256 random = uint256(\\r\\n            keccak256(\\r\\n                abi.encodePacked(\\r\\n                    block.timestamp,\\r\\n                    block.prevrandao,\\r\\n                    msg.sender,\\r\\n                    eventHistory.length\\r\\n                )\\r\\n            )\\r\\n        );\\r\\n        \\r\\n        // Select event type based on probability\\r\\n        EventType eventType = _selectEventType(random % 100);\\r\\n        \\r\\n        // Calculate severity (0-1000)\\r\\n        uint16 severity = uint16((random >> 8) % 1001);\\r\\n        \\r\\n        // Store event\\r\\n        GameEvent memory newEvent = GameEvent({\\r\\n            eventType: eventType,\\r\\n            severity: severity,\\r\\n            timestamp: block.timestamp,\\r\\n            blockNumber: block.number\\r\\n        });\\r\\n        \\r\\n        eventHistory.push(newEvent);\\r\\n        eventId = eventHistory.length - 1;\\r\\n        \\r\\n        emit EventTriggered(eventId, eventType, severity, block.timestamp);\\r\\n        \\r\\n        return eventId;\\r\\n    }\\r\\n    \\r\\n    /**\\r\\n     * @notice Select event type based on weighted probability\\r\\n     */\\r\\n    function _selectEventType(uint256 rand) internal pure returns (EventType) {\\r\\n        if (rand < 30) return EventType.NONE;        // 30%\\r\\n        if (rand < 50) return EventType.RAIN;        // 20%\\r\\n        if (rand < 65) return EventType.LOCUSTS;     // 15%\\r\\n        if (rand < 75) return EventType.WIND;        // 10%\\r\\n        if (rand < 85) return EventType.DROUGHT;     // 10%\\r\\n        if (rand < 90) return EventType.SUNSTORM;    // 5%\\r\\n        if (rand < 95) return EventType.FROST;       // 5%\\r\\n        return EventType.PESTS;                      // 5%\\r\\n    }\\r\\n    \\r\\n    /**\\r\\n     * @notice Get event by ID\\r\\n     */\\r\\n    function getEvent(uint256 eventId) external view returns (GameEvent memory) {\\r\\n        require(eventId < eventHistory.length, \\\"Event does not exist\\\");\\r\\n        return eventHistory[eventId];\\r\\n    }\\r\\n    \\r\\n    /**\\r\\n     * @notice Get total events count\\r\\n     */\\r\\n    function getEventsCount() external view returns (uint256) {\\r\\n        return eventHistory.length;\\r\\n    }\\r\\n    \\r\\n    /**\\r\\n     * @notice Get recent events\\r\\n     */\\r\\n    function getRecentEvents(uint256 count) external view returns (GameEvent[] memory) {\\r\\n        uint256 total = eventHistory.length;\\r\\n        if (count > total) count = total;\\r\\n        \\r\\n        GameEvent[] memory recent = new GameEvent[](count);\\r\\n        for (uint256 i = 0; i < count; i++) {\\r\\n            recent[i] = eventHistory[total - count + i];\\r\\n        }\\r\\n        \\r\\n        return recent;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x6248c77448eb8c8bcc42f022ba425eea3db47ea4da0269e89247dafc3c61d126\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50604051610a56380380610a5683398101604081905261002f916100be565b806001600160a01b03811661005e57604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b6100678161006e565b50506100ee565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000602082840312156100d057600080fd5b81516001600160a01b03811681146100e757600080fd5b9392505050565b610959806100fd6000396000f3fe608060405234801561001057600080fd5b506004361061009e5760003560e01c80638da5cb5b116100665780638da5cb5b1461012757806398ec739c1461014c578063deca76061461015f578063ede48fb714610172578063f2fde38b1461017a57600080fd5b806330366d5f146100a35780634803b90d146100ba5780636d1884e0146100dd57806370e9e623146100fd578063715018a61461011d575b600080fd5b6001545b6040519081526020015b60405180910390f35b6100cd6100c8366004610735565b61018d565b6040516100b19493929190610786565b6100f06100eb366004610735565b6101cf565b6040516100b191906107e4565b61011061010b366004610735565b6102c5565b6040516100b191906107f8565b610125610414565b005b6000546001600160a01b03165b6040516001600160a01b0390911681526020016100b1565b61012561015a366004610846565b610428565b600254610134906001600160a01b031681565b6100a7610452565b610125610188366004610846565b6105f9565b6001818154811061019d57600080fd5b600091825260209091206003909102018054600182015460029092015460ff8216935061010090910461ffff16919084565b60408051608081018252600080825260208201819052918101829052606081019190915260015482106102405760405162461bcd60e51b8152602060048201526014602482015273115d995b9d08191bd95cc81b9bdd08195e1a5cdd60621b60448201526064015b60405180910390fd5b6001828154811061025357610253610876565b6000918252602090912060408051608081019091526003909202018054829060ff1660078111156102865761028661074e565b60078111156102975761029761074e565b81528154610100900461ffff1660208201526001820154604082015260029091015460609091015292915050565b600154606090808311156102d7578092505b60008367ffffffffffffffff8111156102f2576102f261088c565b60405190808252806020026020018201604052801561034457816020015b6040805160808101825260008082526020808301829052928201819052606082015282526000199092019101816103105790505b50905060005b8481101561040c5760018161035f87866108b8565b61036991906108cb565b8154811061037957610379610876565b6000918252602090912060408051608081019091526003909202018054829060ff1660078111156103ac576103ac61074e565b60078111156103bd576103bd61074e565b81528154610100900461ffff1660208201526001820154604082015260029091015460609091015282518390839081106103f9576103f9610876565b602090810291909101015260010161034a565b509392505050565b61041c610637565b6104266000610664565b565b610430610637565b600280546001600160a01b0319166001600160a01b0392909216919091179055565b600154604051600091829161049791429144913391602001938452602084019290925260601b6bffffffffffffffffffffffff19166040830152605482015260740190565b60408051601f198184030181529190528051602090910120905060006104c66104c16064846108de565b6106b4565b905060006104da6103e9600885901c6108de565b9050600060405180608001604052808460078111156104fb576104fb61074e565b815261ffff84166020820152426040820152436060909101526001805480820182556000829052825160039091027fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf601805493945084939092839160ff19169083600781111561056d5761056d61074e565b02179055506020820151815461ffff9091166101000262ffff0019909116178155604082015160018083019190915560609092015160029091015580546105b491906108b8565b9450847f66866f9f4804f83ab9720333b769bc5f8575f4113585c9526c1570592c291e148484426040516105ea93929190610900565b60405180910390a25050505090565b610601610637565b6001600160a01b03811661062b57604051631e4fbdf760e01b815260006004820152602401610237565b61063481610664565b50565b6000546001600160a01b031633146104265760405163118cdaa760e01b8152336004820152602401610237565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000601e8210156106c757506000919050565b60328210156106d857506003919050565b60418210156106e957506001919050565b604b8210156106fa57506002919050565b605582101561070b57506004919050565b605a82101561071c57506006919050565b605f82101561072d57506005919050565b506007919050565b60006020828403121561074757600080fd5b5035919050565b634e487b7160e01b600052602160045260246000fd5b6008811061078257634e487b7160e01b600052602160045260246000fd5b9052565b608081016107948287610764565b61ffff8516602083015283604083015282606083015295945050505050565b6107be828251610764565b61ffff602082015116602083015260408101516040830152606081015160608301525050565b608081016107f282846107b3565b92915050565b6020808252825182820181905260009190848201906040850190845b8181101561083a576108278385516107b3565b9284019260809290920191600101610814565b50909695505050505050565b60006020828403121561085857600080fd5b81356001600160a01b038116811461086f57600080fd5b9392505050565b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b634e487b7160e01b600052601160045260246000fd5b818103818111156107f2576107f26108a2565b808201808211156107f2576107f26108a2565b6000826108fb57634e487b7160e01b600052601260045260246000fd5b500690565b6060810161090e8286610764565b61ffff9390931660208201526040015291905056fea26469706673582212202625acdf9f3ea05a16e672613518a7c195dfce615787c0250b5ffcd6a29fab2164736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061009e5760003560e01c80638da5cb5b116100665780638da5cb5b1461012757806398ec739c1461014c578063deca76061461015f578063ede48fb714610172578063f2fde38b1461017a57600080fd5b806330366d5f146100a35780634803b90d146100ba5780636d1884e0146100dd57806370e9e623146100fd578063715018a61461011d575b600080fd5b6001545b6040519081526020015b60405180910390f35b6100cd6100c8366004610735565b61018d565b6040516100b19493929190610786565b6100f06100eb366004610735565b6101cf565b6040516100b191906107e4565b61011061010b366004610735565b6102c5565b6040516100b191906107f8565b610125610414565b005b6000546001600160a01b03165b6040516001600160a01b0390911681526020016100b1565b61012561015a366004610846565b610428565b600254610134906001600160a01b031681565b6100a7610452565b610125610188366004610846565b6105f9565b6001818154811061019d57600080fd5b600091825260209091206003909102018054600182015460029092015460ff8216935061010090910461ffff16919084565b60408051608081018252600080825260208201819052918101829052606081019190915260015482106102405760405162461bcd60e51b8152602060048201526014602482015273115d995b9d08191bd95cc81b9bdd08195e1a5cdd60621b60448201526064015b60405180910390fd5b6001828154811061025357610253610876565b6000918252602090912060408051608081019091526003909202018054829060ff1660078111156102865761028661074e565b60078111156102975761029761074e565b81528154610100900461ffff1660208201526001820154604082015260029091015460609091015292915050565b600154606090808311156102d7578092505b60008367ffffffffffffffff8111156102f2576102f261088c565b60405190808252806020026020018201604052801561034457816020015b6040805160808101825260008082526020808301829052928201819052606082015282526000199092019101816103105790505b50905060005b8481101561040c5760018161035f87866108b8565b61036991906108cb565b8154811061037957610379610876565b6000918252602090912060408051608081019091526003909202018054829060ff1660078111156103ac576103ac61074e565b60078111156103bd576103bd61074e565b81528154610100900461ffff1660208201526001820154604082015260029091015460609091015282518390839081106103f9576103f9610876565b602090810291909101015260010161034a565b509392505050565b61041c610637565b6104266000610664565b565b610430610637565b600280546001600160a01b0319166001600160a01b0392909216919091179055565b600154604051600091829161049791429144913391602001938452602084019290925260601b6bffffffffffffffffffffffff19166040830152605482015260740190565b60408051601f198184030181529190528051602090910120905060006104c66104c16064846108de565b6106b4565b905060006104da6103e9600885901c6108de565b9050600060405180608001604052808460078111156104fb576104fb61074e565b815261ffff84166020820152426040820152436060909101526001805480820182556000829052825160039091027fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf601805493945084939092839160ff19169083600781111561056d5761056d61074e565b02179055506020820151815461ffff9091166101000262ffff0019909116178155604082015160018083019190915560609092015160029091015580546105b491906108b8565b9450847f66866f9f4804f83ab9720333b769bc5f8575f4113585c9526c1570592c291e148484426040516105ea93929190610900565b60405180910390a25050505090565b610601610637565b6001600160a01b03811661062b57604051631e4fbdf760e01b815260006004820152602401610237565b61063481610664565b50565b6000546001600160a01b031633146104265760405163118cdaa760e01b8152336004820152602401610237565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000601e8210156106c757506000919050565b60328210156106d857506003919050565b60418210156106e957506001919050565b604b8210156106fa57506002919050565b605582101561070b57506004919050565b605a82101561071c57506006919050565b605f82101561072d57506005919050565b506007919050565b60006020828403121561074757600080fd5b5035919050565b634e487b7160e01b600052602160045260246000fd5b6008811061078257634e487b7160e01b600052602160045260246000fd5b9052565b608081016107948287610764565b61ffff8516602083015283604083015282606083015295945050505050565b6107be828251610764565b61ffff602082015116602083015260408101516040830152606081015160608301525050565b608081016107f282846107b3565b92915050565b6020808252825182820181905260009190848201906040850190845b8181101561083a576108278385516107b3565b9284019260809290920191600101610814565b50909695505050505050565b60006020828403121561085857600080fd5b81356001600160a01b038116811461086f57600080fd5b9392505050565b634e487b7160e01b600052603260045260246000fd5b634e487b7160e01b600052604160045260246000fd5b634e487b7160e01b600052601160045260246000fd5b818103818111156107f2576107f26108a2565b808201808211156107f2576107f26108a2565b6000826108fb57634e487b7160e01b600052601260045260246000fd5b500690565b6060810161090e8286610764565b61ffff9390931660208201526040015291905056fea26469706673582212202625acdf9f3ea05a16e672613518a7c195dfce615787c0250b5ffcd6a29fab2164736f6c63430008180033",
+  "devdoc": {
+    "details": "First contract in the chain reaction",
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "title": "GameEvents",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "getEvent(uint256)": {
+        "notice": "Get event by ID"
+      },
+      "getEventsCount()": {
+        "notice": "Get total events count"
+      },
+      "getRecentEvents(uint256)": {
+        "notice": "Get recent events"
+      },
+      "setEffectsContract(address)": {
+        "notice": "Set the effects contract address"
+      },
+      "triggerEvent()": {
+        "notice": "Generate a random event (called by keeper or player action)"
+      }
+    },
+    "notice": "Generates random farm events (locusts, wind, rain, etc.)",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 8,
+        "contract": "contracts/GameEvents.sol:GameEvents",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 5222,
+        "contract": "contracts/GameEvents.sol:GameEvents",
+        "label": "eventHistory",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_struct(GameEvent)5218_storage)dyn_storage"
+      },
+      {
+        "astId": 5224,
+        "contract": "contracts/GameEvents.sol:GameEvents",
+        "label": "effectsContract",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(GameEvent)5218_storage)dyn_storage": {
+        "base": "t_struct(GameEvent)5218_storage",
+        "encoding": "dynamic_array",
+        "label": "struct GameEvents.GameEvent[]",
+        "numberOfBytes": "32"
+      },
+      "t_enum(EventType)5208": {
+        "encoding": "inplace",
+        "label": "enum GameEvents.EventType",
+        "numberOfBytes": "1"
+      },
+      "t_struct(GameEvent)5218_storage": {
+        "encoding": "inplace",
+        "label": "struct GameEvents.GameEvent",
+        "members": [
+          {
+            "astId": 5211,
+            "contract": "contracts/GameEvents.sol:GameEvents",
+            "label": "eventType",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_enum(EventType)5208"
+          },
+          {
+            "astId": 5213,
+            "contract": "contracts/GameEvents.sol:GameEvents",
+            "label": "severity",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_uint16"
+          },
+          {
+            "astId": 5215,
+            "contract": "contracts/GameEvents.sol:GameEvents",
+            "label": "timestamp",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 5217,
+            "contract": "contracts/GameEvents.sol:GameEvents",
+            "label": "blockNumber",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint16": {
+        "encoding": "inplace",
+        "label": "uint16",
+        "numberOfBytes": "2"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
