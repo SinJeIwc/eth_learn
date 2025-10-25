@@ -19,6 +19,7 @@ export default function AuthModal({ onLogin, onLogout, isAuthenticated, userData
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showXsollaWidget, setShowXsollaWidget] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // Listen for OAuth callback
   useEffect(() => {
@@ -154,10 +155,19 @@ export default function AuthModal({ onLogin, onLogout, isAuthenticated, userData
       
       onLogin(userData);
       setError(null);
+      setIsLoading(false);
+      
+      // Show success message
+      setSuccessMessage(`✅ Добро пожаловать, ${payload.username || payload.email}!`);
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => setSuccessMessage(null), 5000);
+      
       console.log('✅ User logged in successfully!');
     } catch (err) {
       console.error('❌ Failed to process token:', err);
       setError('Ошибка обработки токена');
+      setIsLoading(false);
     }
   };
 
@@ -428,6 +438,12 @@ export default function AuthModal({ onLogin, onLogout, isAuthenticated, userData
           {error && (
             <div className="text-red-400 text-sm text-center bg-red-900/20 p-3 rounded-lg">
               {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="text-green-400 text-sm text-center bg-green-900/20 p-3 rounded-lg border border-green-500 animate-pulse">
+              {successMessage}
             </div>
           )}
 

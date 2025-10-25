@@ -23,10 +23,13 @@ export default function GameUserProfile({ userData }: GameUserProfileProps) {
   const [xsollaUser, setXsollaUser] = useState<any>(null);
 
   useEffect(() => {
+    console.log('🎮 GameUserProfile mounted with userData:', userData);
+    
     if (userData.authType === 'xsolla' && userData.xsollaToken) {
       // Get user info from token
       const userInfo = getUserInfoFromToken(userData.xsollaToken);
       setXsollaUser(userInfo);
+      console.log('👤 Xsolla user info loaded:', userInfo);
 
       // Load game progress from Xsolla
       loadGameData();
