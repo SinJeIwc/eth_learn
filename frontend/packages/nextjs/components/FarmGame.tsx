@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import FarmGrid from "./FarmGrid";
 import InventoryModal from "./InventoryModal";
 import ShopModal from "./ShopModal";
-import FarmGrid from "./FarmGrid";
-import { useFarmLogic } from "@/hooks/useFarmLogic";
 import { UI_PATHS } from "@/lib/constants";
-import { UserData } from "@/lib/auth";
+import { useFarmLogic } from "~~/hooks/useFarmLogic";
 
 interface FarmGameProps {
   onExit?: () => void;
-  userData?: UserData;
 }
 
-export default function FarmGame({ onExit, userData }: FarmGameProps) {
+export default function FarmGame({ onExit }: FarmGameProps) {
   const {
     coins,
     inventory,
@@ -47,14 +45,7 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
     <div className="min-h-screen text-white p-4 bg-[url('/background.png')] bg-cover bg-center bg-no-repeat">
       <header className="flex justify-between items-center mb-4 bg-black/60 bg-opacity-70 p-4 rounded-lg">
         <div className="text-yellow-400 font-pixelify-sans text-xl flex items-center gap-1">
-          <Image
-            src="/money.png"
-            alt="Money"
-            width={24}
-            height={24}
-            className="inline"
-          />{" "}
-          {coins}
+          <Image src="/money.png" alt="Money" width={24} height={24} className="inline" /> {coins}
         </div>
 
         <div className="flex items-center gap-4">
@@ -63,13 +54,7 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
             className="scale-90 hover:scale-100 transition-transform duration-200"
             aria-label="Open backpack"
           >
-            <Image
-              src={UI_PATHS.BACKPACK}
-              alt="Backpack"
-              width={64}
-              height={64}
-              className="object-contain"
-            />
+            <Image src={UI_PATHS.BACKPACK} alt="Backpack" width={64} height={64} className="object-contain" />
           </button>
 
           <button
@@ -77,13 +62,7 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
             className="scale-90 hover:scale-110 transition-transform duration-200"
             aria-label="Open shop"
           >
-            <Image
-              src="/UI/market.png"
-              alt="Shop"
-              width={64}
-              height={64}
-              className="object-contain"
-            />
+            <Image src="/UI/market.png" alt="Shop" width={64} height={64} className="object-contain" />
           </button>
 
           {onExit && (
@@ -92,13 +71,7 @@ export default function FarmGame({ onExit, userData }: FarmGameProps) {
               className="scale-90 hover:scale-100 transition-transform duration-200"
               aria-label="Exit game"
             >
-              <Image
-                src={UI_PATHS.LOGOUT}
-                alt="Exit"
-                width={128}
-                height={32}
-                className="object-contain"
-              />
+              <Image src={UI_PATHS.LOGOUT} alt="Exit" width={128} height={32} className="object-contain" />
             </button>
           )}
         </div>

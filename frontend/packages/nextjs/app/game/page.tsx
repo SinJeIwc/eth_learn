@@ -39,7 +39,7 @@ export default function GamePage() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-xl">Загрузка...</p>
+          <p className="text-xl">Loading...</p>
         </div>
       </main>
     );
@@ -51,7 +51,7 @@ export default function GamePage() {
 
       <div className="flex flex-col items-center justify-center text-center space-y-16">
         <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight max-w-4xl font-pixelify-sans">
-          Я переродилась в другом мире и теперь мне нужно выйти из леса и добраться до города
+          I was reincarnated in another world and now I study farm economics.{" "}
         </h1>
 
         <AuthModal onLogin={login} onLogout={logout} isAuthenticated={isAuthenticated} userData={userData} />

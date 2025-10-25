@@ -44,11 +44,7 @@ export default function AnimatedPlant({
   }
 
   return (
-    <div
-      className="cursor-pointer relative"
-      onClick={handleClick}
-      style={{ width, height }}
-    >
+    <div className="cursor-pointer relative" onClick={handleClick} style={{ width, height }}>
       <div className="absolute inset-0 flex items-center justify-center">
         <SafeImage
           src={getPlantAssetPath(plantType, "seed")}
