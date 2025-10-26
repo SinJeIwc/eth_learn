@@ -6,9 +6,10 @@ export const useShopInventory = () => {
   const { address } = useAccount();
 
   // Получаем номер текущего 5-минутного интервала для обновления магазина
-  const { data: marketInterval } = useScaffoldReadContract({
+  // Используем getEventsCount вместо несуществующей getMarketIntervalNumber
+  const { data: eventsCount } = useScaffoldReadContract({
     contractName: "GameEvents",
-    functionName: "getMarketIntervalNumber",
+    functionName: "getEventsCount",
   });
 
   const inventory = useMemo(() => {
@@ -16,8 +17,10 @@ export const useShopInventory = () => {
       return { wheat: 0, grape: 0, pumpkin: 0, interval: "0" };
     }
 
-    // Используем номер 5-минутного интервала вместо eventCount
-    const intervalStr = marketInterval ? marketInterval.toString() : Math.floor(Date.now() / 300000).toString();
+    // Используем количество событий и текущее время для определения интервала
+    const currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+    const marketInterval = Math.floor(currentTime / 300); // 300 секунд = 5 минут
+    const intervalStr = marketInterval.toString();
     const addr = address.toLowerCase();
 
     const generateSeedCount = (seedType: string): number => {
@@ -37,7 +40,7 @@ export const useShopInventory = () => {
       pumpkin: generateSeedCount("pumpkin"),
       interval: intervalStr,
     };
-  }, [address, marketInterval]);
+  }, [address]);
 
   return inventory;
 };
