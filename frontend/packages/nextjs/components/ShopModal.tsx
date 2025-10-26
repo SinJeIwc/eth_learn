@@ -10,7 +10,7 @@ interface ShopModalProps {
   isOpen: boolean;
   onClose: () => void;
   shopItems: ShopItem[];
-  onBuyItem: (item: Item) => void;
+  onBuyItem: (item: Item, quantity: number) => void;
   coins: number;
 }
 
@@ -30,7 +30,7 @@ export default function ShopModal({ isOpen, onClose, shopItems, onBuyItem, coins
 
   const handleBuy = () => {
     if (!selectedItem) return;
-    onBuyItem(selectedItem.item);
+    onBuyItem(selectedItem.item, quantity);
     setSelectedItem(null);
     setQuantity(1);
   };
