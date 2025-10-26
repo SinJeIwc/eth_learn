@@ -12,7 +12,13 @@ contract FarmCoin is ERC20, Ownable {
     // Authorized contracts that can mint/burn tokens
     mapping(address => bool) public authorizedMinters;
     
+    // Faucet tracking
+    mapping(address => uint256) public lastClaim;
+    uint256 public constant FAUCET_AMOUNT = 1000 * 10**18; // 1000 tokens
+    uint256 public constant CLAIM_COOLDOWN = 1 hours;
+    
     event MinterAuthorized(address indexed minter, bool authorized);
+    event TokensClaimed(address indexed user, uint256 amount);
     
     constructor(address initialOwner) 
         ERC20("Farm Coin", "FARM") 
@@ -51,5 +57,17 @@ contract FarmCoin is ERC20, Ownable {
     function burnFrom(address account, uint256 amount) external {
         require(authorizedMinters[msg.sender], "Not authorized to burn");
         _burn(account, amount);
+    }
+    
+    /**
+     * @notice Claim free tokens from faucet (public function)
+     */
+    function claimTokens() external {
+        require(block.timestamp >= lastClaim[msg.sender] + CLAIM_COOLDOWN, "Claim cooldown not expired");
+        
+        lastClaim[msg.sender] = block.timestamp;
+        _mint(msg.sender, FAUCET_AMOUNT);
+        
+        emit TokensClaimed(msg.sender, FAUCET_AMOUNT);
     }
 }

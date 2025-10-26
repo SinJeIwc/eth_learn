@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./FarmCoin.sol";
 import "./PlantNFT.sol";
+import "./CropNFT.sol";
 import "./FarmLand.sol";
 import "./GameEvents.sol";
 import "./GameEffects.sol";
@@ -18,6 +19,7 @@ import "./PriceOracle.sol";
 contract FarmMarketplace is Ownable, ReentrancyGuard {
     FarmCoin public farmCoin;
     PlantNFT public plantNFT;
+    CropNFT public cropNFT;
     FarmLand public farmLand;
     GameEvents public gameEvents;
     GameEffects public gameEffects;
@@ -28,14 +30,15 @@ contract FarmMarketplace is Ownable, ReentrancyGuard {
     
     event SeedPurchased(address indexed buyer, PriceOracle.SeedType seedType, uint256 quantity, uint256 totalCost);
     event PlantPlanted(address indexed farmer, uint256 plantTokenId, uint256 landTokenId);
-    event CropHarvested(address indexed farmer, uint256 plantTokenId, uint256 reward);
-    event CropSold(address indexed seller, PlantNFT.PlantType cropType, uint256 quantity, uint256 totalEarned);
+    event CropHarvested(address indexed farmer, uint256 plantTokenId, uint256 cropNFTId);
+    event CropSold(address indexed seller, uint256 cropTokenId, uint256 reward);
     event EventTriggeredAndApplied(uint256 indexed eventId, address indexed farmer);
     
     constructor(
         address initialOwner,
         address _farmCoin,
         address _plantNFT,
+        address _cropNFT,
         address _farmLand,
         address _gameEvents,
         address _gameEffects,
@@ -43,6 +46,7 @@ contract FarmMarketplace is Ownable, ReentrancyGuard {
     ) Ownable(initialOwner) {
         farmCoin = FarmCoin(_farmCoin);
         plantNFT = PlantNFT(_plantNFT);
+        cropNFT = CropNFT(_cropNFT);
         farmLand = FarmLand(_farmLand);
         gameEvents = GameEvents(_gameEvents);
         gameEffects = GameEffects(_gameEffects);
@@ -79,12 +83,9 @@ contract FarmMarketplace is Ownable, ReentrancyGuard {
      * @notice Plant a seed on owned land
      */
     function plantSeed(
-        PriceOracle.SeedType seedType,
-        uint256 landTokenId
+        PriceOracle.SeedType seedType
     ) external nonReentrant returns (uint256 plantTokenId) {
-        require(farmLand.ownerOf(landTokenId) == msg.sender, "Not land owner");
         
-        // Convert seed type to plant type
         PlantNFT.PlantType plantType;
         if (seedType == PriceOracle.SeedType.WHEAT_SEED) {
             plantType = PlantNFT.PlantType.WHEAT;
@@ -94,70 +95,89 @@ contract FarmMarketplace is Ownable, ReentrancyGuard {
             plantType = PlantNFT.PlantType.PUMPKIN;
         }
         
-        // Mint plant NFT
-        plantTokenId = plantNFT.mint(msg.sender, plantType, landTokenId);
+        plantTokenId = plantNFT.mint(msg.sender, plantType, 0);
         
-        emit PlantPlanted(msg.sender, plantTokenId, landTokenId);
+        emit PlantPlanted(msg.sender, plantTokenId, 0);
         
         return plantTokenId;
     }
     
     /**
-     * @notice Harvest a mature plant
+     * @notice Harvest a mature plant and receive Crop NFT
      */
-    function harvestCrop(uint256 plantTokenId) external nonReentrant {
+    function harvestCrop(uint256 plantTokenId) external nonReentrant returns (uint256) {
         require(plantNFT.ownerOf(plantTokenId) == msg.sender, "Not plant owner");
         require(plantNFT.isReadyToHarvest(plantTokenId), "Plant not ready");
         
         PlantNFT.Plant memory plant = plantNFT.getPlant(plantTokenId);
         
-        // Calculate reward based on health
-        PriceOracle.CropType cropType;
+        // Map PlantType to CropType
+        CropNFT.CropType cropType;
         if (plant.plantType == PlantNFT.PlantType.WHEAT) {
-            cropType = PriceOracle.CropType.WHEAT;
+            cropType = CropNFT.CropType.WHEAT;
         } else if (plant.plantType == PlantNFT.PlantType.GRAPE) {
-            cropType = PriceOracle.CropType.GRAPE;
+            cropType = CropNFT.CropType.GRAPE;
         } else {
-            cropType = PriceOracle.CropType.PUMPKIN;
+            cropType = CropNFT.CropType.PUMPKIN;
         }
         
-        uint256 baseReward = priceOracle.getCropPrice(cropType);
-        uint256 reward = (baseReward * plant.health) / 1000; // Scale by health
+        // Отмечаем растение как собранное перед сжиганием
+        plantNFT.markAsHarvested(plantTokenId);
+        
+        // Mint Crop NFT with quality based on plant health
+        uint256 cropTokenId = cropNFT.mint(msg.sender, cropType, plant.health);
+        
+        // Burn plant NFT (растение превращается в урожай)
+        plantNFT.burn(plantTokenId);
+        
+        emit CropHarvested(msg.sender, plantTokenId, cropTokenId);
+        
+        return cropTokenId;
+    }
+    
+    /**
+     * @notice Sell harvested crop for FarmCoin
+     */
+    function sellCrop(uint256 cropTokenId) external nonReentrant {
+        require(cropNFT.ownerOf(cropTokenId) == msg.sender, "Not crop owner");
+        
+        CropNFT.Crop memory crop = cropNFT.getCrop(cropTokenId);
+        
+        // Calculate reward based on crop quality
+        PriceOracle.CropType oracleCropType;
+        if (crop.cropType == CropNFT.CropType.WHEAT) {
+            oracleCropType = PriceOracle.CropType.WHEAT;
+        } else if (crop.cropType == CropNFT.CropType.GRAPE) {
+            oracleCropType = PriceOracle.CropType.GRAPE;
+        } else {
+            oracleCropType = PriceOracle.CropType.PUMPKIN;
+        }
+        
+        uint256 basePrice = priceOracle.getCropPrice(oracleCropType);
+        uint256 reward = (basePrice * crop.quality) / 1000; // Scale by quality (0-1000)
         
         // Mint FarmCoin reward
         farmCoin.mint(msg.sender, reward);
         
-        // Burn plant NFT
-        plantNFT.burn(plantTokenId);
+        // Burn crop NFT
+        cropNFT.burn(cropTokenId);
         
-        emit CropHarvested(msg.sender, plantTokenId, reward);
+        emit CropSold(msg.sender, cropTokenId, reward);
     }
     
-    /**
-     * @notice Trigger random event and apply effects (CHAIN REACTION STARTS HERE!)
-     * @dev Anyone can trigger events, but effects apply to their own farm
-     */
-    function triggerRandomEvent() external nonReentrant {
-        // 1️⃣ STEP 1: Generate random event
-        uint256 eventId = gameEvents.triggerEvent();
-        
-        // 2️⃣ STEP 2: Apply effects to caller's farm
-        gameEffects.applyEffects(eventId, msg.sender);
-        
-        // 3️⃣ STEP 3: Update market prices
-        priceOracle.updatePrices(eventId);
-        
-        emit EventTriggeredAndApplied(eventId, msg.sender);
-    }
+    mapping(address => bool) public hasClaimedStarterLand;
     
     /**
-     * @notice Mint initial land plots to a new player
+     * @notice Mint initial land plots to a new player (one time only)
      */
-    function mintStarterLand(address player) external onlyOwner {
+    function mintStarterLand() external {
+        require(!hasClaimedStarterLand[msg.sender], "Land already claimed");
+        hasClaimedStarterLand[msg.sender] = true;
+        
         // Mint 8x6 grid (48 plots)
         for (uint8 y = 0; y < 6; y++) {
             for (uint8 x = 0; x < 8; x++) {
-                farmLand.mint(player, x, y);
+                farmLand.mint(msg.sender, x, y);
             }
         }
     }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @notice ERC721 NFT representing planted crops
  * @dev Each plant has type, growth stage, health, and planted timestamp
  */
-contract PlantNFT is ERC721, Ownable {
+contract PlantNFT is ERC721Enumerable, Ownable {
     uint256 private _nextTokenId;
     
     enum PlantType { WHEAT, GRAPE, PUMPKIN }
@@ -20,6 +20,8 @@ contract PlantNFT is ERC721, Ownable {
         uint16 health;          // 0-1000
         uint256 plantedAt;      // timestamp
         uint256 landTokenId;    // which land plot it's on
+        bool isHarvested;       // был ли собран урожай
+        address owner;          // владелец растения
     }
     
     mapping(uint256 => Plant) public plants;
@@ -64,7 +66,9 @@ contract PlantNFT is ERC721, Ownable {
             growthStage: 0,
             health: 1000,
             plantedAt: block.timestamp,
-            landTokenId: landTokenId
+            landTokenId: landTokenId,
+            isHarvested: false,
+            owner: to
         });
         
         emit PlantCreated(tokenId, to, plantType, landTokenId);
@@ -110,18 +114,49 @@ contract PlantNFT is ERC721, Ownable {
     function isReadyToHarvest(uint256 tokenId) external view returns (bool) {
         Plant memory plant = plants[tokenId];
         
-        // Growth time in seconds
         uint256 requiredTime;
         if (plant.plantType == PlantType.WHEAT) {
-            requiredTime = 15; // 15 seconds for demo
+            requiredTime = 30;
         } else if (plant.plantType == PlantType.GRAPE) {
-            requiredTime = 25;
+            requiredTime = 60;
         } else {
-            requiredTime = 35;
+            requiredTime = 45;
         }
         
         return (block.timestamp >= plant.plantedAt + requiredTime) && 
-               (plant.growthStage >= 3) &&
                (plant.health > 0);
+    }
+    
+    function reduceGrowthTime(uint256 tokenId, uint256 timeReduction) external onlyAuthorized {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        plants[tokenId].plantedAt -= timeReduction;
+    }
+    
+    function markAsHarvested(uint256 tokenId) external onlyAuthorized {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        plants[tokenId].isHarvested = true;
+    }
+    
+    function getPlantsByOwner(address owner) external view returns (uint256[] memory) {
+        uint256 balance = balanceOf(owner);
+        uint256[] memory tokenIds = new uint256[](balance);
+        
+        for (uint256 i = 0; i < balance; i++) {
+            tokenIds[i] = tokenOfOwnerByIndex(owner, i);
+        }
+        
+        return tokenIds;
+    }
+    
+    // Override _update для синхронизации owner в структуре Plant
+    function _update(address to, uint256 tokenId, address auth) internal virtual override returns (address) {
+        address previousOwner = super._update(to, tokenId, auth);
+        
+        // Обновляем owner в структуре Plant если токен существует
+        if (to != address(0) && plants[tokenId].plantedAt > 0) {
+            plants[tokenId].owner = to;
+        }
+        
+        return previousOwner;
     }
 }

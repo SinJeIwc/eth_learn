@@ -3884,7 +3884,7 @@ __metadata:
     viem: 2.34.0
     wagmi: 2.16.4
     zod: ^4.1.12
-    zustand: ~5.0.0
+    zustand: ^5.0.8
   languageName: unknown
   linkType: soft
 
@@ -18588,7 +18588,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:~5.0.0":
+"zustand@npm:^5.0.8":
   version: 5.0.8
   resolution: "zustand@npm:5.0.8"
   peerDependencies:

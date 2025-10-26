@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import AuthModal from "~~/components/AuthModal";
-import { useAuth } from "~~/hooks/useAuth";
+import { useAccount } from "wagmi";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 
 const FarmGame = dynamic(() => import("~~/components/FarmGame"), {
   ssr: false,
@@ -12,10 +12,10 @@ const FarmGame = dynamic(() => import("~~/components/FarmGame"), {
 export default function GamePage() {
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { isAuthenticated, userData, login, logout, isLoading } = useAuth();
+  const { address, isConnected, isConnecting } = useAccount();
 
   const handleStartGame = () => {
-    if (!isAuthenticated) {
+    if (!isConnected) {
       return;
     }
 
@@ -34,12 +34,12 @@ export default function GamePage() {
     return <FarmGame onExit={handleExitGame} />;
   }
 
-  if (isLoading) {
+  if (isConnecting) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-xl">Loading...</p>
+          <p className="text-xl">Connecting wallet...</p>
         </div>
       </main>
     );
@@ -54,9 +54,21 @@ export default function GamePage() {
           I was reincarnated in another world and now I study farm economics.{" "}
         </h1>
 
-        <AuthModal onLogin={login} onLogout={logout} isAuthenticated={isAuthenticated} userData={userData} />
+        <div className="flex flex-col items-center gap-8">
+          <div className="text-xl text-gray-300">
+            {isConnected ? (
+              <p className="text-green-400">
+                ✓ Wallet Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+              </p>
+            ) : (
+              <p>Connect your wallet to start playing</p>
+            )}
+          </div>
 
-        {isAuthenticated && (
+          <RainbowKitCustomConnectButton />
+        </div>
+
+        {isConnected && (
           <button
             onClick={handleStartGame}
             className="px-16 py-6 text-3xl font-bold text-white bg-transparent border-2 border-white hover:bg-white hover:text-black transition-all duration-300 font-pixelify-sans"

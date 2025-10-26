@@ -3,15 +3,16 @@ import { DeployFunction } from "hardhat-deploy/types";
 
 /**
  * Deploys the complete Farm Game contract system
- * 
+ *
  * Contract chain:
  * 1. FarmCoin (ERC20) - In-game currency
  * 2. PlantNFT (ERC721) - Plant tokens
- * 3. FarmLand (ERC721) - Land plots
- * 4. GameEvents - Random event generator
- * 5. GameEffects - Applies event effects
- * 6. PriceOracle - Dynamic pricing
- * 7. FarmMarketplace - Main game contract
+ * 3. CropNFT (ERC721) - Harvested crop tokens
+ * 4. FarmLand (ERC721) - Land plots
+ * 5. GameEvents - Random event generator
+ * 6. GameEffects - Applies event effects
+ * 7. PriceOracle - Dynamic pricing
+ * 8. FarmMarketplace - Main game contract
  */
 const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
@@ -59,27 +60,32 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
   });
   console.log("✅ GameEvents deployed at:", gameEvents.address);
 
-  // 5️⃣ Deploy GameEffects
-  console.log("\n💥 Deploying GameEffects...");
-  const gameEffects = await deploy("GameEffects", {
-    from: deployer,
-    args: [deployer, plantNFT.address, farmLand.address, gameEvents.address],
-    log: true,
-    autoMine: true,
-  });
-  console.log("✅ GameEffects deployed at:", gameEffects.address);
-
-  // 6️⃣ Deploy PriceOracle
-  console.log("\n📊 Deploying PriceOracle...");
+  // 5️⃣ Deploy PriceOracle (before GameEffects since GameEffects needs it)
+  console.log("\n� Deploying PriceOracle...");
   const priceOracle = await deploy("PriceOracle", {
     from: deployer,
-    args: [deployer, gameEvents.address, gameEffects.address],
+    args: [deployer],
     log: true,
     autoMine: true,
   });
   console.log("✅ PriceOracle deployed at:", priceOracle.address);
 
-  // 7️⃣ Deploy FarmMarketplace
+  // 6️⃣ Deploy GameEffects
+  console.log("\n� Deploying GameEffects...");
+  const gameEffects = await deploy("GameEffects", {
+    from: deployer,
+    args: [deployer, plantNFT.address, priceOracle.address],
+    log: true,
+    autoMine: true,
+  });
+  console.log("✅ GameEffects deployed at:", gameEffects.address);
+
+  // 7️⃣ Get CropNFT (deployed in 01a script)
+  console.log("\n🌾 Getting CropNFT...");
+  const cropNFT = await hre.deployments.get("CropNFT");
+  console.log("✅ CropNFT found at:", cropNFT.address);
+
+  // 8️⃣ Deploy FarmMarketplace
   console.log("\n🏪 Deploying FarmMarketplace...");
   const farmMarketplace = await deploy("FarmMarketplace", {
     from: deployer,
@@ -87,6 +93,7 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
       deployer,
       farmCoin.address,
       plantNFT.address,
+      cropNFT.address, // ← Added CropNFT
       farmLand.address,
       gameEvents.address,
       gameEffects.address,
@@ -102,8 +109,10 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
 
   const FarmCoin = await hre.ethers.getContractAt("FarmCoin", farmCoin.address);
   const PlantNFT = await hre.ethers.getContractAt("PlantNFT", plantNFT.address);
+  const CropNFT = await hre.ethers.getContractAt("CropNFT", cropNFT.address);
   const FarmLand = await hre.ethers.getContractAt("FarmLand", farmLand.address);
   const GameEffects = await hre.ethers.getContractAt("GameEffects", gameEffects.address);
+  const PriceOracle = await hre.ethers.getContractAt("PriceOracle", priceOracle.address);
 
   // Authorize FarmMarketplace to mint/burn FarmCoin
   console.log("  - Authorizing FarmMarketplace to mint/burn FarmCoin...");
@@ -112,6 +121,10 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
   // Authorize FarmMarketplace to manage PlantNFT
   console.log("  - Authorizing FarmMarketplace to manage PlantNFT...");
   await PlantNFT.setAuthorizedManager(farmMarketplace.address, true);
+
+  // Authorize FarmMarketplace to manage CropNFT
+  console.log("  - Authorizing FarmMarketplace to manage CropNFT...");
+  await CropNFT.setAuthorizedMinter(farmMarketplace.address, true);
 
   // Authorize FarmMarketplace to manage FarmLand
   console.log("  - Authorizing FarmMarketplace to manage FarmLand...");
@@ -125,9 +138,9 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
   console.log("  - Authorizing GameEffects to update FarmLand...");
   await FarmLand.setAuthorizedManager(gameEffects.address, true);
 
-  // Set PriceOracle in GameEffects
-  console.log("  - Connecting GameEffects to PriceOracle...");
-  await GameEffects.setPriceOracle(priceOracle.address);
+  // Authorize GameEffects to update PriceOracle
+  console.log("  - Authorizing GameEffects to update PriceOracle...");
+  await PriceOracle.setAuthorizedManager(gameEffects.address, true);
 
   console.log("\n✅ All connections established!");
 
@@ -135,6 +148,7 @@ const deployFarmGameSystem: DeployFunction = async function (hre: HardhatRuntime
   console.log("📝 Contract Addresses:");
   console.log("   FarmCoin:        ", farmCoin.address);
   console.log("   PlantNFT:        ", plantNFT.address);
+  console.log("   CropNFT:         ", cropNFT.address);
   console.log("   FarmLand:        ", farmLand.address);
   console.log("   GameEvents:      ", gameEvents.address);
   console.log("   GameEffects:     ", gameEffects.address);

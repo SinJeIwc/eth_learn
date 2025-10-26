@@ -1,0 +1,615 @@
+{
+  "address": "0xDCd1E455b8aa2f28Dc3A21d033e46590026bD937",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16[]",
+          "name": "productIds",
+          "type": "uint16[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "newPrices",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "PricesUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_PRICE_CORN",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_PRICE_POTATO",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_PRICE_TOMATO",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_PRICE_WHEAT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRODUCT_CORN",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRODUCT_POTATO",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRODUCT_TOMATO",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PRODUCT_WHEAT",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllPrices",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "tomato",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wheat",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "corn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "potato",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "productId",
+          "type": "uint16"
+        }
+      ],
+      "name": "getPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRoundPriceChanges",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint16",
+              "name": "productId",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "newPrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int16",
+              "name": "changePercent",
+              "type": "int16"
+            }
+          ],
+          "internalType": "struct IMarketManager.PriceChange[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "name": "prices",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "int16",
+              "name": "growthDelta",
+              "type": "int16"
+            },
+            {
+              "internalType": "int16",
+              "name": "healthDelta",
+              "type": "int16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "yieldModifier",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct IFarmEffects.EffectResult",
+          "name": "aggregatedEffect",
+          "type": "tuple"
+        }
+      ],
+      "name": "recalculatePrices",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint16",
+              "name": "productId",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint256",
+              "name": "newPrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int16",
+              "name": "changePercent",
+              "type": "int16"
+            }
+          ],
+          "internalType": "struct IMarketManager.PriceChange[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "resetPrices",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "roundPriceChanges",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "productId",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int16",
+          "name": "changePercent",
+          "type": "int16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xab5eb277d03685677239a9d69b3d33838295e8cbcb99e76f7987378df90e54b1",
+  "receipt": {
+    "to": null,
+    "from": "0x38048c9AcEF95Cb2866e58Da69dd96B71870c55C",
+    "contractAddress": "0xDCd1E455b8aa2f28Dc3A21d033e46590026bD937",
+    "transactionIndex": 0,
+    "gasUsed": "925744",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000800500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000080000000000000000000000000000000000000000020000000000000000000000000000000000000002000000004000000000000000000",
+    "blockHash": "0x81780c793f836eb7e26d52e63086a68964670f41b31be97fcca32e720ed28f60",
+    "transactionHash": "0xab5eb277d03685677239a9d69b3d33838295e8cbcb99e76f7987378df90e54b1",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 11777356,
+        "transactionHash": "0xab5eb277d03685677239a9d69b3d33838295e8cbcb99e76f7987378df90e54b1",
+        "address": "0xDCd1E455b8aa2f28Dc3A21d033e46590026bD937",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000038048c9acef95cb2866e58da69dd96b71870c55c"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0x81780c793f836eb7e26d52e63086a68964670f41b31be97fcca32e720ed28f60"
+      }
+    ],
+    "blockNumber": 11777356,
+    "cumulativeGasUsed": "925744",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x38048c9AcEF95Cb2866e58Da69dd96B71870c55C"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "2c880685ebef2f561b9dccee97fd02f5",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialOwner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint16[]\",\"name\":\"productIds\",\"type\":\"uint16[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"newPrices\",\"type\":\"uint256[]\"}],\"name\":\"PricesUpdated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"BASE_PRICE_CORN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"BASE_PRICE_POTATO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"BASE_PRICE_TOMATO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"BASE_PRICE_WHEAT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PRODUCT_CORN\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PRODUCT_POTATO\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PRODUCT_TOMATO\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PRODUCT_WHEAT\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAllPrices\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"tomato\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"wheat\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"corn\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"potato\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint16\",\"name\":\"productId\",\"type\":\"uint16\"}],\"name\":\"getPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"}],\"name\":\"getRoundPriceChanges\",\"outputs\":[{\"components\":[{\"internalType\":\"uint16\",\"name\":\"productId\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"newPrice\",\"type\":\"uint256\"},{\"internalType\":\"int16\",\"name\":\"changePercent\",\"type\":\"int16\"}],\"internalType\":\"struct IMarketManager.PriceChange[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"name\":\"prices\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"int16\",\"name\":\"growthDelta\",\"type\":\"int16\"},{\"internalType\":\"int16\",\"name\":\"healthDelta\",\"type\":\"int16\"},{\"internalType\":\"uint16\",\"name\":\"yieldModifier\",\"type\":\"uint16\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"}],\"internalType\":\"struct IFarmEffects.EffectResult\",\"name\":\"aggregatedEffect\",\"type\":\"tuple\"}],\"name\":\"recalculatePrices\",\"outputs\":[{\"components\":[{\"internalType\":\"uint16\",\"name\":\"productId\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"newPrice\",\"type\":\"uint256\"},{\"internalType\":\"int16\",\"name\":\"changePercent\",\"type\":\"int16\"}],\"internalType\":\"struct IMarketManager.PriceChange[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"resetPrices\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"roundPriceChanges\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"productId\",\"type\":\"uint16\"},{\"internalType\":\"uint256\",\"name\":\"newPrice\",\"type\":\"uint256\"},{\"internalType\":\"int16\",\"name\":\"changePercent\",\"type\":\"int16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"title\":\"MarketManager\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getAllPrices()\":{\"notice\":\"\\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0432\\u0441\\u0435 \\u0442\\u0435\\u043a\\u0443\\u0449\\u0438\\u0435 \\u0446\\u0435\\u043d\\u044b\"},\"getPrice(uint16)\":{\"notice\":\"\\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0442\\u0435\\u043a\\u0443\\u0449\\u0443\\u044e \\u0446\\u0435\\u043d\\u0443 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u0430\"},\"getRoundPriceChanges(uint256)\":{\"notice\":\"\\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u044f \\u0446\\u0435\\u043d \\u0437\\u0430 \\u0440\\u0430\\u0443\\u043d\\u0434\"},\"recalculatePrices(uint256,(int16,int16,uint16,uint32))\":{\"notice\":\"\\u041f\\u0435\\u0440\\u0435\\u0441\\u0447\\u0438\\u0442\\u044b\\u0432\\u0430\\u0435\\u0442 \\u0446\\u0435\\u043d\\u044b \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u0430\\u0433\\u0440\\u0435\\u0433\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u043d\\u044b\\u0445 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u043e\\u0432\"},\"resetPrices()\":{\"notice\":\"\\u0421\\u0431\\u0440\\u043e\\u0441\\u0438\\u0442\\u044c \\u0446\\u0435\\u043d\\u044b \\u043a \\u0431\\u0430\\u0437\\u043e\\u0432\\u044b\\u043c (\\u0442\\u043e\\u043b\\u044c\\u043a\\u043e owner)\"}},\"notice\":\"\\u0423\\u043f\\u0440\\u0430\\u0432\\u043b\\u044f\\u0435\\u0442 \\u0446\\u0435\\u043d\\u0430\\u043c\\u0438 \\u043d\\u0430 \\u0440\\u044b\\u043d\\u043a\\u0435 \\u0432 \\u0437\\u0430\\u0432\\u0438\\u0441\\u0438\\u043c\\u043e\\u0441\\u0442\\u0438 \\u043e\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0439\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/MarketManager.sol\":\"MarketManager\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/MarketManager.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport \\\"./interfaces/IMarketManager.sol\\\";\\nimport \\\"./interfaces/IFarmEffects.sol\\\";\\n\\n/**\\n * @title MarketManager\\n * @notice \\u0423\\u043f\\u0440\\u0430\\u0432\\u043b\\u044f\\u0435\\u0442 \\u0446\\u0435\\u043d\\u0430\\u043c\\u0438 \\u043d\\u0430 \\u0440\\u044b\\u043d\\u043a\\u0435 \\u0432 \\u0437\\u0430\\u0432\\u0438\\u0441\\u0438\\u043c\\u043e\\u0441\\u0442\\u0438 \\u043e\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0439\\n */\\ncontract MarketManager is IMarketManager, Ownable {\\n    // ID \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u043e\\u0432\\n    uint16 public constant PRODUCT_TOMATO = 1;\\n    uint16 public constant PRODUCT_WHEAT = 2;\\n    uint16 public constant PRODUCT_CORN = 3;\\n    uint16 public constant PRODUCT_POTATO = 4;\\n\\n    // \\u0411\\u0430\\u0437\\u043e\\u0432\\u044b\\u0435 \\u0446\\u0435\\u043d\\u044b (\\u0432 wei)\\n    uint256 public constant BASE_PRICE_TOMATO = 0.001 ether;\\n    uint256 public constant BASE_PRICE_WHEAT = 0.0008 ether;\\n    uint256 public constant BASE_PRICE_CORN = 0.0012 ether;\\n    uint256 public constant BASE_PRICE_POTATO = 0.0009 ether;\\n\\n    // \\u0422\\u0435\\u043a\\u0443\\u0449\\u0438\\u0435 \\u0446\\u0435\\u043d\\u044b\\n    mapping(uint16 => uint256) public prices;\\n    \\n    // \\u0418\\u0441\\u0442\\u043e\\u0440\\u0438\\u044f \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0439 \\u0446\\u0435\\u043d\\n    mapping(uint256 => PriceChange[]) public roundPriceChanges;\\n\\n    constructor(address initialOwner) Ownable(initialOwner) {\\n        // \\u0418\\u043d\\u0438\\u0446\\u0438\\u0430\\u043b\\u0438\\u0437\\u0438\\u0440\\u0443\\u0435\\u043c \\u0431\\u0430\\u0437\\u043e\\u0432\\u044b\\u0435 \\u0446\\u0435\\u043d\\u044b\\n        prices[PRODUCT_TOMATO] = BASE_PRICE_TOMATO;\\n        prices[PRODUCT_WHEAT] = BASE_PRICE_WHEAT;\\n        prices[PRODUCT_CORN] = BASE_PRICE_CORN;\\n        prices[PRODUCT_POTATO] = BASE_PRICE_POTATO;\\n    }\\n\\n    /**\\n     * @notice \\u041f\\u0435\\u0440\\u0435\\u0441\\u0447\\u0438\\u0442\\u044b\\u0432\\u0430\\u0435\\u0442 \\u0446\\u0435\\u043d\\u044b \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u0430\\u0433\\u0440\\u0435\\u0433\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u043d\\u044b\\u0445 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u043e\\u0432\\n     */\\n    function recalculatePrices(\\n        uint256 roundId,\\n        IFarmEffects.EffectResult memory aggregatedEffect\\n    ) external override returns (PriceChange[] memory) {\\n        PriceChange[] memory changes = new PriceChange[](4);\\n        \\n        // \\u0412\\u044b\\u0447\\u0438\\u0441\\u043b\\u044f\\u0435\\u043c \\u043e\\u0431\\u0449\\u0438\\u0439 \\u043c\\u043e\\u0434\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u043e\\u0440 \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u043e\\u0432\\n        // \\u0415\\u0441\\u043b\\u0438 \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\u043d\\u043e\\u0441\\u0442\\u044c \\u0443\\u043f\\u0430\\u043b\\u0430 (yieldModifier < 1000), \\u0446\\u0435\\u043d\\u044b \\u0440\\u0430\\u0441\\u0442\\u0443\\u0442\\n        // \\u0415\\u0441\\u043b\\u0438 \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\u043d\\u043e\\u0441\\u0442\\u044c \\u0432\\u044b\\u0440\\u043e\\u0441\\u043b\\u0430 (yieldModifier > 1000), \\u0446\\u0435\\u043d\\u044b \\u043f\\u0430\\u0434\\u0430\\u044e\\u0442\\n        int16 priceModifier;\\n        if (aggregatedEffect.yieldModifier < 1000) {\\n            // \\u0423\\u0440\\u043e\\u0436\\u0430\\u0439\\u043d\\u043e\\u0441\\u0442\\u044c \\u0443\\u043f\\u0430\\u043b\\u0430 - \\u0446\\u0435\\u043d\\u044b \\u0440\\u0430\\u0441\\u0442\\u0443\\u0442\\n            priceModifier = int16(1000 - aggregatedEffect.yieldModifier);\\n        } else {\\n            // \\u0423\\u0440\\u043e\\u0436\\u0430\\u0439\\u043d\\u043e\\u0441\\u0442\\u044c \\u0432\\u044b\\u0440\\u043e\\u0441\\u043b\\u0430 - \\u0446\\u0435\\u043d\\u044b \\u043f\\u0430\\u0434\\u0430\\u044e\\u0442\\n            priceModifier = -int16(aggregatedEffect.yieldModifier - 1000);\\n        }\\n\\n        // \\u041e\\u0433\\u0440\\u0430\\u043d\\u0438\\u0447\\u0438\\u0432\\u0430\\u0435\\u043c \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0446\\u0435\\u043d \\u00b130%\\n        if (priceModifier > 300) priceModifier = 300;\\n        if (priceModifier < -300) priceModifier = -300;\\n\\n        // \\u041e\\u0431\\u043d\\u043e\\u0432\\u043b\\u044f\\u0435\\u043c \\u0446\\u0435\\u043d\\u044b \\u0434\\u043b\\u044f \\u0432\\u0441\\u0435\\u0445 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u043e\\u0432\\n        uint16[] memory productIds = new uint16[](4);\\n        productIds[0] = PRODUCT_TOMATO;\\n        productIds[1] = PRODUCT_WHEAT;\\n        productIds[2] = PRODUCT_CORN;\\n        productIds[3] = PRODUCT_POTATO;\\n\\n        uint256[] memory newPrices = new uint256[](4);\\n\\n        for (uint i = 0; i < 4; i++) {\\n            uint16 productId = productIds[i];\\n            uint256 currentPrice = prices[productId];\\n            \\n            // \\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u043c \\u043c\\u043e\\u0434\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u043e\\u0440\\n            int256 priceChange = (int256(currentPrice) * priceModifier) / 1000;\\n            uint256 newPrice = uint256(int256(currentPrice) + priceChange);\\n            \\n            // \\u041e\\u0433\\u0440\\u0430\\u043d\\u0438\\u0447\\u0438\\u0432\\u0430\\u0435\\u043c \\u0446\\u0435\\u043d\\u044b (\\u043d\\u0435 \\u043c\\u043e\\u0433\\u0443\\u0442 \\u0443\\u043f\\u0430\\u0441\\u0442\\u044c \\u043d\\u0438\\u0436\\u0435 50% \\u0438\\u043b\\u0438 \\u0432\\u044b\\u0440\\u0430\\u0441\\u0442\\u0438 \\u0432\\u044b\\u0448\\u0435 200% \\u0431\\u0430\\u0437\\u043e\\u0432\\u043e\\u0439)\\n            uint256 basePrice = _getBasePrice(productId);\\n            if (newPrice < basePrice / 2) {\\n                newPrice = basePrice / 2;\\n            } else if (newPrice > basePrice * 2) {\\n                newPrice = basePrice * 2;\\n            }\\n\\n            prices[productId] = newPrice;\\n            newPrices[i] = newPrice;\\n\\n            changes[i] = PriceChange({\\n                productId: productId,\\n                newPrice: newPrice,\\n                changePercent: priceModifier\\n            });\\n        }\\n\\n        // \\u0421\\u043e\\u0445\\u0440\\u0430\\u043d\\u044f\\u0435\\u043c \\u0438\\u0441\\u0442\\u043e\\u0440\\u0438\\u044e\\n        for (uint i = 0; i < changes.length; i++) {\\n            roundPriceChanges[roundId].push(changes[i]);\\n        }\\n\\n        emit PricesUpdated(roundId, productIds, newPrices);\\n\\n        return changes;\\n    }\\n\\n    /**\\n     * @notice \\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0442\\u0435\\u043a\\u0443\\u0449\\u0443\\u044e \\u0446\\u0435\\u043d\\u0443 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u0430\\n     */\\n    function getPrice(uint16 productId) external view override returns (uint256) {\\n        return prices[productId];\\n    }\\n\\n    /**\\n     * @notice \\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0432\\u0441\\u0435 \\u0442\\u0435\\u043a\\u0443\\u0449\\u0438\\u0435 \\u0446\\u0435\\u043d\\u044b\\n     */\\n    function getAllPrices() external view returns (\\n        uint256 tomato,\\n        uint256 wheat,\\n        uint256 corn,\\n        uint256 potato\\n    ) {\\n        return (\\n            prices[PRODUCT_TOMATO],\\n            prices[PRODUCT_WHEAT],\\n            prices[PRODUCT_CORN],\\n            prices[PRODUCT_POTATO]\\n        );\\n    }\\n\\n    /**\\n     * @notice \\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u044f \\u0446\\u0435\\u043d \\u0437\\u0430 \\u0440\\u0430\\u0443\\u043d\\u0434\\n     */\\n    function getRoundPriceChanges(uint256 roundId) external view returns (PriceChange[] memory) {\\n        return roundPriceChanges[roundId];\\n    }\\n\\n    /**\\n     * @notice \\u0421\\u0431\\u0440\\u043e\\u0441\\u0438\\u0442\\u044c \\u0446\\u0435\\u043d\\u044b \\u043a \\u0431\\u0430\\u0437\\u043e\\u0432\\u044b\\u043c (\\u0442\\u043e\\u043b\\u044c\\u043a\\u043e owner)\\n     */\\n    function resetPrices() external onlyOwner {\\n        prices[PRODUCT_TOMATO] = BASE_PRICE_TOMATO;\\n        prices[PRODUCT_WHEAT] = BASE_PRICE_WHEAT;\\n        prices[PRODUCT_CORN] = BASE_PRICE_CORN;\\n        prices[PRODUCT_POTATO] = BASE_PRICE_POTATO;\\n    }\\n\\n    /**\\n     * @dev \\u041f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u044c \\u0431\\u0430\\u0437\\u043e\\u0432\\u0443\\u044e \\u0446\\u0435\\u043d\\u0443 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u0430\\n     */\\n    function _getBasePrice(uint16 productId) internal pure returns (uint256) {\\n        if (productId == PRODUCT_TOMATO) return BASE_PRICE_TOMATO;\\n        if (productId == PRODUCT_WHEAT) return BASE_PRICE_WHEAT;\\n        if (productId == PRODUCT_CORN) return BASE_PRICE_CORN;\\n        if (productId == PRODUCT_POTATO) return BASE_PRICE_POTATO;\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x55e93e52f9ac893ef8ae4ac96b66d1ae566b4a5014ec06b3af5fdc9c0f0d0ef6\",\"license\":\"MIT\"},\"contracts/interfaces/IFarmEffects.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./IFarmEvents.sol\\\";\\n\\ninterface IFarmEffects {\\n    struct EffectResult {\\n        int16 growthDelta;     // \\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0440\\u043e\\u0441\\u0442\\u0430 (-1000 to +1000)\\n        int16 healthDelta;     // \\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0437\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044f (-1000 to +1000)\\n        uint16 yieldModifier;  // \\u041c\\u043e\\u0434\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u043e\\u0440 \\u0443\\u0440\\u043e\\u0436\\u0430\\u044f (1000 = 100%)\\n        uint32 timestamp;\\n    }\\n\\n    event EffectApplied(\\n        uint256 indexed gardenId,\\n        uint256 indexed roundId,\\n        int16 growthDelta,\\n        int16 healthDelta\\n    );\\n\\n    function applyEffect(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        IFarmEvents.EventData memory eventData\\n    ) external returns (EffectResult memory);\\n}\\n\",\"keccak256\":\"0x2f4ef6742a47f5f0fd3c3b8dac3e09459a37e962fe0c9bd28df021c4e0291e43\",\"license\":\"MIT\"},\"contracts/interfaces/IFarmEvents.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ninterface IFarmEvents {\\n    enum EventType {\\n        NONE,\\n        LOCUSTS,      // \\u0421\\u0430\\u0440\\u0430\\u043d\\u0447\\u0430 - \\u0443\\u0440\\u043e\\u043d \\u0440\\u0430\\u0441\\u0442\\u0435\\u043d\\u0438\\u044f\\u043c\\n        WIND,         // \\u0412\\u0435\\u0442\\u0435\\u0440 - \\u043c\\u043e\\u0436\\u0435\\u0442 \\u043f\\u043e\\u0432\\u0440\\u0435\\u0434\\u0438\\u0442\\u044c \\u0438\\u043b\\u0438 \\u043f\\u043e\\u043c\\u043e\\u0447\\u044c\\n        RAIN,         // \\u0414\\u043e\\u0436\\u0434\\u044c - \\u0443\\u0441\\u043a\\u043e\\u0440\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        DROUGHT,      // \\u0417\\u0430\\u0441\\u0443\\u0445\\u0430 - \\u0437\\u0430\\u043c\\u0435\\u0434\\u043b\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        FROST,        // \\u041c\\u043e\\u0440\\u043e\\u0437 - \\u0443\\u0440\\u043e\\u043d\\n        SUNSTORM,     // \\u0421\\u043e\\u043b\\u043d\\u0435\\u0447\\u043d\\u0430\\u044f \\u0431\\u0443\\u0440\\u044f - \\u0431\\u043e\\u043d\\u0443\\u0441 \\u043a \\u0440\\u043e\\u0441\\u0442\\u0443\\n        PESTS         // \\u0412\\u0440\\u0435\\u0434\\u0438\\u0442\\u0435\\u043b\\u0438 - \\u0443\\u0440\\u043e\\u043d\\n    }\\n\\n    struct EventData {\\n        EventType eventType;\\n        uint16 severity;      // 0-1000 (0.0% - 100.0%)\\n        uint32 timestamp;\\n        bytes32 seed;\\n    }\\n\\n    event EventGenerated(\\n        uint256 indexed gardenId,\\n        uint256 indexed roundId,\\n        EventType eventType,\\n        uint16 severity\\n    );\\n\\n    function generateEvent(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        bytes32 seed\\n    ) external returns (EventData memory);\\n}\\n\",\"keccak256\":\"0x9d48e25693cc65124240cb4eb4931c8fdd0ee92eed154668c8dc50aed5aa12b2\",\"license\":\"MIT\"},\"contracts/interfaces/IMarketManager.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./IFarmEffects.sol\\\";\\n\\ninterface IMarketManager {\\n    struct PriceChange {\\n        uint16 productId;\\n        uint256 newPrice;      // wei per unit\\n        int16 changePercent;   // -1000 to +1000 (-100% to +100%)\\n    }\\n\\n    event PricesUpdated(\\n        uint256 indexed roundId,\\n        uint16[] productIds,\\n        uint256[] newPrices\\n    );\\n\\n    function recalculatePrices(\\n        uint256 roundId,\\n        IFarmEffects.EffectResult memory aggregatedEffect\\n    ) external returns (PriceChange[] memory);\\n\\n    function getPrice(uint16 productId) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0x8f25de5e47aa4204ff6026b675d1064852bdac3789d717ec80f08c07a845d4e9\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50604051610f51380380610f5183398101604081905261002f91610170565b806001600160a01b03811661005e57604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b61006781610120565b5050600160205266038d7ea4c680007fcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f556602d79883d200007fd9d16d34ffb15ba3a3d852f0d403e2ce1d691fb54de27ac87cd2f993f3ec330f5566044364c5bb00007f7dfe757ecd65cbd7922a9c0161e935dd7fdbcc0e999689c7d31633896b1fc60b5560046000526603328b944c40007fedc95719e9a3b28dd8e80877cb5880a9be7de1a13fc8b05e7999683b6b567643556101a0565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60006020828403121561018257600080fd5b81516001600160a01b038116811461019957600080fd5b9392505050565b610da2806101af6000396000f3fe608060405234801561001057600080fd5b50600436106101165760003560e01c8063715018a6116100a2578063ba32a7e411610071578063ba32a7e4146102dd578063c0a12948146102eb578063cc6c8960146102f3578063e0ad121a14610301578063f2fde38b1461032557600080fd5b8063715018a6146102875780638a8683ea1461028f5780638da5cb5b146102a25780639de4c3be146102bd57600080fd5b806324fe364f116100e957806324fe364f14610185578063326fe803146101bb5780633d0c3c05146101c3578063445df9d6146101cd57806363c6e2891461027f57600080fd5b80630c903e421461011b5780630cabc3761461013c5780631082fe9d1461015757806324a8bc8d14610165575b600080fd5b61012966044364c5bb000081565b6040519081526020015b60405180910390f35b610144600381565b60405161ffff9091168152602001610133565b6101296602d79883d2000081565b610178610173366004610a26565b610338565b6040516101339190610ad1565b610198610193366004610b31565b610707565b6040805161ffff9094168452602084019290925260010b90820152606001610133565b610144600181565b6101cb610751565b005b60016020527fcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f547fd9d16d34ffb15ba3a3d852f0d403e2ce1d691fb54de27ac87cd2f993f3ec330f547f7dfe757ecd65cbd7922a9c0161e935dd7fdbcc0e999689c7d31633896b1fc60b5460046000527fedc95719e9a3b28dd8e80877cb5880a9be7de1a13fc8b05e7999683b6b56764354604080519485526020850193909352918301526060820152608001610133565b610144600281565b6101cb61080d565b61017861029d366004610b53565b610821565b6000546040516001600160a01b039091168152602001610133565b6101296102cb366004610b6c565b60016020526000908152604090205481565b6101296603328b944c400081565b610144600481565b61012966038d7ea4c6800081565b61012961030f366004610b6c565b61ffff1660009081526001602052604090205490565b6101cb610333366004610b8e565b6108b3565b60408051600480825260a0820190925260609160009190816020015b604080516060810182526000808252602080830182905292820152825260001990920191018161035457905050905060006103e8846040015161ffff1610156103af5760408401516103a8906103e8610bcd565b90506103cd565b6103e884604001516103c19190610bcd565b6103ca90610bef565b90505b61012c8160010b13156103df575061012c5b61012b198160010b12156103f3575061012b195b60408051600480825260a082019092526000916020820160808036833701905050905060018160008151811061042b5761042b610c10565b602002602001019061ffff16908161ffff168152505060028160018151811061045657610456610c10565b602002602001019061ffff16908161ffff168152505060038160028151811061048157610481610c10565b602002602001019061ffff16908161ffff16815250506004816003815181106104ac576104ac610c10565b61ffff9290921660209283029190910182015260408051600480825260a08201909252600092909190820160808036833701905050905060005b600481101561063557600083828151811061050357610503610c10565b602002602001015190506000600160008361ffff1661ffff16815260200190815260200160002054905060006103e88760010b836105419190610c26565b61054b9190610c6c565b905060006105598284610c9a565b90506000610566856108f6565b9050610573600282610cc2565b82101561058c57610585600282610cc2565b91506105ac565b610597816002610cd6565b8211156105ac576105a9816002610cd6565b91505b61ffff85166000908152600160205260409020829055865182908890889081106105d8576105d8610c10565b60200260200101818152505060405180606001604052808661ffff1681526020018381526020018a60010b8152508a878151811061061857610618610c10565b6020026020010181905250505050505080806001019150506104e6565b5060005b84518110156106bf576000888152600260205260409020855186908390811061066457610664610c10565b6020908102919091018101518254600180820185556000948552938390208251600390920201805461ffff1990811661ffff938416178255938301518186015560409092015160029092018054909316911617905501610639565b50867fce0c03804040d84f95a0758e2486696c087daec47ce8c330d802badb77685d9c83836040516106f2929190610ced565b60405180910390a25091925050505b92915050565b6002602052816000526040600020818154811061072357600080fd5b60009182526020909120600390910201805460018083015460029093015461ffff9092169450919250900b83565b61075961096c565b600160205266038d7ea4c680007fcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f556602d79883d200007fd9d16d34ffb15ba3a3d852f0d403e2ce1d691fb54de27ac87cd2f993f3ec330f5566044364c5bb00007f7dfe757ecd65cbd7922a9c0161e935dd7fdbcc0e999689c7d31633896b1fc60b5560046000526603328b944c40007fedc95719e9a3b28dd8e80877cb5880a9be7de1a13fc8b05e7999683b6b56764355565b61081561096c565b61081f6000610999565b565b606060026000838152602001908152602001600020805480602002602001604051908101604052809291908181526020016000905b828210156108a85760008481526020908190206040805160608101825260038602909201805461ffff16835260018082015484860152600290910154810b918301919091529083529092019101610856565b505050509050919050565b6108bb61096c565b6001600160a01b0381166108ea57604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b6108f381610999565b50565b600060001961ffff831601610913575066038d7ea4c68000919050565b60011961ffff83160161092e57506602d79883d20000919050565b60021961ffff831601610949575066044364c5bb0000919050565b60031961ffff83160161096457506603328b944c4000919050565b506000919050565b6000546001600160a01b0316331461081f5760405163118cdaa760e01b81523360048201526024016108e1565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b8035600181900b81146109fb57600080fd5b919050565b803561ffff811681146109fb57600080fd5b803563ffffffff811681146109fb57600080fd5b60008082840360a0811215610a3a57600080fd5b833592506080601f1982011215610a5057600080fd5b506040516080810181811067ffffffffffffffff82111715610a8257634e487b7160e01b600052604160045260246000fd5b604052610a91602085016109e9565b8152610a9f604085016109e9565b6020820152610ab060608501610a00565b6040820152610ac160808501610a12565b6060820152809150509250929050565b602080825282518282018190526000919060409081850190868401855b82811015610b24578151805161ffff1685528681015187860152850151600190810b868601526060909401939186019101610aee565b5091979650505050505050565b60008060408385031215610b4457600080fd5b50508035926020909101359150565b600060208284031215610b6557600080fd5b5035919050565b600060208284031215610b7e57600080fd5b610b8782610a00565b9392505050565b600060208284031215610ba057600080fd5b81356001600160a01b0381168114610b8757600080fd5b634e487b7160e01b600052601160045260246000fd5b61ffff828116828216039080821115610be857610be8610bb7565b5092915050565b60008160010b617fff198103610c0757610c07610bb7565b60000392915050565b634e487b7160e01b600052603260045260246000fd5b80820260008212600160ff1b84141615610c4257610c42610bb7565b818105831482151761070157610701610bb7565b634e487b7160e01b600052601260045260246000fd5b600082610c7b57610c7b610c56565b600160ff1b821460001984141615610c9557610c95610bb7565b500590565b8082018281126000831280158216821582161715610cba57610cba610bb7565b505092915050565b600082610cd157610cd1610c56565b500490565b808202811582820484141761070157610701610bb7565b604080825283519082018190526000906020906060840190828701845b82811015610d2a57815161ffff1684529284019290840190600101610d0a565b5050508381038285015284518082528583019183019060005b81811015610d5f57835183529284019291840191600101610d43565b509097965050505050505056fea2646970667358221220a129e3ed8f2b593daf42ecefcb4fc0815b6fd596ef3e35311ee56f1bdd8d0b2064736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106101165760003560e01c8063715018a6116100a2578063ba32a7e411610071578063ba32a7e4146102dd578063c0a12948146102eb578063cc6c8960146102f3578063e0ad121a14610301578063f2fde38b1461032557600080fd5b8063715018a6146102875780638a8683ea1461028f5780638da5cb5b146102a25780639de4c3be146102bd57600080fd5b806324fe364f116100e957806324fe364f14610185578063326fe803146101bb5780633d0c3c05146101c3578063445df9d6146101cd57806363c6e2891461027f57600080fd5b80630c903e421461011b5780630cabc3761461013c5780631082fe9d1461015757806324a8bc8d14610165575b600080fd5b61012966044364c5bb000081565b6040519081526020015b60405180910390f35b610144600381565b60405161ffff9091168152602001610133565b6101296602d79883d2000081565b610178610173366004610a26565b610338565b6040516101339190610ad1565b610198610193366004610b31565b610707565b6040805161ffff9094168452602084019290925260010b90820152606001610133565b610144600181565b6101cb610751565b005b60016020527fcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f547fd9d16d34ffb15ba3a3d852f0d403e2ce1d691fb54de27ac87cd2f993f3ec330f547f7dfe757ecd65cbd7922a9c0161e935dd7fdbcc0e999689c7d31633896b1fc60b5460046000527fedc95719e9a3b28dd8e80877cb5880a9be7de1a13fc8b05e7999683b6b56764354604080519485526020850193909352918301526060820152608001610133565b610144600281565b6101cb61080d565b61017861029d366004610b53565b610821565b6000546040516001600160a01b039091168152602001610133565b6101296102cb366004610b6c565b60016020526000908152604090205481565b6101296603328b944c400081565b610144600481565b61012966038d7ea4c6800081565b61012961030f366004610b6c565b61ffff1660009081526001602052604090205490565b6101cb610333366004610b8e565b6108b3565b60408051600480825260a0820190925260609160009190816020015b604080516060810182526000808252602080830182905292820152825260001990920191018161035457905050905060006103e8846040015161ffff1610156103af5760408401516103a8906103e8610bcd565b90506103cd565b6103e884604001516103c19190610bcd565b6103ca90610bef565b90505b61012c8160010b13156103df575061012c5b61012b198160010b12156103f3575061012b195b60408051600480825260a082019092526000916020820160808036833701905050905060018160008151811061042b5761042b610c10565b602002602001019061ffff16908161ffff168152505060028160018151811061045657610456610c10565b602002602001019061ffff16908161ffff168152505060038160028151811061048157610481610c10565b602002602001019061ffff16908161ffff16815250506004816003815181106104ac576104ac610c10565b61ffff9290921660209283029190910182015260408051600480825260a08201909252600092909190820160808036833701905050905060005b600481101561063557600083828151811061050357610503610c10565b602002602001015190506000600160008361ffff1661ffff16815260200190815260200160002054905060006103e88760010b836105419190610c26565b61054b9190610c6c565b905060006105598284610c9a565b90506000610566856108f6565b9050610573600282610cc2565b82101561058c57610585600282610cc2565b91506105ac565b610597816002610cd6565b8211156105ac576105a9816002610cd6565b91505b61ffff85166000908152600160205260409020829055865182908890889081106105d8576105d8610c10565b60200260200101818152505060405180606001604052808661ffff1681526020018381526020018a60010b8152508a878151811061061857610618610c10565b6020026020010181905250505050505080806001019150506104e6565b5060005b84518110156106bf576000888152600260205260409020855186908390811061066457610664610c10565b6020908102919091018101518254600180820185556000948552938390208251600390920201805461ffff1990811661ffff938416178255938301518186015560409092015160029092018054909316911617905501610639565b50867fce0c03804040d84f95a0758e2486696c087daec47ce8c330d802badb77685d9c83836040516106f2929190610ced565b60405180910390a25091925050505b92915050565b6002602052816000526040600020818154811061072357600080fd5b60009182526020909120600390910201805460018083015460029093015461ffff9092169450919250900b83565b61075961096c565b600160205266038d7ea4c680007fcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f556602d79883d200007fd9d16d34ffb15ba3a3d852f0d403e2ce1d691fb54de27ac87cd2f993f3ec330f5566044364c5bb00007f7dfe757ecd65cbd7922a9c0161e935dd7fdbcc0e999689c7d31633896b1fc60b5560046000526603328b944c40007fedc95719e9a3b28dd8e80877cb5880a9be7de1a13fc8b05e7999683b6b56764355565b61081561096c565b61081f6000610999565b565b606060026000838152602001908152602001600020805480602002602001604051908101604052809291908181526020016000905b828210156108a85760008481526020908190206040805160608101825260038602909201805461ffff16835260018082015484860152600290910154810b918301919091529083529092019101610856565b505050509050919050565b6108bb61096c565b6001600160a01b0381166108ea57604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b6108f381610999565b50565b600060001961ffff831601610913575066038d7ea4c68000919050565b60011961ffff83160161092e57506602d79883d20000919050565b60021961ffff831601610949575066044364c5bb0000919050565b60031961ffff83160161096457506603328b944c4000919050565b506000919050565b6000546001600160a01b0316331461081f5760405163118cdaa760e01b81523360048201526024016108e1565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b8035600181900b81146109fb57600080fd5b919050565b803561ffff811681146109fb57600080fd5b803563ffffffff811681146109fb57600080fd5b60008082840360a0811215610a3a57600080fd5b833592506080601f1982011215610a5057600080fd5b506040516080810181811067ffffffffffffffff82111715610a8257634e487b7160e01b600052604160045260246000fd5b604052610a91602085016109e9565b8152610a9f604085016109e9565b6020820152610ab060608501610a00565b6040820152610ac160808501610a12565b6060820152809150509250929050565b602080825282518282018190526000919060409081850190868401855b82811015610b24578151805161ffff1685528681015187860152850151600190810b868601526060909401939186019101610aee565b5091979650505050505050565b60008060408385031215610b4457600080fd5b50508035926020909101359150565b600060208284031215610b6557600080fd5b5035919050565b600060208284031215610b7e57600080fd5b610b8782610a00565b9392505050565b600060208284031215610ba057600080fd5b81356001600160a01b0381168114610b8757600080fd5b634e487b7160e01b600052601160045260246000fd5b61ffff828116828216039080821115610be857610be8610bb7565b5092915050565b60008160010b617fff198103610c0757610c07610bb7565b60000392915050565b634e487b7160e01b600052603260045260246000fd5b80820260008212600160ff1b84141615610c4257610c42610bb7565b818105831482151761070157610701610bb7565b634e487b7160e01b600052601260045260246000fd5b600082610c7b57610c7b610c56565b600160ff1b821460001984141615610c9557610c95610bb7565b500590565b8082018281126000831280158216821582161715610cba57610cba610bb7565b505092915050565b600082610cd157610cd1610c56565b500490565b808202811582820484141761070157610701610bb7565b604080825283519082018190526000906020906060840190828701845b82811015610d2a57815161ffff1684529284019290840190600101610d0a565b5050508381038285015284518082528583019183019060005b81811015610d5f57835183529284019291840191600101610d43565b509097965050505050505056fea2646970667358221220a129e3ed8f2b593daf42ecefcb4fc0815b6fd596ef3e35311ee56f1bdd8d0b2064736f6c63430008180033",
+  "devdoc": {
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "title": "MarketManager",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "getAllPrices()": {
+        "notice": "Получить все текущие цены"
+      },
+      "getPrice(uint16)": {
+        "notice": "Получить текущую цену продукта"
+      },
+      "getRoundPriceChanges(uint256)": {
+        "notice": "Получить изменения цен за раунд"
+      },
+      "recalculatePrices(uint256,(int16,int16,uint16,uint32))": {
+        "notice": "Пересчитывает цены на основе агрегированных эффектов"
+      },
+      "resetPrices()": {
+        "notice": "Сбросить цены к базовым (только owner)"
+      }
+    },
+    "notice": "Управляет ценами на рынке в зависимости от событий",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 387,
+        "contract": "contracts/MarketManager.sol:MarketManager",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 8286,
+        "contract": "contracts/MarketManager.sol:MarketManager",
+        "label": "prices",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_uint16,t_uint256)"
+      },
+      {
+        "astId": 8292,
+        "contract": "contracts/MarketManager.sol:MarketManager",
+        "label": "roundPriceChanges",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_uint256,t_array(t_struct(PriceChange)10090_storage)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(PriceChange)10090_storage)dyn_storage": {
+        "base": "t_struct(PriceChange)10090_storage",
+        "encoding": "dynamic_array",
+        "label": "struct IMarketManager.PriceChange[]",
+        "numberOfBytes": "32"
+      },
+      "t_int16": {
+        "encoding": "inplace",
+        "label": "int16",
+        "numberOfBytes": "2"
+      },
+      "t_mapping(t_uint16,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_uint16",
+        "label": "mapping(uint16 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_mapping(t_uint256,t_array(t_struct(PriceChange)10090_storage)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct IMarketManager.PriceChange[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_struct(PriceChange)10090_storage)dyn_storage"
+      },
+      "t_struct(PriceChange)10090_storage": {
+        "encoding": "inplace",
+        "label": "struct IMarketManager.PriceChange",
+        "members": [
+          {
+            "astId": 10085,
+            "contract": "contracts/MarketManager.sol:MarketManager",
+            "label": "productId",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint16"
+          },
+          {
+            "astId": 10087,
+            "contract": "contracts/MarketManager.sol:MarketManager",
+            "label": "newPrice",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 10089,
+            "contract": "contracts/MarketManager.sol:MarketManager",
+            "label": "changePercent",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_int16"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint16": {
+        "encoding": "inplace",
+        "label": "uint16",
+        "numberOfBytes": "2"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

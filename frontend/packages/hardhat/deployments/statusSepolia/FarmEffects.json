@@ -1,0 +1,151 @@
+{
+  "address": "0xe5e1235558512df2594FbC2Ea89b7bF887234341",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "gardenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int16",
+          "name": "growthDelta",
+          "type": "int16"
+        },
+        {
+          "indexed": false,
+          "internalType": "int16",
+          "name": "healthDelta",
+          "type": "int16"
+        }
+      ],
+      "name": "EffectApplied",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "gardenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "enum IFarmEvents.EventType",
+              "name": "eventType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "severity",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "seed",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct IFarmEvents.EventData",
+          "name": "eventData",
+          "type": "tuple"
+        }
+      ],
+      "name": "applyEffect",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "int16",
+              "name": "growthDelta",
+              "type": "int16"
+            },
+            {
+              "internalType": "int16",
+              "name": "healthDelta",
+              "type": "int16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "yieldModifier",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct IFarmEffects.EffectResult",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xe691cdae017232e37df55ed155df24c8c8a6856d7df9fef69c16ea10d3c119d1",
+  "receipt": {
+    "to": null,
+    "from": "0x38048c9AcEF95Cb2866e58Da69dd96B71870c55C",
+    "contractAddress": "0xe5e1235558512df2594FbC2Ea89b7bF887234341",
+    "transactionIndex": 0,
+    "gasUsed": "366515",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x419be51483a709ef40e9c695c30cd984086324812492af1e668324d6195fae03",
+    "transactionHash": "0xe691cdae017232e37df55ed155df24c8c8a6856d7df9fef69c16ea10d3c119d1",
+    "logs": [],
+    "blockNumber": 11777353,
+    "cumulativeGasUsed": "366515",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "2c880685ebef2f561b9dccee97fd02f5",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"gardenId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"int16\",\"name\":\"growthDelta\",\"type\":\"int16\"},{\"indexed\":false,\"internalType\":\"int16\",\"name\":\"healthDelta\",\"type\":\"int16\"}],\"name\":\"EffectApplied\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"gardenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"enum IFarmEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"seed\",\"type\":\"bytes32\"}],\"internalType\":\"struct IFarmEvents.EventData\",\"name\":\"eventData\",\"type\":\"tuple\"}],\"name\":\"applyEffect\",\"outputs\":[{\"components\":[{\"internalType\":\"int16\",\"name\":\"growthDelta\",\"type\":\"int16\"},{\"internalType\":\"int16\",\"name\":\"healthDelta\",\"type\":\"int16\"},{\"internalType\":\"uint16\",\"name\":\"yieldModifier\",\"type\":\"uint16\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"}],\"internalType\":\"struct IFarmEffects.EffectResult\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"FarmEffects\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"applyEffect(uint256,uint256,(uint8,uint16,uint32,bytes32))\":{\"notice\":\"\\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u0442 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043a \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0443\"}},\"notice\":\"\\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u0442 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u044b \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0439 \\u043a \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0443\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/FarmEffects.sol\":\"FarmEffects\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/FarmEffects.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./interfaces/IFarmEvents.sol\\\";\\nimport \\\"./interfaces/IFarmEffects.sol\\\";\\n\\n/**\\n * @title FarmEffects\\n * @notice \\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u0442 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u044b \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0439 \\u043a \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0443\\n */\\ncontract FarmEffects is IFarmEffects {\\n    /**\\n     * @notice \\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u0442 \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043a \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0443\\n     */\\n    function applyEffect(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        IFarmEvents.EventData memory eventData\\n    ) external override returns (EffectResult memory) {\\n        EffectResult memory result = EffectResult({\\n            growthDelta: 0,\\n            healthDelta: 0,\\n            yieldModifier: 1000, // 100% by default\\n            timestamp: uint32(block.timestamp)\\n        });\\n\\n        // \\u041f\\u0440\\u0438\\u043c\\u0435\\u043d\\u044f\\u0435\\u043c \\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u044b \\u0432 \\u0437\\u0430\\u0432\\u0438\\u0441\\u0438\\u043c\\u043e\\u0441\\u0442\\u0438 \\u043e\\u0442 \\u0442\\u0438\\u043f\\u0430 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f\\n        if (eventData.eventType == IFarmEvents.EventType.NONE) {\\n            // \\u041d\\u0435\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f - \\u043d\\u0435\\u0431\\u043e\\u043b\\u044c\\u0448\\u043e\\u0439 \\u0435\\u0441\\u0442\\u0435\\u0441\\u0442\\u0432\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0440\\u043e\\u0441\\u0442\\n            result.growthDelta = 10;\\n            result.yieldModifier = 1000;\\n        } \\n        else if (eventData.eventType == IFarmEvents.EventType.LOCUSTS) {\\n            // \\u0421\\u0430\\u0440\\u0430\\u043d\\u0447\\u0430 - \\u0443\\u0440\\u043e\\u043d \\u0437\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044e \\u0438 \\u0440\\u043e\\u0441\\u0442\\u0443\\n            result.healthDelta = -int16(eventData.severity / 2); // \\u0414\\u043e -500\\n            result.growthDelta = -int16(eventData.severity / 4); // \\u0414\\u043e -250\\n            result.yieldModifier = 700; // -30% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.WIND) {\\n            // \\u0412\\u0435\\u0442\\u0435\\u0440 - \\u043c\\u043e\\u0436\\u0435\\u0442 \\u0431\\u044b\\u0442\\u044c \\u043a\\u0430\\u043a \\u043f\\u043e\\u043b\\u0435\\u0437\\u0435\\u043d, \\u0442\\u0430\\u043a \\u0438 \\u0432\\u0440\\u0435\\u0434\\u0435\\u043d\\n            if (eventData.severity < 500) {\\n                // \\u041b\\u0435\\u0433\\u043a\\u0438\\u0439 \\u0432\\u0435\\u0442\\u0435\\u0440 - \\u043f\\u043e\\u043b\\u0435\\u0437\\u0435\\u043d\\n                result.growthDelta = int16(eventData.severity / 10);\\n                result.yieldModifier = 1100; // +10% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n            } else {\\n                // \\u0421\\u0438\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0432\\u0435\\u0442\\u0435\\u0440 - \\u0432\\u0440\\u0435\\u0434\\u0435\\u043d\\n                result.healthDelta = -int16((eventData.severity - 500) / 5);\\n                result.yieldModifier = 900; // -10% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n            }\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.RAIN) {\\n            // \\u0414\\u043e\\u0436\\u0434\\u044c - \\u0443\\u0441\\u043a\\u043e\\u0440\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n            result.growthDelta = int16(eventData.severity / 3); // \\u0414\\u043e +333\\n            result.yieldModifier = 1200; // +20% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.DROUGHT) {\\n            // \\u0417\\u0430\\u0441\\u0443\\u0445\\u0430 - \\u0437\\u0430\\u043c\\u0435\\u0434\\u043b\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442 \\u0438 \\u0432\\u0440\\u0435\\u0434\\u0438\\u0442 \\u0437\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044e\\n            result.growthDelta = -int16(eventData.severity / 5);\\n            result.healthDelta = -int16(eventData.severity / 3);\\n            result.yieldModifier = 800; // -20% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.FROST) {\\n            // \\u041c\\u043e\\u0440\\u043e\\u0437 - \\u0441\\u0435\\u0440\\u044c\\u0435\\u0437\\u043d\\u044b\\u0439 \\u0443\\u0440\\u043e\\u043d\\n            result.healthDelta = -int16(eventData.severity / 2);\\n            result.growthDelta = -int16(eventData.severity / 3);\\n            result.yieldModifier = 600; // -40% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.SUNSTORM) {\\n            // \\u0421\\u043e\\u043b\\u043d\\u0435\\u0447\\u043d\\u0430\\u044f \\u0431\\u0443\\u0440\\u044f - \\u0431\\u043e\\u043d\\u0443\\u0441 \\u043a \\u0440\\u043e\\u0441\\u0442\\u0443\\n            result.growthDelta = int16(eventData.severity / 2);\\n            result.yieldModifier = 1300; // +30% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n        else if (eventData.eventType == IFarmEvents.EventType.PESTS) {\\n            // \\u0412\\u0440\\u0435\\u0434\\u0438\\u0442\\u0435\\u043b\\u0438 - \\u0443\\u0440\\u043e\\u043d \\u0437\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044e\\n            result.healthDelta = -int16(eventData.severity / 3);\\n            result.yieldModifier = 850; // -15% \\u0443\\u0440\\u043e\\u0436\\u0430\\u0439\\n        }\\n\\n        emit EffectApplied(\\n            gardenId,\\n            roundId,\\n            result.growthDelta,\\n            result.healthDelta\\n        );\\n\\n        return result;\\n    }\\n}\\n\",\"keccak256\":\"0x41b2771fc08738e16d76e384b10a7de619409f38122342bb66cf9fca38eb2cde\",\"license\":\"MIT\"},\"contracts/interfaces/IFarmEffects.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./IFarmEvents.sol\\\";\\n\\ninterface IFarmEffects {\\n    struct EffectResult {\\n        int16 growthDelta;     // \\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0440\\u043e\\u0441\\u0442\\u0430 (-1000 to +1000)\\n        int16 healthDelta;     // \\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0437\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044f (-1000 to +1000)\\n        uint16 yieldModifier;  // \\u041c\\u043e\\u0434\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u043e\\u0440 \\u0443\\u0440\\u043e\\u0436\\u0430\\u044f (1000 = 100%)\\n        uint32 timestamp;\\n    }\\n\\n    event EffectApplied(\\n        uint256 indexed gardenId,\\n        uint256 indexed roundId,\\n        int16 growthDelta,\\n        int16 healthDelta\\n    );\\n\\n    function applyEffect(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        IFarmEvents.EventData memory eventData\\n    ) external returns (EffectResult memory);\\n}\\n\",\"keccak256\":\"0x2f4ef6742a47f5f0fd3c3b8dac3e09459a37e962fe0c9bd28df021c4e0291e43\",\"license\":\"MIT\"},\"contracts/interfaces/IFarmEvents.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ninterface IFarmEvents {\\n    enum EventType {\\n        NONE,\\n        LOCUSTS,      // \\u0421\\u0430\\u0440\\u0430\\u043d\\u0447\\u0430 - \\u0443\\u0440\\u043e\\u043d \\u0440\\u0430\\u0441\\u0442\\u0435\\u043d\\u0438\\u044f\\u043c\\n        WIND,         // \\u0412\\u0435\\u0442\\u0435\\u0440 - \\u043c\\u043e\\u0436\\u0435\\u0442 \\u043f\\u043e\\u0432\\u0440\\u0435\\u0434\\u0438\\u0442\\u044c \\u0438\\u043b\\u0438 \\u043f\\u043e\\u043c\\u043e\\u0447\\u044c\\n        RAIN,         // \\u0414\\u043e\\u0436\\u0434\\u044c - \\u0443\\u0441\\u043a\\u043e\\u0440\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        DROUGHT,      // \\u0417\\u0430\\u0441\\u0443\\u0445\\u0430 - \\u0437\\u0430\\u043c\\u0435\\u0434\\u043b\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        FROST,        // \\u041c\\u043e\\u0440\\u043e\\u0437 - \\u0443\\u0440\\u043e\\u043d\\n        SUNSTORM,     // \\u0421\\u043e\\u043b\\u043d\\u0435\\u0447\\u043d\\u0430\\u044f \\u0431\\u0443\\u0440\\u044f - \\u0431\\u043e\\u043d\\u0443\\u0441 \\u043a \\u0440\\u043e\\u0441\\u0442\\u0443\\n        PESTS         // \\u0412\\u0440\\u0435\\u0434\\u0438\\u0442\\u0435\\u043b\\u0438 - \\u0443\\u0440\\u043e\\u043d\\n    }\\n\\n    struct EventData {\\n        EventType eventType;\\n        uint16 severity;      // 0-1000 (0.0% - 100.0%)\\n        uint32 timestamp;\\n        bytes32 seed;\\n    }\\n\\n    event EventGenerated(\\n        uint256 indexed gardenId,\\n        uint256 indexed roundId,\\n        EventType eventType,\\n        uint16 severity\\n    );\\n\\n    function generateEvent(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        bytes32 seed\\n    ) external returns (EventData memory);\\n}\\n\",\"keccak256\":\"0x9d48e25693cc65124240cb4eb4931c8fdd0ee92eed154668c8dc50aed5aa12b2\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506105aa806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063fbdd255414610030575b600080fd5b61004361003e366004610428565b610094565b60405161008b91906000608082019050825160010b8252602083015160010b602083015261ffff604084015116604083015263ffffffff606084015116606083015292915050565b60405180910390f35b604080516080810182526000808252602082018190529181018290526060810191909152604080516080810182526000808252602082018190526103e89282019290925263ffffffff4216606082015290835160078111156100f8576100f86104d6565b0361010e57600a81526103e86040820152610394565b600183516007811115610123576101236104d6565b0361017857600283602001516101399190610502565b61014290610531565b60010b60208083019190915283015161015d90600490610502565b61016690610531565b60010b81526102bc6040820152610394565b60028351600781111561018d5761018d6104d6565b03610203576101f4836020015161ffff1610156101c757600a83602001516101b59190610502565b60010b815261044c6040820152610394565b60056101f484602001516101db9190610552565b6101e59190610502565b6101ee90610531565b60010b60208201526103846040820152610394565b600383516007811115610218576102186104d6565b03610240576003836020015161022e9190610502565b60010b81526104b06040820152610394565b600483516007811115610255576102556104d6565b036102a8576005836020015161026b9190610502565b61027490610531565b60010b8152602083015161028a90600390610502565b61029390610531565b60010b60208201526103206040820152610394565b6005835160078111156102bd576102bd6104d6565b0361031257600283602001516102d39190610502565b6102dc90610531565b60010b6020808301919091528301516102f790600390610502565b61030090610531565b60010b81526102586040820152610394565b600683516007811115610327576103276104d6565b0361034f576002836020015161033d9190610502565b60010b81526105146040820152610394565b600783516007811115610364576103646104d6565b03610394576003836020015161037a9190610502565b61038390610531565b60010b602082015261035260408201525b83857f24a81e8232ecb6e5b1dc278ca8ca3d5d95fd4e0627b849feed9fe4e8be386218836000015184602001516040516103de929190600192830b8152910b602082015260400190565b60405180910390a3949350505050565b8035600881106103fd57600080fd5b919050565b803561ffff811681146103fd57600080fd5b803563ffffffff811681146103fd57600080fd5b600080600083850360c081121561043e57600080fd5b84359350602085013592506080603f198201121561045b57600080fd5b506040516080810181811067ffffffffffffffff8211171561048d57634e487b7160e01b600052604160045260246000fd5b806040525061049e604086016103ee565b81526104ac60608601610402565b60208201526104bd60808601610414565b604082015260a094909401356060850152509093909250565b634e487b7160e01b600052602160045260246000fd5b634e487b7160e01b600052601160045260246000fd5b600061ffff8084168061052557634e487b7160e01b600052601260045260246000fd5b92169190910492915050565b60008160010b617fff198103610549576105496104ec565b60000392915050565b61ffff82811682821603908082111561056d5761056d6104ec565b509291505056fea26469706673582212200005304223ad9e1adfa95ee5b8c96b26a65386d2780ecca184e6410022ea559c64736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c8063fbdd255414610030575b600080fd5b61004361003e366004610428565b610094565b60405161008b91906000608082019050825160010b8252602083015160010b602083015261ffff604084015116604083015263ffffffff606084015116606083015292915050565b60405180910390f35b604080516080810182526000808252602082018190529181018290526060810191909152604080516080810182526000808252602082018190526103e89282019290925263ffffffff4216606082015290835160078111156100f8576100f86104d6565b0361010e57600a81526103e86040820152610394565b600183516007811115610123576101236104d6565b0361017857600283602001516101399190610502565b61014290610531565b60010b60208083019190915283015161015d90600490610502565b61016690610531565b60010b81526102bc6040820152610394565b60028351600781111561018d5761018d6104d6565b03610203576101f4836020015161ffff1610156101c757600a83602001516101b59190610502565b60010b815261044c6040820152610394565b60056101f484602001516101db9190610552565b6101e59190610502565b6101ee90610531565b60010b60208201526103846040820152610394565b600383516007811115610218576102186104d6565b03610240576003836020015161022e9190610502565b60010b81526104b06040820152610394565b600483516007811115610255576102556104d6565b036102a8576005836020015161026b9190610502565b61027490610531565b60010b8152602083015161028a90600390610502565b61029390610531565b60010b60208201526103206040820152610394565b6005835160078111156102bd576102bd6104d6565b0361031257600283602001516102d39190610502565b6102dc90610531565b60010b6020808301919091528301516102f790600390610502565b61030090610531565b60010b81526102586040820152610394565b600683516007811115610327576103276104d6565b0361034f576002836020015161033d9190610502565b60010b81526105146040820152610394565b600783516007811115610364576103646104d6565b03610394576003836020015161037a9190610502565b61038390610531565b60010b602082015261035260408201525b83857f24a81e8232ecb6e5b1dc278ca8ca3d5d95fd4e0627b849feed9fe4e8be386218836000015184602001516040516103de929190600192830b8152910b602082015260400190565b60405180910390a3949350505050565b8035600881106103fd57600080fd5b919050565b803561ffff811681146103fd57600080fd5b803563ffffffff811681146103fd57600080fd5b600080600083850360c081121561043e57600080fd5b84359350602085013592506080603f198201121561045b57600080fd5b506040516080810181811067ffffffffffffffff8211171561048d57634e487b7160e01b600052604160045260246000fd5b806040525061049e604086016103ee565b81526104ac60608601610402565b60208201526104bd60808601610414565b604082015260a094909401356060850152509093909250565b634e487b7160e01b600052602160045260246000fd5b634e487b7160e01b600052601160045260246000fd5b600061ffff8084168061052557634e487b7160e01b600052601260045260246000fd5b92169190910492915050565b60008160010b617fff198103610549576105496104ec565b60000392915050565b61ffff82811682821603908082111561056d5761056d6104ec565b509291505056fea26469706673582212200005304223ad9e1adfa95ee5b8c96b26a65386d2780ecca184e6410022ea559c64736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "title": "FarmEffects",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "applyEffect(uint256,uint256,(uint8,uint16,uint32,bytes32))": {
+        "notice": "Применяет эффект события к огороду"
+      }
+    },
+    "notice": "Применяет эффекты событий к огороду",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

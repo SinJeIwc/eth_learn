@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useAccount } from "wagmi";
+import { useFarmContracts } from "~~/hooks/useFarmContracts";
 import { UI_PATHS } from "~~/lib/constants";
+import { notification } from "~~/utils/scaffold-eth";
 
 type LocationAction = "buy" | "sell";
 
@@ -85,6 +88,11 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
   const [selectedId, setSelectedId] = useState<MapLocation["id"] | null>(null);
   const [hoveredId, setHoveredId] = useState<MapLocation["id"] | null>(null);
   const [tradeAmount, setTradeAmount] = useState(1);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Блокчейн хуки
+  const { isConnected } = useAccount();
+  const { buySeeds, approveFarmCoin } = useFarmContracts();
 
   const selectedLocation = useMemo(() => LOCATIONS.find(location => location.id === selectedId), [selectedId]);
 
@@ -138,9 +146,45 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
     return getInventoryCount(selectedLocation.cropType);
   };
 
-  const handleTrade = () => {
+  const handleTrade = async () => {
     if (!selectedLocation || tradeAmount <= 0) return;
 
+    // Покупка семян через блокчейн
+    if (selectedLocation.action === "buy" && isConnected) {
+      const totalCost = getBuyPrice(selectedLocation, tradeAmount);
+      if (!coins || coins < totalCost) {
+        notification.error("Недостаточно монет!");
+        return;
+      }
+
+      setIsProcessing(true);
+      try {
+        notification.info("Одобрение траты FarmCoin...");
+
+        // Шаг 1: Одобрить трату FarmCoin
+        await approveFarmCoin(BigInt(Math.floor(totalCost * 1e18)));
+
+        notification.info(`Покупка ${tradeAmount} семян ${selectedLocation.cropName}...`);
+
+        // Шаг 2: Купить семена
+        await buySeeds(selectedLocation.cropType, tradeAmount);
+
+        notification.success(`✅ Куплено ${tradeAmount} семян ${selectedLocation.cropName}!`);
+        setTradeAmount(1);
+      } catch (error: any) {
+        console.error("Ошибка покупки:", error);
+        if (error.message?.includes("user rejected")) {
+          notification.error("Транзакция отменена");
+        } else {
+          notification.error("Ошибка при покупке семян");
+        }
+      } finally {
+        setIsProcessing(false);
+      }
+      return;
+    }
+
+    // Локальная логика (если кошелек не подключен или продажа)
     if (selectedLocation.action === "buy") {
       const totalCost = getBuyPrice(selectedLocation, tradeAmount);
       if (coins && coins >= totalCost) {
@@ -175,7 +219,7 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center "
+            className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 border-2 border-amber-500/50 hover:bg-black/90 hover:border-amber-400"
             aria-label="Закрыть карту"
           >
             <Image src={UI_PATHS.CLOSE} alt="Закрыть" width={24} height={24} />
@@ -194,39 +238,23 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
             <div className="relative aspect-square w-full rounded-xl overflow-hidden border-2 border-amber-700/50">
               <Image src="/UI/map.png" alt="Карта региона" fill className="object-cover" priority sizes="100vw" />
 
-              {selectedLocation && (
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-radial from-amber-500/20 to-transparent animate-pulse-fast" />
-                </div>
-              )}
-
               {LOCATIONS.map(location => {
                 const isSelected = selectedLocation?.id === location.id;
                 const isHovered = hoveredId === location.id;
-                const scale = isSelected ? "scale-125" : isHovered ? "scale-110" : "scale-100";
+                const scale = isHovered ? "scale-110" : "scale-100";
 
                 return (
                   <button
                     type="button"
                     key={location.id}
-                    className={`
-                      group absolute -translate-x-1/2 -translate-y-1/2 transform
-                      transition-all duration-300 ease-out
-                      ${scale}
-                      ${isSelected ? "z-20" : "z-10"}
-                    `}
+                    className={`group absolute -translate-x-1/2 -translate-y-1/2 transform transition-transform duration-300 ease-out ${scale} ${isSelected ? "z-20" : "z-10"}`}
                     style={{ top: location.position.top, left: location.position.left }}
                     onClick={() => handleLocationClick(location)}
                     onMouseEnter={() => setHoveredId(location.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     aria-label={`${location.name} - ${location.action === "buy" ? "Купить" : "Продать"} ${location.cropName}`}
                   >
-                    <div
-                      className={`
-                      relative transition-all duration-300
-                
-                    `}
-                    >
+                    <div className="relative">
                       <Image
                         src={location.image}
                         alt={location.name}
@@ -236,18 +264,10 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
                       />
 
                       <div
-                        className={`
-                        absolute -top-2 -right-2 
-                        px-3 py-1.5 rounded-full text-sm font-bold
-                        ${location.action === "buy" ? "bg-blue-500 text-white" : "bg-green-500 text-white"}
-                      `}
+                        className={`absolute -top-2 -right-2 px-3 py-1.5 rounded-full text-sm font-bold ${location.action === "buy" ? "bg-blue-500 text-white" : "bg-green-500 text-white"}`}
                       >
                         {location.action === "buy" ? "КУПИТЬ" : "ПРОДАТЬ"}
                       </div>
-
-                      {isSelected && (
-                        <div className="absolute inset-0 rounded-full border-4 border-yellow-400 animate-ping opacity-50" />
-                      )}
                     </div>
 
                     <div className="mt-2 text-center">
@@ -261,7 +281,6 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
             </div>
           </div>
 
-          {/* Панель торговли */}
           <div className="border-t-4 border-amber-700/50 bg-gradient-to-br from-stone-900/95 to-amber-950/95 p-3 md:p-4 lg:p-6">
             {selectedLocation ? (
               <div className="space-y-3 md:space-y-4">
@@ -330,14 +349,24 @@ export default function MapModal({ isOpen, onClose, coins, inventory, onBuySeeds
                 <button
                   type="button"
                   onClick={handleTrade}
-                  disabled={!canTrade()}
-                  className={`w-full py-3 sm:py-4 font-pixelify-sans text-sm sm:text-base md:text-lg rounded-lg transition-all duration-300 shadow-lg border-2 ${
-                    canTrade()
-                      ? "bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white hover:shadow-amber-500/50 border-amber-500/50 active:scale-95"
+                  disabled={!canTrade() || isProcessing}
+                  className={`w-full py-3 sm:py-4 font-pixelify-sans text-sm sm:text-base md:text-lg rounded-lg transition-colors duration-300 shadow-lg border-2 ${
+                    canTrade() && !isProcessing
+                      ? "bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white hover:shadow-amber-500/50 border-amber-500/50"
                       : "bg-gray-700 text-gray-400 border-gray-600 cursor-not-allowed"
                   }`}
                 >
-                  {selectedLocation.action === "buy" ? "🛒 Купить семена" : "💰 Продать урожай"}
+                  {isProcessing ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="animate-spin">⏳</span>
+                      Обработка транзакции...
+                    </span>
+                  ) : (
+                    <>
+                      {selectedLocation.action === "buy" ? "🛒 Купить семена" : "💰 Продать урожай"}
+                      {isConnected && selectedLocation.action === "buy" && " (Blockchain)"}
+                    </>
+                  )}
                 </button>
               </div>
             ) : (

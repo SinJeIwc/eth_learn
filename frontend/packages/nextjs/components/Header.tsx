@@ -4,10 +4,12 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
 import { hardhat } from "viem/chains";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
   label: string;
@@ -22,7 +24,7 @@ export const menuLinks: HeaderMenuLink[] = [
   },
   {
     label: "🌾 Farm Game",
-    href: "/farm",
+    href: "/game",
   },
   {
     label: "Debug Contracts",
@@ -63,11 +65,26 @@ export const HeaderMenuLinks = () => {
 export const Header = () => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
+  const { address: connectedAddress } = useAccount();
+  const { writeContractAsync } = useScaffoldWriteContract("FarmCoin");
 
   const burgerMenuRef = useRef<HTMLDetailsElement>(null);
   useOutsideClick(burgerMenuRef, () => {
     burgerMenuRef?.current?.removeAttribute("open");
   });
+
+  const handleClaimTokens = async () => {
+    if (!connectedAddress) return;
+    
+    try {
+      await writeContractAsync({
+        functionName: "claimTokens",
+      });
+      console.log("✅ Tokens claimed successfully!");
+    } catch (error) {
+      console.error("❌ Error claiming tokens:", error);
+    }
+  };
 
   return (
     <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
@@ -98,7 +115,15 @@ export const Header = () => {
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end grow mr-4">
+      <div className="navbar-end grow mr-4 flex gap-2">
+        {connectedAddress && (
+          <button
+            className="btn btn-sm btn-primary"
+            onClick={handleClaimTokens}
+          >
+            💰 Получить токены
+          </button>
+        )}
         <RainbowKitCustomConnectButton />
         {isLocalNetwork && <FaucetButton />}
       </div>

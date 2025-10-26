@@ -2,176 +2,95 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./GameEvents.sol";
 import "./PlantNFT.sol";
-import "./FarmLand.sol";
 
-/**
- * @title GameEffects
- * @notice Applies event effects to plants and land
- * @dev Second contract in the chain reaction (called after GameEvents)
- */
+interface IPriceOracle {
+    function setWheatMultiplier(uint256 multiplier) external;
+}
+
 contract GameEffects is Ownable {
     PlantNFT public plantNFT;
-    FarmLand public farmLand;
-    GameEvents public gameEvents;
+    IPriceOracle public priceOracle;
     
-    // Next contract in chain (PriceOracle)
-    address public priceOracle;
+    mapping(address => uint256) public lastEventProcessed;
+    uint256 public constant TIME_REDUCTION = 10 minutes; // Уменьшение времени роста при дожде
     
-    struct EffectResult {
-        int16 healthChange;     // -1000 to +1000
-        int16 fertilityChange;  // -1000 to +1000
-        uint16 affectedPlants;
-        uint16 affectedLand;
-    }
-    
-    event EffectsApplied(
-        uint256 indexed eventId,
-        int16 avgHealthChange,
-        int16 avgFertilityChange,
-        uint16 affectedPlants,
-        uint16 affectedLand
-    );
+    event RainApplied(uint256 plantsAffected, uint256 timeReduced);
+    event DroughtApplied(uint256 wheatPriceMultiplier);
+    event WinterApplied(address indexed farmer, uint256 plantsDied, uint256 plantsTotal);
     
     constructor(
         address initialOwner,
         address _plantNFT,
-        address _farmLand,
-        address _gameEvents
+        address _priceOracle
     ) Ownable(initialOwner) {
         plantNFT = PlantNFT(_plantNFT);
-        farmLand = FarmLand(_farmLand);
-        gameEvents = GameEvents(_gameEvents);
+        priceOracle = IPriceOracle(_priceOracle);
     }
     
-    /**
-     * @notice Set price oracle contract
-     */
-    function setPriceOracle(address _priceOracle) external onlyOwner {
-        priceOracle = _priceOracle;
+    function applyEventEffects(uint8 eventType, uint16 severity) external {
+        if (eventType == 1) {
+            _applyRain();
+        } else if (eventType == 2) {
+            _applyDrought();
+        } else if (eventType == 3) {
+            _applyWinter(severity);
+        }
     }
     
-    /**
-     * @notice Apply effects to a player's farm based on event
-     * @dev Called automatically after event is triggered
-     */
-    function applyEffects(
-        uint256 eventId,
-        address farmer
-    ) external returns (EffectResult memory) {
-        GameEvents.GameEvent memory gameEvent = gameEvents.getEvent(eventId);
+    function _applyRain() internal {
+        // Дождь автоматически уменьшает время роста всех активных растений
+        uint256 totalSupply = plantNFT.totalSupply();
+        uint256 affectedCount = 0;
         
-        // Get farmer's land plots
-        uint256[] memory landTokenIds = farmLand.getLandsByOwner(farmer);
-        
-        EffectResult memory result = EffectResult({
-            healthChange: 0,
-            fertilityChange: 0,
-            affectedPlants: 0,
-            affectedLand: 0
-        });
-        
-        // Apply effects based on event type
-        (int16 healthMod, int16 fertilityMod) = _calculateModifiers(
-            gameEvent.eventType,
-            gameEvent.severity
-        );
-        
-        // Apply to all farmer's land plots
-        for (uint256 i = 0; i < landTokenIds.length; i++) {
-            uint256 landId = landTokenIds[i];
-            FarmLand.LandPlot memory plot = farmLand.getLandPlot(landId);
+        for (uint256 i = 0; i < totalSupply; i++) {
+            uint256 tokenId = plantNFT.tokenByIndex(i);
+            PlantNFT.Plant memory plant = plantNFT.getPlant(tokenId);
             
-            // Update land fertility
-            uint16 newFertility = _applyChange(plot.fertility, fertilityMod);
-            farmLand.updateFertility(landId, newFertility);
-            result.affectedLand++;
-            result.fertilityChange += fertilityMod;
+            // Применяем только к растущим растениям (не собранным)
+            if (!plant.isHarvested) {
+                plantNFT.reduceGrowthTime(tokenId, TIME_REDUCTION);
+                affectedCount++;
+            }
         }
         
-        // TODO: Apply to plants on these land plots
-        // For now, simplified version without tracking plant-land mapping
-        
-        emit EffectsApplied(
-            eventId,
-            healthMod,
-            fertilityMod,
-            result.affectedPlants,
-            result.affectedLand
-        );
-        
-        return result;
+        emit RainApplied(affectedCount, TIME_REDUCTION);
     }
     
-    /**
-     * @notice Apply effect to a specific plant
-     */
-    function applyEffectToPlant(uint256 plantTokenId, uint256 eventId) external {
-        require(plantNFT.ownerOf(plantTokenId) == msg.sender, "Not plant owner");
-        
-        GameEvents.GameEvent memory gameEvent = gameEvents.getEvent(eventId);
+    function _applyDrought() internal {
+        priceOracle.setWheatMultiplier(2);
+        emit DroughtApplied(2);
+    }
+    
+    function _applyWinter(uint16 severity) internal {
+        uint256 killPercent = 10 + (severity * 40 / 1000);
+        emit WinterApplied(msg.sender, 0, killPercent);
+    }
+    
+    // Эта функция больше не нужна - дождь применяется автоматически
+    // Оставляем для совместимости, но она ничего не делает
+    function applyRainToPlant(uint256 plantTokenId) external view {
         PlantNFT.Plant memory plant = plantNFT.getPlant(plantTokenId);
+        require(plant.owner == msg.sender, "Not plant owner");
+        // Дождь уже применен автоматически при вызове события
+    }
+    
+    function applyWinterToFarmer(address farmer) external {
+        uint256[] memory plantIds = plantNFT.getPlantsByOwner(farmer);
         
-        (int16 healthMod, ) = _calculateModifiers(
-            gameEvent.eventType,
-            gameEvent.severity
+        if (plantIds.length == 0) return;
+        
+        uint256 random = uint256(
+            keccak256(abi.encodePacked(block.timestamp, farmer, block.prevrandao))
         );
         
-        // Apply health change
-        uint16 newHealth = _applyChange(plant.health, healthMod);
-        plantNFT.updateHealth(plantTokenId, newHealth);
-    }
-    
-    /**
-     * @notice Calculate modifiers based on event type and severity
-     */
-    function _calculateModifiers(
-        GameEvents.EventType eventType,
-        uint16 severity
-    ) internal pure returns (int16 healthMod, int16 fertilityMod) {
-        if (eventType == GameEvents.EventType.NONE) {
-            return (0, 0);
-        } else if (eventType == GameEvents.EventType.RAIN) {
-            // Positive effect
-            healthMod = int16(uint16(severity / 5));  // +0 to +200
-            fertilityMod = int16(uint16(severity / 10)); // +0 to +100
-        } else if (eventType == GameEvents.EventType.SUNSTORM) {
-            // Very positive
-            healthMod = int16(uint16(severity / 3));  // +0 to +333
-            fertilityMod = int16(uint16(severity / 5)); // +0 to +200
-        } else if (eventType == GameEvents.EventType.LOCUSTS) {
-            // Heavy damage
-            healthMod = -int16(uint16(severity / 2));  // -0 to -500
-            fertilityMod = -int16(uint16(severity / 4)); // -0 to -250
-        } else if (eventType == GameEvents.EventType.FROST) {
-            // Very heavy damage
-            healthMod = -int16(uint16((severity * 7) / 10));  // -0 to -700
-            fertilityMod = -int16(uint16(severity / 3)); // -0 to -333
-        } else if (eventType == GameEvents.EventType.DROUGHT) {
-            // Moderate damage
-            healthMod = -int16(uint16(severity / 3));  // -0 to -333
-            fertilityMod = -int16(uint16(severity / 5)); // -0 to -200
-        } else if (eventType == GameEvents.EventType.WIND) {
-            // Minor damage
-            healthMod = -int16(uint16(severity / 5));  // -0 to -200
-            fertilityMod = -int16(uint16(severity / 10)); // -0 to -100
-        } else if (eventType == GameEvents.EventType.PESTS) {
-            // Moderate damage
-            healthMod = -int16(uint16(severity / 4));  // -0 to -250
-            fertilityMod = -int16(uint16(severity / 6)); // -0 to -166
+        uint256 killPercent = 10 + (random % 41);
+        uint256 toKill = (plantIds.length * killPercent) / 100;
+        
+        for (uint256 i = 0; i < toKill && i < plantIds.length; i++) {
+            plantNFT.burn(plantIds[i]);
         }
         
-        return (healthMod, fertilityMod);
-    }
-    
-    /**
-     * @notice Apply change to a value (0-1000 range)
-     */
-    function _applyChange(uint16 current, int16 change) internal pure returns (uint16) {
-        int32 result = int32(int16(current)) + int32(change);
-        if (result < 0) return 0;
-        if (result > 1000) return 1000;
-        return uint16(uint32(result));
+        emit WinterApplied(farmer, toKill, plantIds.length);
     }
 }

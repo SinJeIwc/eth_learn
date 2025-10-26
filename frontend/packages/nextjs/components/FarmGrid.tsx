@@ -50,9 +50,8 @@ export default function FarmGrid({ plantedCrops, selectedSeed, onCellClick, onHa
           <AnimatedPlant
             plantType={seedIdToPlantType(crop.item.id)}
             stage={crop.isReady ? "ready" : "growing"}
-            progress={progress}
-            width={48}
-            height={48}
+            width={80}
+            height={80}
             onClick={handleHarvest}
           />
         )}

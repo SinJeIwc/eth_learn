@@ -1,0 +1,233 @@
+{
+  "address": "0xe53C4e69fE14fE4f85ffA4E946F6172d93eE2305",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "gardenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum IFarmEvents.EventType",
+          "name": "eventType",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "severity",
+          "type": "uint16"
+        }
+      ],
+      "name": "EventGenerated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_DROUGHT",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_FROST",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_LOCUSTS",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_NONE",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_PESTS",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_RAIN",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_SUNSTORM",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PROB_WIND",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "gardenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "seed",
+          "type": "bytes32"
+        }
+      ],
+      "name": "generateEvent",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum IFarmEvents.EventType",
+              "name": "eventType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "severity",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint32",
+              "name": "timestamp",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "seed",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct IFarmEvents.EventData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x1bab4a4374b93c4a3f5b91540920111d56d2a67940f636b677aa95fa551c2b3d",
+  "receipt": {
+    "to": null,
+    "from": "0x38048c9AcEF95Cb2866e58Da69dd96B71870c55C",
+    "contractAddress": "0xe53C4e69fE14fE4f85ffA4E946F6172d93eE2305",
+    "transactionIndex": 0,
+    "gasUsed": "338494",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x4ec13b8912162c25cfeec4323e47da75eece001a81e6d954b00221fb946d7ea1",
+    "transactionHash": "0x1bab4a4374b93c4a3f5b91540920111d56d2a67940f636b677aa95fa551c2b3d",
+    "logs": [],
+    "blockNumber": 11777350,
+    "cumulativeGasUsed": "338494",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "2c880685ebef2f561b9dccee97fd02f5",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"gardenId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"enum IFarmEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"}],\"name\":\"EventGenerated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"PROB_DROUGHT\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_FROST\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_LOCUSTS\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_NONE\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_PESTS\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_RAIN\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_SUNSTORM\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PROB_WIND\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"gardenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"roundId\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"seed\",\"type\":\"bytes32\"}],\"name\":\"generateEvent\",\"outputs\":[{\"components\":[{\"internalType\":\"enum IFarmEvents.EventType\",\"name\":\"eventType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"severity\",\"type\":\"uint16\"},{\"internalType\":\"uint32\",\"name\":\"timestamp\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"seed\",\"type\":\"bytes32\"}],\"internalType\":\"struct IFarmEvents.EventData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"FarmEvents\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"generateEvent(uint256,uint256,bytes32)\":{\"notice\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0435 \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u0434\\u0435\\u0442\\u0435\\u0440\\u043c\\u0438\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u043d\\u043e\\u0433\\u043e seed\"}},\"notice\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442 \\u0441\\u043b\\u0443\\u0447\\u0430\\u0439\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u0434\\u043b\\u044f \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0430 \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 seed\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/FarmEvents.sol\":\"FarmEvents\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/FarmEvents.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./interfaces/IFarmEvents.sol\\\";\\n\\n/**\\n * @title FarmEvents\\n * @notice \\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442 \\u0441\\u043b\\u0443\\u0447\\u0430\\u0439\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u0434\\u043b\\u044f \\u043e\\u0433\\u043e\\u0440\\u043e\\u0434\\u0430 \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 seed\\n */\\ncontract FarmEvents is IFarmEvents {\\n    // \\u0412\\u0435\\u0440\\u043e\\u044f\\u0442\\u043d\\u043e\\u0441\\u0442\\u0438 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0439 (\\u0441\\u0443\\u043c\\u043c\\u0430 \\u0434\\u043e\\u043b\\u0436\\u043d\\u0430 \\u0431\\u044b\\u0442\\u044c 10000 = 100%)\\n    uint16 public constant PROB_NONE = 3000;      // 30%\\n    uint16 public constant PROB_LOCUSTS = 1000;   // 10%\\n    uint16 public constant PROB_WIND = 1500;      // 15%\\n    uint16 public constant PROB_RAIN = 2000;      // 20%\\n    uint16 public constant PROB_DROUGHT = 1000;   // 10%\\n    uint16 public constant PROB_FROST = 800;      // 8%\\n    uint16 public constant PROB_SUNSTORM = 1200;  // 12%\\n    uint16 public constant PROB_PESTS = 500;      // 5%\\n\\n    /**\\n     * @notice \\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u0435 \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u0434\\u0435\\u0442\\u0435\\u0440\\u043c\\u0438\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u043d\\u043e\\u0433\\u043e seed\\n     */\\n    function generateEvent(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        bytes32 seed\\n    ) external override returns (EventData memory) {\\n        // \\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u043c \\u0441\\u043b\\u0443\\u0447\\u0430\\u0439\\u043d\\u043e\\u0435 \\u0447\\u0438\\u0441\\u043b\\u043e 0-9999\\n        uint256 random = uint256(seed) % 10000;\\n        \\n        EventType eventType = _selectEventType(random);\\n        uint16 severity = _calculateSeverity(seed, eventType);\\n\\n        EventData memory eventData = EventData({\\n            eventType: eventType,\\n            severity: severity,\\n            timestamp: uint32(block.timestamp),\\n            seed: seed\\n        });\\n\\n        emit EventGenerated(gardenId, roundId, eventType, severity);\\n        \\n        return eventData;\\n    }\\n\\n    /**\\n     * @dev \\u0412\\u044b\\u0431\\u0438\\u0440\\u0430\\u0435\\u0442 \\u0442\\u0438\\u043f \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043d\\u0430 \\u043e\\u0441\\u043d\\u043e\\u0432\\u0435 \\u0432\\u0435\\u0440\\u043e\\u044f\\u0442\\u043d\\u043e\\u0441\\u0442\\u0435\\u0439\\n     */\\n    function _selectEventType(uint256 random) internal pure returns (EventType) {\\n        if (random < PROB_NONE) {\\n            return EventType.NONE;\\n        }\\n        random -= PROB_NONE;\\n        \\n        if (random < PROB_LOCUSTS) {\\n            return EventType.LOCUSTS;\\n        }\\n        random -= PROB_LOCUSTS;\\n        \\n        if (random < PROB_WIND) {\\n            return EventType.WIND;\\n        }\\n        random -= PROB_WIND;\\n        \\n        if (random < PROB_RAIN) {\\n            return EventType.RAIN;\\n        }\\n        random -= PROB_RAIN;\\n        \\n        if (random < PROB_DROUGHT) {\\n            return EventType.DROUGHT;\\n        }\\n        random -= PROB_DROUGHT;\\n        \\n        if (random < PROB_FROST) {\\n            return EventType.FROST;\\n        }\\n        random -= PROB_FROST;\\n        \\n        if (random < PROB_SUNSTORM) {\\n            return EventType.SUNSTORM;\\n        }\\n        \\n        return EventType.PESTS;\\n    }\\n\\n    /**\\n     * @dev \\u0412\\u044b\\u0447\\u0438\\u0441\\u043b\\u044f\\u0435\\u0442 \\u0441\\u0435\\u0440\\u044c\\u0435\\u0437\\u043d\\u043e\\u0441\\u0442\\u044c \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f (0-1000)\\n     */\\n    function _calculateSeverity(\\n        bytes32 seed,\\n        EventType eventType\\n    ) internal pure returns (uint16) {\\n        if (eventType == EventType.NONE) {\\n            return 0;\\n        }\\n\\n        // \\u0418\\u0441\\u043f\\u043e\\u043b\\u044c\\u0437\\u0443\\u0435\\u043c \\u0434\\u0440\\u0443\\u0433\\u0443\\u044e \\u0447\\u0430\\u0441\\u0442\\u044c seed \\u0434\\u043b\\u044f severity\\n        uint256 severityRand = uint256(keccak256(abi.encodePacked(seed, \\\"severity\\\"))) % 1000;\\n        \\n        // \\u0420\\u0430\\u0437\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u0438\\u043c\\u0435\\u044e\\u0442 \\u0440\\u0430\\u0437\\u043d\\u044b\\u0435 \\u0434\\u0438\\u0430\\u043f\\u0430\\u0437\\u043e\\u043d\\u044b \\u0441\\u0435\\u0440\\u044c\\u0435\\u0437\\u043d\\u043e\\u0441\\u0442\\u0438\\n        if (eventType == EventType.LOCUSTS || eventType == EventType.FROST) {\\n            // \\u0421\\u0435\\u0440\\u044c\\u0435\\u0437\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f: 500-1000\\n            return uint16(500 + (severityRand % 500));\\n        } else if (eventType == EventType.PESTS) {\\n            // \\u0421\\u0440\\u0435\\u0434\\u043d\\u0438\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f: 300-700\\n            return uint16(300 + (severityRand % 400));\\n        } else {\\n            // \\u041b\\u0435\\u0433\\u043a\\u0438\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f: 200-600\\n            return uint16(200 + (severityRand % 400));\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x4a866d87e1b704aa9391d5ea3ee78c12ed171da15fe81db2c6c12e19d9135911\",\"license\":\"MIT\"},\"contracts/interfaces/IFarmEvents.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ninterface IFarmEvents {\\n    enum EventType {\\n        NONE,\\n        LOCUSTS,      // \\u0421\\u0430\\u0440\\u0430\\u043d\\u0447\\u0430 - \\u0443\\u0440\\u043e\\u043d \\u0440\\u0430\\u0441\\u0442\\u0435\\u043d\\u0438\\u044f\\u043c\\n        WIND,         // \\u0412\\u0435\\u0442\\u0435\\u0440 - \\u043c\\u043e\\u0436\\u0435\\u0442 \\u043f\\u043e\\u0432\\u0440\\u0435\\u0434\\u0438\\u0442\\u044c \\u0438\\u043b\\u0438 \\u043f\\u043e\\u043c\\u043e\\u0447\\u044c\\n        RAIN,         // \\u0414\\u043e\\u0436\\u0434\\u044c - \\u0443\\u0441\\u043a\\u043e\\u0440\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        DROUGHT,      // \\u0417\\u0430\\u0441\\u0443\\u0445\\u0430 - \\u0437\\u0430\\u043c\\u0435\\u0434\\u043b\\u044f\\u0435\\u0442 \\u0440\\u043e\\u0441\\u0442\\n        FROST,        // \\u041c\\u043e\\u0440\\u043e\\u0437 - \\u0443\\u0440\\u043e\\u043d\\n        SUNSTORM,     // \\u0421\\u043e\\u043b\\u043d\\u0435\\u0447\\u043d\\u0430\\u044f \\u0431\\u0443\\u0440\\u044f - \\u0431\\u043e\\u043d\\u0443\\u0441 \\u043a \\u0440\\u043e\\u0441\\u0442\\u0443\\n        PESTS         // \\u0412\\u0440\\u0435\\u0434\\u0438\\u0442\\u0435\\u043b\\u0438 - \\u0443\\u0440\\u043e\\u043d\\n    }\\n\\n    struct EventData {\\n        EventType eventType;\\n        uint16 severity;      // 0-1000 (0.0% - 100.0%)\\n        uint32 timestamp;\\n        bytes32 seed;\\n    }\\n\\n    event EventGenerated(\\n        uint256 indexed gardenId,\\n        uint256 indexed roundId,\\n        EventType eventType,\\n        uint16 severity\\n    );\\n\\n    function generateEvent(\\n        uint256 gardenId,\\n        uint256 roundId,\\n        bytes32 seed\\n    ) external returns (EventData memory);\\n}\\n\",\"keccak256\":\"0x9d48e25693cc65124240cb4eb4931c8fdd0ee92eed154668c8dc50aed5aa12b2\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610529806100206000396000f3fe608060405234801561001057600080fd5b50600436106100925760003560e01c806354aa31e01161006657806354aa31e0146100d35780636c7e43e8146100f3578063755aef7f146100fc578063c108f4f014610105578063c6c75103146100c157600080fd5b80626ca84c1461009757806309c264de146100b85780630a73d710146100c157806351e40aab146100ca575b600080fd5b6100a06105dc81565b60405161ffff90911681526020015b60405180910390f35b6100a06107d081565b6100a06103e881565b6100a061032081565b6100e66100e13660046103d1565b61010e565b6040516100af9190610435565b6100a06104b081565b6100a0610bb881565b6100a06101f481565b60408051608081018252600080825260208201819052918101829052606081018290529061013e61271084610476565b9050600061014b826101e1565b9050600061015985836102bd565b90506000604051806080016040528084600781111561017a5761017a6103fd565b81526020018361ffff1681526020014263ffffffff16815260200187815250905086887fa5d3400a154cb9874e25a3ac1f748297cbb586c7ec09d34bff475242e84f614d85856040516101ce929190610498565b60405180910390a3979650505050505050565b6000610bb88210156101f557506000919050565b610201610bb8836104cd565b91506103e882101561021557506001919050565b6102216103e8836104cd565b91506105dc82101561023557506002919050565b6102416105dc836104cd565b91506107d082101561025557506003919050565b6102616107d0836104cd565b91506103e882101561027557506004919050565b6102816103e8836104cd565b915061032082101561029557506005919050565b6102a1610320836104cd565b91506104b08210156102b557506006919050565b506007919050565b6000808260078111156102d2576102d26103fd565b036102df575060006103cb565b60006103e88460405160200161030891815267736576657269747960c01b602082015260280190565b6040516020818303038152906040528051906020012060001c61032b9190610476565b90506001836007811115610341576103416103fd565b148061035e5750600583600781111561035c5761035c6103fd565b145b156103835761036f6101f482610476565b61037b906101f46104e0565b9150506103cb565b6007836007811115610397576103976103fd565b036103b4576103a861019082610476565b61037b9061012c6104e0565b6103c061019082610476565b61037b9060c86104e0565b92915050565b6000806000606084860312156103e657600080fd5b505081359360208301359350604090920135919050565b634e487b7160e01b600052602160045260246000fd5b6008811061043157634e487b7160e01b600052602160045260246000fd5b9052565b6000608082019050610448828451610413565b61ffff602084015116602083015263ffffffff60408401511660408301526060830151606083015292915050565b60008261049357634e487b7160e01b600052601260045260246000fd5b500690565b604081016104a68285610413565b61ffff831660208301529392505050565b634e487b7160e01b600052601160045260246000fd5b818103818111156103cb576103cb6104b7565b808201808211156103cb576103cb6104b756fea26469706673582212208d7eb8e30cfe9dcb5a4558f6e2194f79a097694b639a93868ee982646ebbae6c64736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100925760003560e01c806354aa31e01161006657806354aa31e0146100d35780636c7e43e8146100f3578063755aef7f146100fc578063c108f4f014610105578063c6c75103146100c157600080fd5b80626ca84c1461009757806309c264de146100b85780630a73d710146100c157806351e40aab146100ca575b600080fd5b6100a06105dc81565b60405161ffff90911681526020015b60405180910390f35b6100a06107d081565b6100a06103e881565b6100a061032081565b6100e66100e13660046103d1565b61010e565b6040516100af9190610435565b6100a06104b081565b6100a0610bb881565b6100a06101f481565b60408051608081018252600080825260208201819052918101829052606081018290529061013e61271084610476565b9050600061014b826101e1565b9050600061015985836102bd565b90506000604051806080016040528084600781111561017a5761017a6103fd565b81526020018361ffff1681526020014263ffffffff16815260200187815250905086887fa5d3400a154cb9874e25a3ac1f748297cbb586c7ec09d34bff475242e84f614d85856040516101ce929190610498565b60405180910390a3979650505050505050565b6000610bb88210156101f557506000919050565b610201610bb8836104cd565b91506103e882101561021557506001919050565b6102216103e8836104cd565b91506105dc82101561023557506002919050565b6102416105dc836104cd565b91506107d082101561025557506003919050565b6102616107d0836104cd565b91506103e882101561027557506004919050565b6102816103e8836104cd565b915061032082101561029557506005919050565b6102a1610320836104cd565b91506104b08210156102b557506006919050565b506007919050565b6000808260078111156102d2576102d26103fd565b036102df575060006103cb565b60006103e88460405160200161030891815267736576657269747960c01b602082015260280190565b6040516020818303038152906040528051906020012060001c61032b9190610476565b90506001836007811115610341576103416103fd565b148061035e5750600583600781111561035c5761035c6103fd565b145b156103835761036f6101f482610476565b61037b906101f46104e0565b9150506103cb565b6007836007811115610397576103976103fd565b036103b4576103a861019082610476565b61037b9061012c6104e0565b6103c061019082610476565b61037b9060c86104e0565b92915050565b6000806000606084860312156103e657600080fd5b505081359360208301359350604090920135919050565b634e487b7160e01b600052602160045260246000fd5b6008811061043157634e487b7160e01b600052602160045260246000fd5b9052565b6000608082019050610448828451610413565b61ffff602084015116602083015263ffffffff60408401511660408301526060830151606083015292915050565b60008261049357634e487b7160e01b600052601260045260246000fd5b500690565b604081016104a68285610413565b61ffff831660208301529392505050565b634e487b7160e01b600052601160045260246000fd5b818103818111156103cb576103cb6104b7565b808201808211156103cb576103cb6104b756fea26469706673582212208d7eb8e30cfe9dcb5a4558f6e2194f79a097694b639a93868ee982646ebbae6c64736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "title": "FarmEvents",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "generateEvent(uint256,uint256,bytes32)": {
+        "notice": "Генерирует событие на основе детерминированного seed"
+      }
+    },
+    "notice": "Генерирует случайные события для огорода на основе seed",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

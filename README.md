@@ -1,7 +1,10 @@
 # 🌾 FarmVerse: Rebirth in a Living Economy
-*You open your eyes. Warm sunlight filters through the leaves, dry wheat rustles beneath your feet.
-The world is empty, but the land is alive. And it waits for you.*
+
+_You open your eyes. Warm sunlight filters through the leaves, dry wheat rustles beneath your feet.
+The world is empty, but the land is alive. And it waits for you._
+
 # ❓ What is this?
+
 FarmVerse is not just a game.
 It is a new life in a world where every plot of land, every seed, and every trade carries real meaning.
 It is a farming simulator built on Xsolla ZK — an Ethereum Layer 2 solution for gaming, where the economy lives by blockchain rules, not developer whim.
@@ -10,7 +13,9 @@ You are not a player.
 You are a reborn farmer in a new world, discovering the wonders of decentralized agriculture.
 Everything you grow, own, and trade truly belongs to you.
 Every action leaves a mark on the blockchain — and in the story of FarmVerse.
+
 # 🔮 World History
+
 Once, this was an ordinary world of farmers.
 But the economy rotted under centralization — seeds were all priced the same, crops had no value, and labor went unrewarded.
 
@@ -21,7 +26,9 @@ and where random events turn the economy into a living, breathing organism.
 
 You are part of this story.
 Every contract, every trade, every farm is a pixel on the vast canvas written in code and soil.
+
 # 💡 Why It Matters
+
 ## 🔓 **You Are the Owner, Not a Tenant**
 
 Every item, plot, and tool is an NFT belonging to you.
@@ -87,16 +94,17 @@ Deployment — Hardhat
 Ecosystem — fully EVM-compatible
 
 # 🧠 Problems FarmVerse Solves
-| 💥 Problem in Web2 Games | 🌾 FarmVerse Solution |
-|--------------------------|---------------------|
-| In-game items don’t belong to players | All assets are NFTs on the blockchain |
-| Economy is static and centralized | Market formed by player actions |
-| Game currency has no real value | FRM — a real ERC20 token |
-| World does not react to players | AI events and market react to all actions |
-| Games are isolated from each other | Open API and GameFi-standard interfaces |
 
+| 💥 Problem in Web2 Games              | 🌾 FarmVerse Solution                     |
+| ------------------------------------- | ----------------------------------------- |
+| In-game items don’t belong to players | All assets are NFTs on the blockchain     |
+| Economy is static and centralized     | Market formed by player actions           |
+| Game currency has no real value       | FRM — a real ERC20 token                  |
+| World does not react to players       | AI events and market react to all actions |
+| Games are isolated from each other    | Open API and GameFi-standard interfaces   |
 
 # 🧠 MVP Philosophy
+
 _"Small is a mirror of big."_`
 
 Our MVP is minimalistic, yet it reveals the full idea of FarmVerse:
@@ -114,6 +122,7 @@ impact of random events
 This is not just a demo — it is proof that Web3 can create a living, self-regulating world.
 
 # 🌍 Path Forward
+
 🌾 New factories: bakeries, oil mills, dairies
 
 🤝 Players form communities
@@ -133,3 +142,5 @@ FarmVerse is not just a game.
 It is a place where you are reborn,
 to explore the wonders of the farming world
 and build an economy where everything is fair and meaningful.
+
+мне нужно используя publisher.xsolla.com внедрить такую технологию, которая будет делать контракт, тоесть в xsolla есть Read-only атрибуты, мне нужно написать контракт, который будет каждый час (тоесть в 18:00 19:00 20:00 и так каждый час будет сравнивать время)
