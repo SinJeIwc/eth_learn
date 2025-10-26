@@ -24,6 +24,13 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../../../client/src/hooks/useHourlyEventTrigger.ts",
+    "../../../client/src/hooks/useHourlyEventTrigger.ts"
+  ],
   "exclude": ["node_modules"]
 }

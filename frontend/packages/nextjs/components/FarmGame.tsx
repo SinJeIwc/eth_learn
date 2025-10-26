@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import EventNotification from "./EventNotification";
 import FarmGrid from "./FarmGrid";
@@ -10,15 +10,13 @@ import { UI_PATHS } from "@/lib/constants";
 import { Item, PlantedCrop } from "@/types/farm";
 import { useAccount } from "wagmi";
 import { useFarmContracts } from "~~/hooks/useFarmContracts";
-import { useHourlyEventTrigger } from "~~/hooks/useHourlyEventTrigger";
 import { useInventory } from "~~/hooks/useInventory";
 import { useInventoryActions } from "~~/hooks/useInventoryActions";
 import { usePlayerInit } from "~~/hooks/usePlayerInit";
 import { useShopActions } from "~~/hooks/useShopActions";
 import { useShopData } from "~~/hooks/useShopData";
-import { usePlantStore } from "~~/stores/plantStore";
 import { useInventoryStore } from "~~/stores/inventoryStore";
-import { CROP_ITEMS } from "~~/types/farm";
+import { usePlantStore } from "~~/stores/plantStore";
 
 interface FarmGameProps {
   onExit?: () => void;
@@ -33,17 +31,17 @@ export default function FarmGame({ onExit }: FarmGameProps) {
   const { boughtSeeds, handleBuySeeds } = useShopActions();
   const { handlePlantSeed, handleSellCrop } = useInventoryActions();
   const { shopItems } = useShopData(boughtSeeds);
-  
+
   const { plantedSeeds, removePlantedSeed } = usePlantStore();
   const { addItem } = useInventoryStore();
-  const [selectedSeedItem, setSelectedSeedItem] = useState<Item | null>(null);
 
   // Автоматическая проверка и триггер событий каждый час
-  const { isChecking: isCheckingEvent } = useHourlyEventTrigger();
 
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [plantedCrops, setPlantedCrops] = useState<PlantedCrop[]>([]);
+  const [isPlanting, setIsPlanting] = useState(false);
+  const [plantingProgress, setPlantingProgress] = useState({ current: 0, total: 0 });
 
   const displayCoins = isConnected ? blockchainCoins : 0;
 
@@ -73,7 +71,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
           },
         };
       });
-      
+
       setPlantedCrops(crops);
     };
 
@@ -83,22 +81,66 @@ export default function FarmGame({ onExit }: FarmGameProps) {
   }, [plantedSeeds]);
 
   const onPlantSeed = async (item: Item, quantity: number) => {
-    // Устанавливаем выбранное семя для посадки
-    setSelectedSeedItem(item);
-    setIsInventoryOpen(false);
-    console.log("Selected seed for planting:", item.name);
-  };
+    console.log(`🌱 Auto-planting ${quantity} ${item.name}...`);
 
-  const handleCellClick = async (x: number, y: number) => {
-    if (!selectedSeedItem) {
-      console.log("No seed selected");
+    setIsPlanting(true);
+    setPlantingProgress({ current: 0, total: quantity });
+
+    // Находим все свободные клетки
+    const gridSize = 5; // 5x5 grid
+    const freeCells: { x: number; y: number }[] = [];
+
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
+        const occupied = plantedSeeds.some(seed => seed.x === x && seed.y === y);
+        if (!occupied) {
+          freeCells.push({ x, y });
+        }
+      }
+    }
+
+    // Проверяем, достаточно ли свободных клеток
+    if (freeCells.length < quantity) {
+      alert(`❌ Not enough free cells! Available: ${freeCells.length}, Need: ${quantity}`);
+      setIsPlanting(false);
       return;
     }
 
-    const success = await handlePlantSeed(selectedSeedItem, 1, x, y);
-    if (success) {
-      setSelectedSeedItem(null); // Сбрасываем выбор после посадки
+    // Сажаем семена на первые свободные клетки
+    let successCount = 0;
+    for (let i = 0; i < quantity; i++) {
+      const cell = freeCells[i];
+      setPlantingProgress({ current: i + 1, total: quantity });
+
+      const success = await handlePlantSeed(item, 1, cell.x, cell.y);
+      if (success) {
+        successCount++;
+        // Небольшая задержка между посадками (2 секунды - защита от nonce)
+        if (i < quantity - 1) {
+          await new Promise(resolve => setTimeout(resolve, 2100));
+        }
+      } else {
+        console.log(`⚠️ Failed to plant seed at (${cell.x}, ${cell.y})`);
+      }
     }
+
+    console.log(`✅ Successfully planted ${successCount}/${quantity} seeds`);
+
+    setIsPlanting(false);
+    setPlantingProgress({ current: 0, total: 0 });
+
+    if (successCount > 0) {
+      alert(`✅ Successfully planted ${successCount}/${quantity} ${item.name}!`);
+    } else {
+      alert(`❌ Failed to plant seeds. Please try again.`);
+    }
+
+    setIsInventoryOpen(false);
+  };
+
+  const handleCellClick = async (x: number, y: number) => {
+    // Клик по клетке теперь используется только для сбора урожая
+    console.log(`Clicked cell (${x}, ${y})`);
   };
 
   const handleHarvest = (crop: PlantedCrop) => {
@@ -108,7 +150,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
     }
 
     console.log("Harvesting crop:", crop);
-    
+
     // Определяем тип плода и его цену
     const cropTypeMap: Record<string, { id: string; name: string; sellPrice: number; icon: string }> = {
       wheat_seed: { id: "wheat", name: "Wheat", sellPrice: 15, icon: "/Plants/wheat/fetus.png" },
@@ -125,16 +167,14 @@ export default function FarmGame({ onExit }: FarmGameProps) {
           name: cropInfo.name,
           type: "crop",
           description: `Harvested ${cropInfo.name}`,
-          price: 0,
           sellPrice: cropInfo.sellPrice,
-          growthTime: 0,
           icon: cropInfo.icon,
         },
         1,
       );
       console.log(`✅ Harvested ${cropInfo.name}! Added to inventory with sell price: ${cropInfo.sellPrice}`);
     }
-    
+
     // Удаляем растение с поля
     removePlantedSeed(crop.id);
   };
@@ -144,7 +184,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
     if (success) setIsInventoryOpen(false);
   };
 
-  const onBuyItem = (item: Item) => {
+  const onBuyItem = (item: Item, quantity: number = 1) => {
     const seedTypeMap: Record<string, string> = {
       wheat_seed: "wheat",
       grape_seed: "grape",
@@ -152,7 +192,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
     };
     const seedType = seedTypeMap[item.id];
     if (seedType) {
-      handleBuySeeds(seedType);
+      handleBuySeeds(seedType, quantity);
     }
   };
 
@@ -195,7 +235,7 @@ export default function FarmGame({ onExit }: FarmGameProps) {
             className="scale-90 hover:scale-110 transition-transform duration-200"
             aria-label="Open inventory"
           >
-            <Image src="/UI/inventory.png" alt="Inventory" width={64} height={64} className="object-contain" />
+            <Image src="/backpack.png" alt="Inventory" width={64} height={64} className="object-contain" />
           </button>
 
           <button
@@ -218,25 +258,28 @@ export default function FarmGame({ onExit }: FarmGameProps) {
         </div>
       </header>
 
-      {/* Индикатор выбранного семени */}
-      {selectedSeedItem && (
-        <div className="fixed top-32 left-1/2 transform -translate-x-1/2 z-40 bg-green-600 bg-opacity-90 px-6 py-3 rounded-lg shadow-xl animate-bounce">
+      {/* Индикатор прогресса посадки */}
+      {isPlanting && (
+        <div className="fixed top-32 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 bg-opacity-95 px-8 py-4 rounded-lg shadow-2xl border-2 border-green-400">
           <div className="text-white font-pixelify-sans text-center">
-            <div className="text-lg font-bold">🌱 {selectedSeedItem.name} selected</div>
-            <div className="text-sm">Click on an empty cell to plant!</div>
-            <button
-              onClick={() => setSelectedSeedItem(null)}
-              className="mt-2 text-xs underline hover:text-yellow-200"
-            >
-              Cancel
-            </button>
+            <div className="text-xl font-bold mb-2">🌱 Planting Seeds...</div>
+            <div className="text-lg mb-3">
+              {plantingProgress.current} / {plantingProgress.total}
+            </div>
+            <div className="w-64 h-4 bg-green-900 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-yellow-400 transition-all duration-300"
+                style={{ width: `${(plantingProgress.current / plantingProgress.total) * 100}%` }}
+              />
+            </div>
+            <div className="text-sm mt-2 text-yellow-200">Please wait, planting in progress...</div>
           </div>
         </div>
       )}
 
       <FarmGrid
         plantedCrops={plantedCrops}
-        selectedSeed={selectedSeedItem !== null}
+        selectedSeed={false}
         onCellClick={handleCellClick}
         onHarvest={handleHarvest}
       />
