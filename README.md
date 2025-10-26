@@ -1,3 +1,7 @@
+installation -    cd frontend , + yarn install ,  yarn start 
+
+
+
 # 🌾 FarmVerse: Rebirth in a Living Economy
 
 _You open your eyes. Warm sunlight filters through the leaves, dry wheat rustles beneath your feet.
