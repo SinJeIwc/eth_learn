@@ -3,7 +3,6 @@
 ## Что было изменено:
 
 ### 1. FarmCoin.sol - добавлена функция claimTokens()
-
 - Позволяет каждому игроку получать 1000 токенов каждый час
 - Публичная функция без авторизации
 - Cooldown = 1 час между заявками
@@ -11,7 +10,6 @@
 ## Как задеплоить:
 
 ### Вариант A: Полный редеплой (рекомендуется)
-
 ```bash
 cd /Users/je.iws/Desktop/HACKTHON/eth_learn/frontend/packages/hardhat
 yarn deploy --reset --network statusSepolia
@@ -20,7 +18,6 @@ yarn deploy --reset --network statusSepolia
 Когда попросит пароль - введите пароль от вашего deployer аккаунта.
 
 ### Вариант B: Деплой только системы игры
-
 ```bash
 cd /Users/je.iws/Desktop/HACKTHON/eth_learn/frontend/packages/hardhat
 yarn deploy --network statusSepolia --tags FarmGameSystem

@@ -1,18 +1,14 @@
-import { useRef } from "react";
 import { useFarmContracts } from "./useFarmContracts";
 import { Item } from "@/types/farm";
-import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useInventoryStore } from "~~/stores/inventoryStore";
 import { usePlantStore } from "~~/stores/plantStore";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 export const useInventoryActions = () => {
   const { plantSeed } = useFarmContracts();
   const { removeItem } = useInventoryStore();
   const { addPlantedSeed, getPlantedSeed } = usePlantStore();
   const { writeContractAsync: writeFarmCoin } = useScaffoldWriteContract("FarmCoin");
-
-  // Защита от множественных вызовов
-  const lastPlantTime = useRef<number>(0);
 
   const seedTypeMap: Record<string, number> = {
     wheat_seed: 0,
@@ -21,18 +17,10 @@ export const useInventoryActions = () => {
   };
 
   const handlePlantSeed = async (item: Item, quantity: number, x?: number, y?: number) => {
-    // Защита от множественных быстрых кликов (минимум 2 секунды между посадками)
-    const now = Date.now();
-    if (now - lastPlantTime.current < 2000) {
-      console.log("⏳ Too fast! Please wait before planting another seed.");
-      return false;
-    }
-    lastPlantTime.current = now;
-
     try {
       const seedType = seedTypeMap[item.id] ?? 0;
 
-      console.log("🌱 Planting seed:", { seedType, quantity, x, y });
+      console.log("Planting seed:", { seedType, quantity, x, y });
 
       // Проверяем, что указаны координаты
       if (x === undefined || y === undefined) {
@@ -47,12 +35,8 @@ export const useInventoryActions = () => {
         return false;
       }
 
-      console.log("📤 Sending plantSeed transaction...");
-
       // Дожидаемся успешной транзакции перед удалением из инвентаря
       await plantSeed(seedType);
-
-      console.log("✅ Transaction confirmed!");
 
       // Удаляем семя только после успешной посадки
       removeItem(item.id, quantity);
@@ -72,22 +56,8 @@ export const useInventoryActions = () => {
 
       console.log(`✅ Successfully planted ${item.name} at (${x}, ${y})! Ready in 1 minute.`);
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error("❌ Failed to plant seed:", error);
-
-      // Обработка специфичных ошибок
-      if (error?.message?.includes("nonce")) {
-        console.log("⏭️ Nonce error - transaction may already be pending. Skipping...");
-        // Не показываем ошибку пользователю, т.к. транзакция может быть уже в мемпуле
-        return false;
-      } else if (error?.message?.includes("rejected")) {
-        console.log("❌ Transaction rejected by user");
-        return false;
-      } else if (error?.message?.includes("insufficient funds")) {
-        alert("❌ Insufficient funds to pay for gas");
-        return false;
-      }
-
       return false;
     }
   };
@@ -107,8 +77,9 @@ export const useInventoryActions = () => {
       // Удаляем плод из инвентаря после успешной транзакции
       removeItem(item.id, quantity);
 
+      const totalPrice = item.sellPrice * quantity;
       console.log(`✅ Successfully sold ${quantity} ${item.name}!`);
-      console.log(`💰 Claimed 1000 FarmCoin tokens!`);
+      console.log(`� Claimed 1000 FarmCoin tokens!`);
       return true;
     } catch (error) {
       console.error("❌ Failed to sell crop:", error);

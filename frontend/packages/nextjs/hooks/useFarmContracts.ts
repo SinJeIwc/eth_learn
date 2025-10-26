@@ -1,9 +1,7 @@
 "use client";
 
 import { useAccount } from "wagmi";
-import deployedContracts from "~~/contracts/deployedContracts";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-import scaffoldConfig from "~~/scaffold.config";
 
 export const useFarmContracts = () => {
   const { address } = useAccount();
@@ -49,36 +47,10 @@ export const useFarmContracts = () => {
         throw new Error(`Unknown crop type: ${cropType}`);
       }
 
-      const chainId = scaffoldConfig.targetNetworks[0].id;
-      const marketplaceAddress = deployedContracts[chainId]?.FarmMarketplace?.address;
-
-      if (!marketplaceAddress) {
-        throw new Error("FarmMarketplace address not found");
-      }
-
-      // Получаем цену за 1 семя через PriceOracle
-      const pricePerSeed =
-        cropType === "wheat" ? 5n * 10n ** 18n : cropType === "grape" ? 12n * 10n ** 18n : 15n * 10n ** 18n;
-
-      const totalCost = pricePerSeed * BigInt(quantity);
-
-      console.log(`💰 Approving ${totalCost.toString()} FarmCoin for marketplace...`);
-
-      // Сначала approve токены для marketplace
-      await writeFarmCoin({
-        functionName: "approve",
-        args: [marketplaceAddress as `0x${string}`, totalCost],
-      });
-
-      console.log(`🛒 Buying ${quantity} ${cropType} seeds...`);
-
-      // Теперь покупаем семена
       await writeFarmMarketplace({
         functionName: "buySeed",
         args: [seedType, BigInt(quantity)],
       });
-
-      console.log(`✅ Successfully bought ${quantity} ${cropType} seeds!`);
 
       return true;
     } catch (error) {

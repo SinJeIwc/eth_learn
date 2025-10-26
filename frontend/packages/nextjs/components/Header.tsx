@@ -4,11 +4,11 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { hardhat } from "viem/chains";
 import { useAccount } from "wagmi";
+import { hardhat } from "viem/chains";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useOutsideClick, useScaffoldReadContract, useTargetNetwork } from "~~/hooks/scaffold-eth";
+import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -66,14 +66,7 @@ export const Header = () => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
   const { address: connectedAddress } = useAccount();
-  const { writeContractAsync, isPending } = useScaffoldWriteContract("FarmCoin");
-
-  // Читаем баланс FarmCoin
-  const { data: farmCoinBalance } = useScaffoldReadContract({
-    contractName: "FarmCoin",
-    functionName: "balanceOf",
-    args: [connectedAddress],
-  });
+  const { writeContractAsync } = useScaffoldWriteContract("FarmCoin");
 
   const burgerMenuRef = useRef<HTMLDetailsElement>(null);
   useOutsideClick(burgerMenuRef, () => {
@@ -81,33 +74,15 @@ export const Header = () => {
   });
 
   const handleClaimTokens = async () => {
-    if (!connectedAddress) {
-      console.log("⚠️ No wallet connected");
-      return;
-    }
-
+    if (!connectedAddress) return;
+    
     try {
-      console.log("🎁 Claiming tokens from faucet...");
-      console.log("📍 Wallet address:", connectedAddress);
-
-      const result = await writeContractAsync({
+      await writeContractAsync({
         functionName: "claimTokens",
       });
-
-      console.log("✅ Transaction sent:", result);
-      console.log("✅ Successfully claimed 1000 FarmCoin tokens!");
-      alert("🎉 Successfully claimed 1000 FarmCoin tokens!");
-    } catch (error: any) {
+      console.log("✅ Tokens claimed successfully!");
+    } catch (error) {
       console.error("❌ Error claiming tokens:", error);
-
-      // Проверяем специфичные ошибки
-      if (error?.message?.includes("Claim cooldown not expired")) {
-        alert("⏰ Cooldown active! You can claim tokens once per hour.");
-      } else if (error?.message?.includes("rejected")) {
-        alert("❌ Transaction rejected by user");
-      } else {
-        alert("❌ Error claiming tokens. Check console for details.");
-      }
     }
   };
 
@@ -140,26 +115,14 @@ export const Header = () => {
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end grow mr-4 flex gap-2 items-center">
+      <div className="navbar-end grow mr-4 flex gap-2">
         {connectedAddress && (
-          <>
-            {/* Баланс FarmCoin */}
-            <div className="badge badge-lg badge-success font-bold px-3">
-              🪙 {farmCoinBalance ? Number(farmCoinBalance) / 10 ** 18 : 0} FARM
-            </div>
-
-            {/* Кнопка получения токенов */}
-            <button className="btn btn-sm btn-primary" onClick={handleClaimTokens} disabled={isPending}>
-              {isPending ? (
-                <>
-                  <span className="loading loading-spinner loading-xs"></span>
-                  Claiming...
-                </>
-              ) : (
-                <>💰 Получить токены</>
-              )}
-            </button>
-          </>
+          <button
+            className="btn btn-sm btn-primary"
+            onClick={handleClaimTokens}
+          >
+            💰 Получить токены
+          </button>
         )}
         <RainbowKitCustomConnectButton />
         {isLocalNetwork && <FaucetButton />}
