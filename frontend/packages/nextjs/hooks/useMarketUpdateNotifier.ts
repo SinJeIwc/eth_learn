@@ -7,10 +7,14 @@ export function useMarketUpdateNotifier() {
   const [timeUntilUpdate, setTimeUntilUpdate] = useState<number>(0);
   const [lastInterval, setLastInterval] = useState<string | null>(null);
 
-  const { data: currentInterval, refetch } = useScaffoldReadContract({
+  // Используем getEventsCount вместо несуществующей getMarketIntervalNumber
+  const { data: eventsCount, refetch } = useScaffoldReadContract({
     contractName: "GameEvents",
-    functionName: "getMarketIntervalNumber",
+    functionName: "getEventsCount",
   });
+
+  // Вычисляем текущий 5-минутный интервал на основе времени
+  const currentInterval = Math.floor(Date.now() / 1000 / 300).toString();
 
   useEffect(() => {
     const updateTimer = () => {

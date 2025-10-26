@@ -24,10 +24,10 @@ export const useShopActions = () => {
     pumpkin: "/Plants/pumpkin/pumpkin_seed.png",
   };
 
-  const handleBuySeeds = async (seedType: string) => {
+  const handleBuySeeds = async (seedType: string, quantity: number = 1) => {
     try {
-      await buySeeds(seedType, 1);
-      setBoughtSeeds(prev => ({ ...prev, [seedType]: prev[seedType] + 1 }));
+      await buySeeds(seedType, quantity);
+      setBoughtSeeds(prev => ({ ...prev, [seedType]: prev[seedType] + quantity }));
 
       addItem(
         {
@@ -39,10 +39,10 @@ export const useShopActions = () => {
           description: `Plant this ${seedType} seed on your farm`,
           sellPrice: 0,
         },
-        1,
+        quantity,
       );
 
-      alert(`Successfully bought 1 ${seedType} seed!`);
+      alert(`Successfully bought ${quantity} ${seedType} seed${quantity > 1 ? "s" : ""}!`);
     } catch (error) {
       console.error("Failed to buy seeds:", error);
       alert("Failed to buy seeds. Check console for details.");
